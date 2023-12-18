@@ -1,0 +1,12 @@
+=============================================================
+FRONTEND
+***Hecho:
+=>controller AuthController, middleware jwt, modelo usuario, migraciones usuario y personals
+***Falta hacer:
+=> diseñar la base de datos,configurar Storage para las imagenes, solo esta hecho usuario y personals
+==========================================================
+BACKEND
+***Hecho:
+=> Login, middelware, config axios, config jwt, template
+***Falta hacer:
+=>El modelo Usuario solo fue copiado, se debe modificar 

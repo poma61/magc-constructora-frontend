@@ -1,25 +1,89 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import { createRouter, createWebHistory, createWebHashHistory } from 'vue-router'
+import LoginView from '@/views/LoginView.vue'
+import UsuarioView from '@/views/UsuarioView.vue'
+import authExpiration from '@/http/middleware/authExpiration'
+import authenticate from '@/http/middleware/authenticate'
+import NotFound from '@/views/NotFound.vue';
+import InicioView from '@/views/InicioView.vue';
+import HistorialDePagoClienteView from '@/views/HistorialDePagoClienteView.vue';
 
 const routes = [
+  //esta parte es cuando se introduce una url que no existe 
+  {
+    path: '/:pathMatch(.*)',
+    component: NotFound,
+    meta: {
+      requireAuth: true,
+    }
+  },
+
   {
     path: '/',
-    name: 'home',
-    component: HomeView
+    name: 'n-login',
+    component: LoginView,
+    meta: {
+      requireAuth: false,
+    }
   },
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-  }
+    path: '/inicio',
+    name: 'n-inicio',
+    component: InicioView,
+    meta: {
+      requireAuth: true,
+    }
+  },
+
+  {
+    path: '/cliente',
+    name: 'n-cliente',
+    component: () => import(/* webpackChunkName: "cliente" */ '@/views/ClienteView.vue'),
+    meta: {
+      requireAuth: true,
+    }
+  },
+
+  {
+    path: '/usuario',
+    name: 'n-usuario',
+    component: UsuarioView,
+    meta: {
+      requireAuth: true,
+    }
+  },
+
+  {
+    path: '/historial-de-pago-cliente',
+    name: 'n-historial-de-pago-cliente',
+    component: HistorialDePagoClienteView,
+    meta: {
+      requireAuth: true,
+    }
+  },
+
+
+  {
+    path: '/contrato-cliente',
+    name: 'n-contrato-cliente',
+    component: () => import(/* webpackChunkName: "cliente" */ '@/views/ContratoView.vue'),
+    meta: {
+      requireAuth: true,
+    }
+  },
+
 ]
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  //history: createWebHistory(process.env.BASE_URL),
+  history: createWebHashHistory(process.env.BASE_URL),
   routes
 })
+
+
+//agregar middleware para proteger mlas rutas
+router.beforeEach((to, from, next) => {
+  authExpiration();
+  authenticate(to, from, next);
+});
 
 export default router
