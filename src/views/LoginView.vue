@@ -52,7 +52,7 @@ const login = () => {
         }
         loading.value = false;
 
-    }, 800);
+    }, 200);
 }
 </script>
 

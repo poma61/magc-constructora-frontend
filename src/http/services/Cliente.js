@@ -1,23 +1,24 @@
 import axios from '@/http/connection/axios';
 
 class Cliente {
-    constructor(cliente) {
+    constructor(desarrolladora, cliente) {
         this.cliente = {
             id: 0,
             nombres: "",
             apellido_paterno: "",
             apellido_materno: "",
             n_de_contacto: "",
-            correo_electronico: "",
+            correo_electronico: null,
             ci: "",
             ci_expedido: "",
             direccion: "",
             descripcion: "",
         };
+        this.desarrolladora = desarrolladora;
         this.config = {
             headers: {
                 'Assept': 'application/json',
-                'Content-Type': 'application/json;charset=UTF-8',
+               
             }
         }
         if (cliente != undefined) {
@@ -39,7 +40,9 @@ class Cliente {
 
     async index() {
         try {
-            const resolve = await axios.post('/cliente/all-data', this.config);
+            const resolve = await axios.post('/cliente/all-data', {
+                desarrolladora: this.desarrolladora,
+            }, this.config);
             return resolve.data;
         } catch (error) {
             return error.response.data;
@@ -48,7 +51,10 @@ class Cliente {
 
     async store() {
         try {
-            const resolve = await axios.post('/cliente/new-data', this.getAttributes(), this.config);
+            const resolve = await axios.post('/cliente/new-data', {
+                desarrolladora: this.desarrolladora,
+                ...this.getAttributes()
+            }, this.config);
             return resolve.data;
 
         } catch (error) {
@@ -81,10 +87,11 @@ class Cliente {
             return error.response.data;
         }
     }//destroy
-    
+
     async searchCliente(is_ci) {
         try {
             const resolve = await axios.post('/cliente/search-cliente', {
+                desarrolladora:this.desarrolladora,
                 ci: is_ci,
             }, this.config);
             return resolve.data;

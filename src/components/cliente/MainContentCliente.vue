@@ -1,9 +1,12 @@
 <template>
+    <v-select label="Desarrolladoras" v-model="selected_desarrolladora" :items="list_desarrolladora" color="purple-darken-1"
+        @update:model-value="loadDataTable" />
+
     <div class="d-flex">
         <div class="d-flex flex-column">
             <v-tooltip text="Actualizar tablero">
                 <template v-slot:activator="{ props }">
-                    <v-btn v-bind="props" color="amber-darken-3" variant="elevated" class="ma-1" @click="isDataTable()"
+                    <v-btn v-bind="props" color="amber-darken-3" variant="elevated" class="ma-1" @click="loadDataTable()"
                         icon="mdi-table-refresh" />
                 </template>
             </v-tooltip>
@@ -20,7 +23,7 @@
                 color="amber-darken-3" />
             <v-data-table :hover="true" :items="data" :headers="columns" :search="search_data" :loading="loading_data_table"
                 :items-per-page-options="items_per_page_options" :show-current-page="true" :fixed-header="true"
-                :height="650" :sort-by="[{ key: 'id', order: 'desc' }]">
+                :height="600" :sort-by="[{ key: 'id', order: 'desc' }]">
                 <template v-slot:loading>
                     <v-skeleton-loader type="table-row@13"></v-skeleton-loader>
                 </template>
@@ -53,7 +56,8 @@
         </v-card>
 
         <v-dialog v-model="dialog_form" persistent transition="dialog-bottom-transition" max-width="900px" scrollable>
-            <FormCliente :p_item_cliente="item_cliente" @toCloseForm="closeForm" @toUpdateDataTable="updateDataTable" />
+            <FormCliente :p_item_cliente="item_cliente" @toCloseForm="closeForm" @toUpdateDataTable="updateDataTable"
+                :p_selected_desarrolladora="selected_desarrolladora" />
         </v-dialog>
 
     </div>
@@ -86,6 +90,7 @@ import Cliente from '@/http/services/Cliente';
 import { onMounted } from 'vue';
 import { ref } from 'vue';
 import useToastify from '@/composables/useToastify';
+import Desarrolladora from '@/http/services/Desarrolladora';
 
 const index_data_item = ref(-1);
 const dialog_delete = ref(false);
@@ -93,6 +98,8 @@ const dialog_form = ref(false);
 const item_cliente = ref({});
 const search_data = ref("");
 const loading_data_table = ref(null);
+const list_desarrolladora = ref([]);
+const selected_desarrolladora = ref("");
 const items_per_page_options = ref([
     { value: 10, title: '10' },
     { value: 25, title: '25' },
@@ -106,14 +113,27 @@ const columns = ref([
     { title: 'N° de contacto', key: 'n_de_contacto' },
     { title: 'Correo Electronico', key: 'correo_electronico' },
     { title: 'CI', key: 'ci_concat', value: (item) => `${item.ci} ${item.ci_expedido}` },
-    { title: 'Direccion', key: 'direccion',},
-    { title: 'Descripcion', key: 'descripcion',},
+    { title: 'Direccion', key: 'direccion', },
+    { title: 'Descripcion', key: 'descripcion', },
     { title: 'Acciones', key: 'actions', },
 ]);
 const data = ref([]);
 //methods
-const isDataTable = () => {
-    const cliente = new Cliente();
+
+const listDesarrolladora = async () => {
+    const desarrolladora = new Desarrolladora();
+    const response = await desarrolladora.index();
+    if (response.status) {
+        const all_desarrolladora = response.records;
+        list_desarrolladora.value = all_desarrolladora.map(item => item.nombres);
+        selected_desarrolladora.value = list_desarrolladora.value[0];
+    } else {
+        useToastify('danger', response.message);
+    }
+}
+
+const loadDataTable = () => {
+    const cliente = new Cliente(selected_desarrolladora.value);
     loading_data_table.value = 'amber-darken-3';
     setTimeout(async () => {
         const response = await cliente.index();
@@ -123,8 +143,8 @@ const isDataTable = () => {
         } else {
             useToastify('danger', response.message);
         }
-    }, 600);
-}//isDataTable
+    }, 200);
+}//loadDataTable
 
 const clear = () => {
     item_cliente.value = {};
@@ -147,7 +167,7 @@ const closeForm = () => {
 }
 
 const confirmDeleteData = async () => {
-    const cliente = new Cliente(Object.assign({}, item_cliente.value));
+    const cliente = new Cliente(selected_desarrolladora.value, Object.assign({}, item_cliente.value));
     const response = await cliente.destroy();
     if (response.status) {
         data.value.splice(index_data_item.value, 1);
@@ -184,10 +204,11 @@ const updateDataTable = (type, item) => {
             useToastify('danger', 'No se puede reconocer la accion al registrar.');
             break;
     }
-
 }
 
 onMounted(async () => {
-    isDataTable();
+    //primero esperamos a listar las desarrolladoras
+    await listDesarrolladora();
+    loadDataTable();
 });
 </script>

@@ -1,29 +1,33 @@
 <template>
-    <div class="d-flex flex-wrap justify-end my-2">
-        <v-btn color="orange-darken-1" variant="elevated" class="ma-1" @click="initDataTable">
+    <div class="d-flex flex-wrap justify-end">
+        <v-select label="Desarrolladoras" v-model="selected_desarrolladora" :items="list_desarrolladora"
+            color="purple-darken-1" @update:model-value="loadDataTable" style="min-width: 300px;" class="ma-1" />
+
+        <v-btn color="orange-darken-1" variant="elevated" class="ma-1" @click="loadDataTable">
             <v-icon icon="mdi-refresh" />&nbsp;Actualizar datos
         </v-btn>
     </div>
+
     <!-- iterator -->
-    <v-card elevation="5" style="height:700px; ">
+    <v-card class="as-flex-item as-data-iterator animate__animated animate__fadeInBottomLeft">
         <v-overlay v-model="loading_data_iterator" contained class="d-flex align-center justify-center">
-            <v-progress-circular color="orange-darken-1" indeterminate size="64"></v-progress-circular>
+            <v-progress-circular color="orange-darken-1 " indeterminate size="64"></v-progress-circular>
         </v-overlay>
 
-        <v-data-iterator :items="data" :items-per-page="15" :search="search_data">
+        <v-data-iterator :items="data" :items-per-page="12" :search="search_item" :sort-by="[{ key: 'id', order: 'desc' }]">
 
             <template v-slot:header="{ page, pageCount, prevPage, nextPage }">
 
                 <div class="d-flex justify-space-between flex-wrap pa-2">
-                    <v-text-field v-model="search_data" clearable density="comfortable" hide-details
-                        placeholder="Buscar Registros" prepend-inner-icon="mdi-magnify" color="orange-darken-1" class="pa-2"
-                        style="min-width: 300px;" />
+                    <v-text-field v-model="search_item" clearable density="comfortable" hide-details
+                        placeholder="Buscar Registros" prepend-inner-icon="mdi-magnify" color="orange-darken-1 "
+                        class="pa-2" style="min-width: 300px;" />
 
                     <div class="d-flex align-center">
                         <v-tooltip text="Anterior">
                             <template v-slot:activator="{ props }">
                                 <v-btn v-bind="props" :disabled="page === 1" icon="mdi-arrow-left" density="comfortable"
-                                    variant="elevated" color="orange-darken-1" @click="prevPage"></v-btn>
+                                    variant="elevated" color="orange-darken-1 " @click="prevPage"></v-btn>
                             </template>
                         </v-tooltip>
 
@@ -34,7 +38,7 @@
                         <v-tooltip text="Siguiente">
                             <template v-slot:activator="{ props }">
                                 <v-btn v-bind="props" :disabled="page >= pageCount" icon="mdi-arrow-right"
-                                    density="comfortable" variant="elevated" color="orange-darken-1"
+                                    density="comfortable" variant="elevated" color="orange-darken-1 "
                                     @click="nextPage"></v-btn>
                             </template>
                         </v-tooltip>
@@ -42,14 +46,13 @@
                 </div>
 
             </template>
+
             <template v-slot:default="{ items }">
                 <div>
-                    <v-container class="pa-2 pb-5" fluid style="overflow:hidden; overflow-y: auto;  height:600px; ">
+                    <v-container class="as-data-iterator-content" fluid>
                         <v-row justify="center">
-                            <v-col v-for="(item, index) in items" :key="index" cols="auto" md="4">
-
-                                <v-card class="pa-3" color="orange-lighten-1" variant="tonal">
-
+                            <v-col v-for="(item, index) in items" :key="index" cols="auto" md="3">
+                                <v-card class="pa-3" color="cyan-darken-1" variant="tonal">
                                     <v-list-item class="">
                                         <template v-slot:title>
                                             <strong>
@@ -60,7 +63,7 @@
 
                                         <template v-slot:subtitle>
                                             <strong class="text-subtitle-2 text-light-blue-darken-3">
-                                                {{ item.raw.correo_electronico }}
+                                                {{ item.raw.email }}
                                             </strong>
                                         </template>
                                     </v-list-item>
@@ -69,12 +72,15 @@
                                         <p class="text-subtitle-2 text-light-blue-darken-3">
                                             Pagos realizados: {{ item.raw.total_pagos }}
                                         </p>
-                                        <v-tooltip text="Ver historial de pagos">
+                                        <v-tooltip text="Ver pagos realizados.">
                                             <template v-slot:activator="{ props }">
-                                                <v-btn v-bind="props" size="small" icon="mdi-account-credit-card"
-                                                    color="light-blue-darken-3" variant="elevated" />
+                                                <v-btn v-bind="props" color="light-blue-darken-3" variant="outlined">
+                                                    <v-icon icon="mdi-account-credit-card" />
+                                                </v-btn>
                                             </template>
                                         </v-tooltip>
+
+
 
                                     </div>
                                 </v-card>
@@ -83,8 +89,12 @@
                     </v-container>
                 </div>
             </template>
+
         </v-data-iterator>
-        <h1 class="text-center text-h6" v-if="data.length == 0">No hay datos.</h1>
+        <div class="as-data-iterator-content d-flex justify-center align-center" v-if="data.length == 0">
+            <h1 class="text-h6 text-red">No hay datos.</h1>
+        </div>
+
     </v-card>
     <!-- iterator -->
 </template>
@@ -93,41 +103,80 @@
 import { defineComponent } from 'vue';
 import HistorialDePagoCliente from '@/http/services/HistorialDePagoCliente';
 import useToastify from '@/composables/useToastify';
+import Desarrolladora from '@/http/services/Desarrolladora';
 export default defineComponent({
     data() {
         const loading_data_iterator = false;
         const data = [];
-        const search_data = "";
+        const search_item = "";
+        const list_desarrolladora = [];
+        const selected_desarrolladora = "";
         return {
             loading_data_iterator,
             data,
-            search_data,
+            search_item,
+            list_desarrolladora,
+            selected_desarrolladora,
         }
     },
 
     methods: {
-        initDataTable() {
+
+        async listDesarrolladora() {
+            const desarrolladora = new Desarrolladora();
+            const response = await desarrolladora.index();
+            if (response.status) {
+                const all_desarrolladora = response.records;
+                this.list_desarrolladora = all_desarrolladora.map(item => item.nombres);
+                this.selected_desarrolladora = this.list_desarrolladora[0];
+            } else {
+                useToastify('danger', response.message);
+            }
+        },
+
+
+        loadDataTable() {
             this.loading_data_iterator = true;
             setTimeout(async () => {
-                const pedido = new HistorialDePagoCliente(this.current_sucursal);
-                const respuesta = await pedido.index();
+                const desarrolladora = new HistorialDePagoCliente(this.selected_desarrolladora);
+                const respuesta = await desarrolladora.index();
                 this.loading_data_iterator = false;
                 if (respuesta.status) {
                     this.data = respuesta.records;
                 } else {
                     useToastify('danger', respuesta.message);
                 }
-            }, 800)
-        },//initDataTable
+            }, 200)
+        },//loadDataTable
 
 
     },//metodos
 
-    created() {
-        this.initDataTable();
+    async created() {
+        await this.listDesarrolladora();
+        this.loadDataTable();
     }
 
 });
 
 </script>
+
+
+<style  scoped>
+/* ========================================
+data iterator 
+el valor height de as-data-iterator es +130 o +100 sobre el valor height de as-data-iterator-content
+ejemplo2: as-data-iterator-content =>height700px entonces as-data-iterator => height:100px+700px;
+========================================== */
+.as-data-iterator {
+    height: 700px;
+}
+
+.as-data-iterator-content {
+    overflow: hidden;
+    overflow-y: auto;
+    height: 600px;
+    border-top: 1px solid #c2c2c2;
+}
+</style>
   

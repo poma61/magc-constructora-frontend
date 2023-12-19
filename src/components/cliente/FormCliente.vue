@@ -1,6 +1,6 @@
 <template>
-    <v-card class="my-2">
-        <v-card-title class="animate__animated animate__bounceInRight bg-purple-darken-1 py-3">
+    <v-card>
+        <v-card-title class="animate__animated animate__bounceInRight bg-purple-darken-1">
             <span class="text-h6">Registrar Cliente</span>
         </v-card-title>
         <v-card-text class="pa-3">
@@ -72,17 +72,12 @@
 import { ref, defineProps, defineEmits, computed, watch } from 'vue';
 import Cliente from '@/http/services/Cliente';
 import useToastify from '@/composables/useToastify';
-const props = defineProps(['p_item_cliente', 'p_fields_errors']);
+const props = defineProps(['p_item_cliente', 'p_fields_errors', 'p_selected_desarrolladora']);
 const emit = defineEmits(['toCloseForm', 'toUpdateDataTable']);
 const fields_errors = ref({});
 const item_cliente = ref(props.p_item_cliente);
 const loading_btn = ref(false);
 
-//cuando  cambia props.p_item_cliente  por los botones nuevo cliente y por el boton de 'clear'
-///entonces tambien debemos actualizar las variables en este componente
-watch(() => props.p_item_cliente, () => {
-    item_cliente.value = props.p_item_cliente;
-});
 
 const showFieldsErrors = computed(() => {
     return function (field) {
@@ -96,7 +91,7 @@ const showFieldsErrors = computed(() => {
 const save = () => {
     loading_btn.value = true;
     setTimeout(async () => {
-        const cliente = new Cliente(Object.assign({}, item_cliente.value));
+        const cliente = new Cliente(props.p_selected_desarrolladora, Object.assign({}, item_cliente.value));
         if (cliente.getAttributes().id > 0) {
             //cuando es update
             const response = await cliente.update();

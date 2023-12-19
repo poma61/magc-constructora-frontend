@@ -2,12 +2,13 @@
     <div class="as-flex">
 
         <!-- iterator -->
-        <v-card style="height:860px;" class="as-flex-item animate__animated animate__fadeInBottomLeft">
+        <v-card class="as-flex-item as-data-iterator animate__animated animate__fadeInBottomLeft">
             <v-overlay v-model="loading_data_iterator" contained class="d-flex align-center justify-center">
                 <v-progress-circular color="green-accent-4 " indeterminate size="64"></v-progress-circular>
             </v-overlay>
 
-            <v-data-iterator :items="data" :items-per-page="6" :search="search_item">
+            <v-data-iterator :items="data" :items-per-page="6" :search="search_item"
+                :sort-by="[{ key: 'id', order: 'desc' }]">
 
                 <template v-slot:header="{ page, pageCount, prevPage, nextPage }">
 
@@ -42,8 +43,7 @@
 
                 <template v-slot:default="{ items }">
                     <div>
-                        <v-container class="pa-2 as-border" fluid
-                            style="overflow:hidden; overflow-y: auto;  height:700px; ">
+                        <v-container class="as-data-iterator-content" fluid>
                             <v-row justify="center">
                                 <v-col v-for="(item, index) in items" :key="index" cols="auto" md="4">
 
@@ -96,11 +96,12 @@
                 </template>
 
             </v-data-iterator>
-            <div class="as-border d-flex justify-center align-center" v-if="data.length == 0" style="height:700px; ">
+            <div class="as-data-iterator-content d-flex justify-center align-center" v-if="data.length == 0"
+              >
                 <h1 class="text-h6 text-red">No hay datos.</h1>
             </div>
             <div class="float-end">
-                <v-btn color="green-accent-4 " variant="elevated" class="ma-1" @click="initDataTable">
+                <v-btn color="green-accent-4 " variant="elevated" class="ma-1" @click="initDataIterator">
                     <v-icon icon="mdi-refresh" />&nbsp;Actualizar tablero
                 </v-btn>
             </div>
@@ -152,7 +153,7 @@ const search_item = ref("");
 const dialog_delete = ref(false);
 
 
-const initDataTable = () => {
+const initDataIterator = () => {
     loading_data_iterator.value = true;
     setTimeout(async () => {
         const desarrolladora = new Desarrolladora();
@@ -164,8 +165,8 @@ const initDataTable = () => {
         } else {
             useToastify('danger', respuesta.message);
         }
-    }, 800)
-}//initDataTable
+    }, 200)
+}//initDataIterator
 
 const clear = () => {
     item_desarrolladora.value = {};
@@ -173,14 +174,15 @@ const clear = () => {
 }
 
 const openDeleteItem = (item) => {
-    item_desarrolladora.value = Object.assign({}, item);
     index_item.value = data.value.indexOf(item);
+    //solo pasamos el id porque si nos se muestra en el formulario los datos
+    item_desarrolladora.value = Object.assign({ id: item.id });
     dialog_delete.value = true;
 }
 
 const closeDeleteItem = () => {
-    clear();
     dialog_delete.value = false;
+    clear();
 }
 
 const confirmDeleteItem = async () => {
@@ -226,7 +228,7 @@ const localUpdateDataTable = (type, item) => {
 
 onMounted(() => {
     newForm();
-    initDataTable();
+    initDataIterator();
 })
 
 </script>
@@ -245,9 +247,27 @@ onMounted(() => {
     width: 600px;
 }
 
-.as-border {
+/* ========================================
+data iterator 
+el valor height de as-data-iterator es +130 o +100 sobre el valor height de as-data-iterator-content
+ejemplo: as-data-iterator-content =>height700px entonces as-data-iterator => height:130px+700px;
+ejemplo2: as-data-iterator-content =>height700px entonces as-data-iterator => height:100px+700px;
+========================================== */
+.as-data-iterator {
+    height: 830px;
+}
+
+.as-data-iterator-content {
+    overflow: hidden;
+    overflow-y: auto;
+    height: 700px;
     border-top: 1px solid #c2c2c2;
     border-bottom: 1px solid #c2c2c2;
 }
 
+@media only screen and (max-width:500px) {
+    .as-data-iterator {
+        height: 860px;
+    }
+}
 </style>
