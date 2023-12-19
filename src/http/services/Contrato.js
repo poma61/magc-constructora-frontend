@@ -3,7 +3,8 @@ import axios from "@/http/connection/axios";
 import { NumerosALetras } from 'numero-a-letras';
 
 class Contrato {
-    constructor(contrato, detalle_contrato) {
+    constructor(desarrolladora, contrato, detalle_contrato) {
+        this.desarrolladora = desarrolladora;
         this.contrato = {
             id: 0,
             n_contrato: "",
@@ -43,7 +44,8 @@ class Contrato {
         };
         this.config = {
             headers: {
-                'Assept': 'Application/json'
+                'Assept': 'Application/json',
+                'Content-Type': 'application/json'
             }
         };
         if (contrato != undefined) {
@@ -56,12 +58,12 @@ class Contrato {
 
     }
 
-    setCity(city) {
-        this.city = city;
+    setDesarrolladora(desarrolladora) {
+        this.desarrolladora = desarrolladora;
     }
 
-    getCity() {
-        return this.city;
+    getDesarrolladora() {
+        return this.desarrolladora;
     }
 
     setAttributes(type, item_contrato_all) {
@@ -122,7 +124,9 @@ class Contrato {
 
     async index() {
         try {
-            const resolve = await axios.post('/contrato/all-data', this.config);
+            const resolve = await axios.post('/contrato/all-data', {
+                desarrolladora: this.desarrolladora,
+            }, this.config);
             return resolve.data;
         } catch (error) {
             return error.response.data;
@@ -131,8 +135,11 @@ class Contrato {
 
     async store() {
         try {
-            const item_contrato_all = Object.assign({}, this.getAttributes('contrato'), this.getAttributes('detalle-contrato'));
-            const resolve = await axios.post('/contrato/new-data', item_contrato_all, this.config);
+            const resolve = await axios.post('/contrato/new-data', {
+                ...this.getAttributes('contrato'),
+                ...this.getAttributes('detalle-contrato'),
+                desarrolladora: this.desarrolladora,
+            }, this.config);
 
             return resolve.data;
         } catch (error) {
@@ -143,8 +150,12 @@ class Contrato {
     async update() {
         this.config.headers['X-HTTP-Method-Override'] = 'PUT';
         try {
-            const item_contrato_all = Object.assign({}, this.getAttributes('contrato'), this.getAttributes('detalle-contrato'));
-            const resolve = await axios.post('/contrato/edit-data', item_contrato_all, this.config);
+
+            const resolve = await axios.post('/contrato/edit-data', {
+                ...this.getAttributes('contrato'),
+                ...this.getAttributes('detalle-contrato'),
+                desarrolladora: this.desarrolladora,
+            }, this.config);
 
             return resolve.data;
         } catch (error) {
@@ -163,10 +174,10 @@ class Contrato {
             return error.response.data;
         }
     }
-    async showDetalleContrato(is_id_contrato) {
+    async showDetalleContrato() {
         try {
             const resolve = await axios.post('/contrato/see-detalle-contrato', {
-                id_contrato: is_id_contrato
+                id_contrato: this.getAttributes('contrato').id,
             }, this.config);
 
             return resolve.data;

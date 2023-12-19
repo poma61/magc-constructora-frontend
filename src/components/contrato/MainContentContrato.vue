@@ -1,9 +1,11 @@
 <template>
     <div class="d-flex flex-wrap justify-end" style="width: 100%;">
+        <v-select label="Desarrolladoras" v-model="selected_desarrolladora" :items="list_desarrolladora"
+            color="purple-darken-1" @update:model-value="loadDataTable" />
 
         <v-tooltip text="Actualizar tablero">
             <template v-slot:activator="{ props }">
-                <v-btn v-bind="props" @click="initDataTable()" color="cyan-darken-1" class=" ma-1" variant="tonal" >
+                <v-btn v-bind="props" @click="loadDataTable()" color="cyan-darken-1" class=" ma-1" variant="tonal">
                     <v-icon icon="mdi-refresh"></v-icon>&nbsp;
                 </v-btn>
             </template>
@@ -114,6 +116,7 @@ import Contrato from '@/http/services/Contrato';
 import FormatDate from '@/util/FormatDate';
 import app from "@/config/app.js";
 import useToastify from '@/composables/useToastify';
+import Desarrolladora from '@/http/services/Desarrolladora';
 
 //data
 const data = ref([]);
@@ -130,6 +133,8 @@ const edit_form = ref(false);
 const dialog_pdf = ref(false);
 const contrato_pdf_url = ref("");
 const loading_edit_form = ref(false);
+const list_desarrolladora = ref([]);
+const selected_desarrolladora = ref("");
 
 const items_per_page_options = ref([
     { value: 10, title: '10' },
@@ -147,11 +152,23 @@ const columns = ref([
 ]);
 
 //methods
-const isClear = () => {
+const clear = () => {
     index_array.value = -1;
     edit_form.value = false;
     item_contrato.value = {};
     item_detalle_contrato.value = {};
+}
+
+const listDesarrolladora = async () => {
+    const desarrolladora = new Desarrolladora();
+    const response = await desarrolladora.index();
+    if (response.status) {
+        const all_desarrolladora = response.records;
+        list_desarrolladora.value = all_desarrolladora.map(item => item.nombres);
+        selected_desarrolladora.value = list_desarrolladora.value[0];
+    } else {
+        useToastify('danger', response.message);
+    }
 }
 
 
@@ -167,8 +184,8 @@ const editForm = (item) => {
         index_array.value = data.value.indexOf(item);
         item_contrato.value = Object.assign({}, item);
         edit_form.value = true
-        const detalle_contrato = new Contrato();
-        const response = await detalle_contrato.showDetalleContrato(item_contrato.value.id);
+        const detalle_contrato = new Contrato(selected_desarrolladora.value, item_contrato.value);
+        const response = await detalle_contrato.showDetalleContrato();
         loading_edit_form.value = false;
 
         if (response.status) {
@@ -216,7 +233,7 @@ const confirmDeleteData = async () => {
 
 const closeDialogDelete = () => {
     dialog_delete.value = false;
-    isClear();
+    clear();
 }
 
 const showForm = () => {
@@ -227,7 +244,7 @@ const showForm = () => {
 const showDataTable = () => {
     show_data_table.value = true;
     show_form.value = false;
-    isClear();//para limpiar datos del forumlario al visualizar la tabla
+    clear();//para limpiar datos del forumlario al visualizar la tabla
 }
 
 
@@ -246,13 +263,12 @@ const localUpdateDataTable = (type, item) => {
             break;
     }
 }
-const initDataTable = () => {
+const loadDataTable = () => {
     loading_data_table.value = 'cyan-darken-1';
     setTimeout(async () => {
-        const contrato = new Contrato();
+        const contrato = new Contrato(selected_desarrolladora.value);
         const response = await contrato.index();
         loading_data_table.value = null;
-
         if (response.status) {
             data.value = response.records;
         } else {
@@ -261,9 +277,10 @@ const initDataTable = () => {
     }, 400);
 }
 
-onMounted(() => {
+onMounted(async () => {
     showDataTable();
-    initDataTable();
+    await listDesarrolladora();
+    loadDataTable();
 });
 
 </script>
