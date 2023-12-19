@@ -5,10 +5,10 @@ class Desarrolladora {
         this.desarrolladora = {
             id: 0,
             nombres: "",
-            logo: "",
+            logo: null,
             direccion: "",
             descripcion: "",
-            correo_electronico: "",
+            correo_electronico: null,
         };
         this.config = {
             headers: {

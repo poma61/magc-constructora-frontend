@@ -127,7 +127,7 @@ const save = () => {
                 useToastify('danger', response.message);
             }
         }
-    }, 400);
+    }, 200);
 
 }
 
