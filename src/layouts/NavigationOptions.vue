@@ -7,6 +7,11 @@
                     &nbsp;Inicio
                 </v-tab>
 
+                <v-tab :to="{ name: 'n-desarrolladora' }">
+                    <v-icon icon="mdi-home-group" />
+                    &nbsp;Desarrolladoras
+                </v-tab>
+
                 <v-tab :to="{ name: 'n-cliente' }">
                     <v-icon icon="mdi-account-group" />
                     &nbsp;Clientes

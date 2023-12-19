@@ -65,16 +65,25 @@
                                         </template>
                                     </v-list-item>
 
-                                    <div class="d-flex justify-space-between px-4">
-                                        <p class="text-subtitle-2 text-light-blue-darken-3">
-                                            Pagos realizados: {{ item.raw.total_pagos }}
+                                    <div class="d-flex justify-space-between px-4 flex-wrap">
+                                        <p class="text-subtitle-2 text-light-blue-darken-3  ma-1">
+                                            Historial de pagos:{{ item.raw.total_pagos }}
                                         </p>
-                                        <v-tooltip text="Ver historial de pagos">
-                                            <template v-slot:activator="{ props }">
-                                                <v-btn v-bind="props" size="small" icon="mdi-account-credit-card"
-                                                    color="light-blue-darken-3" variant="elevated" />
-                                            </template>
-                                        </v-tooltip>
+                                        <div>
+                                            <v-tooltip text="Editar registro.">
+                                                <template v-slot:activator="{ props }">
+                                                    <v-btn v-bind="props" size="small" icon="mdi-pencil" color="success"
+                                                        variant="elevated" class="ma-1" />
+                                                </template>
+                                            </v-tooltip>
+
+                                            <v-tooltip text="Eliminar registro.">
+                                                <template v-slot:activator="{ props }">
+                                                    <v-btn v-bind="props" size="small" icon="mdi-delete" color="red"
+                                                        variant="elevated" class="ma-1" />
+                                                </template>
+                                            </v-tooltip>
+                                        </div>
 
                                     </div>
                                 </v-card>
@@ -91,16 +100,20 @@
     
 <script>
 import { defineComponent } from 'vue';
-import HistorialDePagoCliente from '@/http/services/HistorialDePagoCliente';
+import Desarrolladora from '@/http/services/Desarrolladora';
 import useToastify from '@/composables/useToastify';
 export default defineComponent({
     data() {
         const loading_data_iterator = false;
         const data = [];
+        const item_cliente = {};
+        const index_item = -1;
         const search_data = "";
         return {
             loading_data_iterator,
             data,
+            item_cliente,
+            index_item,
             search_data,
         }
     },
@@ -109,8 +122,8 @@ export default defineComponent({
         initDataTable() {
             this.loading_data_iterator = true;
             setTimeout(async () => {
-                const pedido = new HistorialDePagoCliente(this.current_sucursal);
-                const respuesta = await pedido.index();
+                const desarrolladora = new Desarrolladora();
+                const respuesta = await desarrolladora.index();
                 this.loading_data_iterator = false;
                 if (respuesta.status) {
                     this.data = respuesta.records;
@@ -119,8 +132,6 @@ export default defineComponent({
                 }
             }, 800)
         },//initDataTable
-
-
     },//metodos
 
     created() {

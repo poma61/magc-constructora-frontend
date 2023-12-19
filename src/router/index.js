@@ -6,6 +6,8 @@ import authenticate from '@/http/middleware/authenticate'
 import NotFound from '@/views/NotFound.vue';
 import InicioView from '@/views/InicioView.vue';
 import HistorialDePagoClienteView from '@/views/HistorialDePagoClienteView.vue';
+import ClienteView from '@/views/ClienteView.vue';
+import DesarrolladoraView from '@/views/DesarrolladoraView.vue';
 
 const routes = [
   //esta parte es cuando se introduce una url que no existe 
@@ -35,9 +37,18 @@ const routes = [
   },
 
   {
+    path: '/desarrolladora',
+    name: 'n-desarrolladora',
+    component: DesarrolladoraView,
+    meta: {
+      requireAuth: true,
+    }
+  },
+
+  {
     path: '/cliente',
     name: 'n-cliente',
-    component: () => import(/* webpackChunkName: "cliente" */ '@/views/ClienteView.vue'),
+    component: ClienteView,
     meta: {
       requireAuth: true,
     }
