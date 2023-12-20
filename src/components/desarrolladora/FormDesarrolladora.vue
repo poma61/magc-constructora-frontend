@@ -7,23 +7,23 @@
             <v-row>
                 <v-col cols="12">
                     <v-text-field v-model="item_desarrolladora.nombres" label="Nombres" color="purple-darken-1" clearable
-                        :error-messages="showFieldsErrors('nombres')" variant="solo-filled" />
+                        :error-messages="showFieldsErrors('nombres')" variant="underlined" />
                 </v-col>
 
                 <v-col cols="12">
                     <v-textarea v-model="item_desarrolladora.direccion" label="Direccion" color="purple-darken-1" clearable
-                        :error-messages="showFieldsErrors('direccion')" variant="solo-filled" rows="2" />
+                        :error-messages="showFieldsErrors('direccion')" variant="underlined" rows="2" />
                 </v-col>
 
                 <v-col cols="12">
                     <v-textarea v-model="item_desarrolladora.descripcion" label="Descripcion" color="purple-darken-1"
-                        clearable :error-messages="showFieldsErrors('descripcion')" variant="solo-filled" rows="2" />
+                        clearable :error-messages="showFieldsErrors('descripcion')" variant="underlined" rows="2" />
                 </v-col>
 
                 <v-col cols="12">
                     <v-text-field v-model="item_desarrolladora.correo_electronico" label="Correo electronico"
                         color="purple-darken-1" clearable :error-messages="showFieldsErrors('correo_electronico')"
-                        type="email" variant="solo-filled" />
+                        type="email" variant="underlined" />
                 </v-col>
 
                 <v-col cols="12" sm="8">

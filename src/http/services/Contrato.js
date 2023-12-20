@@ -154,7 +154,7 @@ class Contrato {
             const resolve = await axios.post('/contrato/edit-data', {
                 ...this.getAttributes('contrato'),
                 ...this.getAttributes('detalle-contrato'),
-                desarrolladora: this.desarrolladora,
+           
             }, this.config);
 
             return resolve.data;

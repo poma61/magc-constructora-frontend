@@ -11,7 +11,7 @@
                     <!-- buscar cliente -->
                     <div class="d-flex">
                         <v-text-field label="Buscar Cliente" prepend-inner-icon="mdi-magnify" color="cyan-darken-1"
-                            :loading="loading_search_cliente" @keyup.enter="searchCliente()" variant="outlined"
+                            :loading="loading_search_cliente" @keyup.enter="searchCliente()" variant="solo-filled"
                             placeholder="Introduzca el CI del cliente" class="m-1" clearable v-model="ci_cliente" />
                         <v-btn icon="mdi-magnify" color="purple-darken-3" @click="searchCliente()" class="ma-1"></v-btn>
                     </div>
@@ -20,114 +20,114 @@
 
                 <v-col cols="12" md="6">
                     <v-text-field v-model="nombreCompletoCliente" label="Nombre cliente" readonly class="m-1"
-                        color="cyan-darken-1" :error-messages="showFieldsErrors('id_cliente')" variant="outlined" />
+                        color="cyan-darken-1" :error-messages="showFieldsErrors('id_cliente')" variant="solo-filled" />
                 </v-col>
                 <v-col cols="12" md="4">
                     <v-text-field v-model="item_detalle_contrato.n_de_lote" label="N° de lote" class="m-1"
-                        color="cyan-darken-1" :error-messages="showFieldsErrors('n_de_lote')" variant="outlined" />
+                        color="cyan-darken-1" :error-messages="showFieldsErrors('n_de_lote')" variant="solo-filled" />
                 </v-col>
 
                 <v-col cols="12" md="4">
                     <v-text-field v-model="item_detalle_contrato.n_de_uv" label="N° de UV" class="m-1" color="cyan-darken-1"
-                        :error-messages="showFieldsErrors('n_de_uv')" variant="outlined" />
+                        :error-messages="showFieldsErrors('n_de_uv')" variant="solo-filled" />
                 </v-col>
 
                 <v-col cols="12" md="4">
                     <v-text-field v-model="item_detalle_contrato.zona" label="Zona" class="m-1" color="cyan-darken-1"
-                        :error-messages="showFieldsErrors('zona')" variant="outlined" />
+                        :error-messages="showFieldsErrors('zona')" variant="solo-filled" />
                 </v-col>
 
                 <v-col cols="12" md="4">
                     <v-text-field v-model="item_detalle_contrato.superficie_terreno" label="Superficie de terreno"
                         class="m-1" color="cyan-darken-1" :error-messages="showFieldsErrors('superficie_terreno')"
-                        variant="outlined" suffix="(m²)" />
+                        variant="solo-filled" suffix="(m²)" />
                 </v-col>
 
                 <v-col cols="12" md="4">
                     <v-text-field v-model="item_detalle_contrato.numero_distrito" label="Numero de distrito" class="m-1"
-                        color="cyan-darken-1" :error-messages="showFieldsErrors('numero_distrito')" variant="outlined" />
+                        color="cyan-darken-1" :error-messages="showFieldsErrors('numero_distrito')" variant="solo-filled" />
                 </v-col>
 
                 <v-col cols="12" md="4">
                     <v-text-field v-model="item_detalle_contrato.numero_identificacion_terreno"
                         label="Numero de identificación de terreno" class="m-1" color="cyan-darken-1"
-                        :error-messages="showFieldsErrors('numero_identificacion_terreno')" variant="outlined" />
+                        :error-messages="showFieldsErrors('numero_identificacion_terreno')" variant="solo-filled" />
                 </v-col>
 
                 <v-divider class="border-opacity-25 mb-3"></v-divider>
                 <v-col cols="12" md="3">
                     <v-text-field v-model="item_detalle_contrato.norte_medida_terreno" label="Norte medida terreno"
-                        color="cyan-darken-1" :error-messages="showFieldsErrors('norte_medida_terreno')" variant="outlined"
+                        color="cyan-darken-1" :error-messages="showFieldsErrors('norte_medida_terreno')" variant="solo-filled"
                         suffix="(m)" />
                 </v-col>
                 <v-col cols="12" md="3">
                     <v-text-field v-model="item_detalle_contrato.norte_colinda_lote" label="Norte colinda lote"
-                        color="cyan-darken-1" :error-messages="showFieldsErrors('norte_colinda_lote')" variant="outlined" />
+                        color="cyan-darken-1" :error-messages="showFieldsErrors('norte_colinda_lote')" variant="solo-filled" />
                 </v-col>
                 <v-col cols="12" md="3">
                     <v-text-field v-model="item_detalle_contrato.sur_medida_terreno" label="Sur medida terreno"
-                        color="cyan-darken-1" :error-messages="showFieldsErrors('sur_medida_terreno')" variant="outlined"
+                        color="cyan-darken-1" :error-messages="showFieldsErrors('sur_medida_terreno')" variant="solo-filled"
                         suffix="(m)" />
                 </v-col>
 
                 <v-col cols="12" md="3">
                     <v-text-field v-model="item_detalle_contrato.sur_colinda_lote" label="Sur colinda lote"
-                        color="cyan-darken-1" :error-messages="showFieldsErrors('sur_colinda_lote')" variant="outlined" />
+                        color="cyan-darken-1" :error-messages="showFieldsErrors('sur_colinda_lote')" variant="solo-filled" />
                 </v-col>
 
                 <v-col cols="12" md="3">
                     <v-text-field v-model="item_detalle_contrato.este_medida_terreno" label="Este medida terreno"
-                        color="cyan-darken-1" :error-messages="showFieldsErrors('este_medida_terreno')" variant="outlined"
+                        color="cyan-darken-1" :error-messages="showFieldsErrors('este_medida_terreno')" variant="solo-filled"
                         suffix="(m)" />
                 </v-col>
 
                 <v-col cols="12" md="3">
                     <v-text-field v-model="item_detalle_contrato.este_colinda_lote" label="Este colinda lote"
-                        color="cyan-darken-1" :error-messages="showFieldsErrors('este_colinda_lote')" variant="outlined" />
+                        color="cyan-darken-1" :error-messages="showFieldsErrors('este_colinda_lote')" variant="solo-filled" />
                 </v-col>
 
                 <v-col cols="12" md="3">
                     <v-text-field v-model="item_detalle_contrato.oeste_medida_terreno" label="Oeste medida terreno"
                         color="cyan-darken-1" :error-messages="showFieldsErrors('oeste_medida_terreno')" suffix="(m)"
-                        variant="outlined" />
+                        variant="solo-filled" />
                 </v-col>
 
                 <v-col cols="12" md="3">
                     <v-text-field v-model="item_detalle_contrato.oeste_colinda_lote" label="Oeste colinda lote"
-                        color="cyan-darken-1" :error-messages="showFieldsErrors('oeste_colinda_lote')" variant="outlined" />
+                        color="cyan-darken-1" :error-messages="showFieldsErrors('oeste_colinda_lote')" variant="solo-filled" />
                 </v-col>
                 <v-divider class="border-opacity-25 mb-3"></v-divider>
                 <v-col cols="12" md="4">
                     <v-text-field v-model="item_detalle_contrato.valor_construccion_numeral"
                         label="Valor de la construccion" color="cyan-darken-1" prefix="($)"
-                        :error-messages="showFieldsErrors('valor_construccion_numeral')" variant="outlined" />
+                        :error-messages="showFieldsErrors('valor_construccion_numeral')" variant="solo-filled" />
                 </v-col>
 
 
                 <v-col cols="12" md="4">
                     <v-text-field v-model="item_detalle_contrato.valor_couta_inicial_numeral" label="Valor de couta inicial"
                         color="cyan-darken-1" :error-messages="showFieldsErrors('valor_couta_inicial_numeral')"
-                        variant="outlined" prefix="($)" />
+                        variant="solo-filled" prefix="($)" />
                 </v-col>
 
                 <v-col cols="12" md="4">
                     <v-text-field v-model="item_detalle_contrato.valor_couta_mensual_numeral" label="Valor de couta mensual"
                         color="cyan-darken-1" :error-messages="showFieldsErrors('valor_couta_mensual_numeral')" prefix="($)"
-                        variant="outlined" />
+                        variant="solo-filled" />
                 </v-col>
 
                 <v-col cols="12" md="4">
 
                     <v-text-field v-model="item_detalle_contrato.primera_val_couta_mensual_numeral"
                         label="Primera couta mensual" color="cyan-darken-1" prefix="($)"
-                        :error-messages="showFieldsErrors('primera_val_couta_mensual_numeral')" variant="outlined" />
+                        :error-messages="showFieldsErrors('primera_val_couta_mensual_numeral')" variant="solo-filled" />
                 </v-col>
 
 
                 <v-col cols="12" md="4">
                     <v-text-field v-model="item_detalle_contrato.segunda_val_couta_mensual_numeral"
                         label="Segunda couta mensual" color="cyan-darken-1"
-                        :error-messages="showFieldsErrors('segunda_val_couta_mensual_numeral')" variant="outlined"
+                        :error-messages="showFieldsErrors('segunda_val_couta_mensual_numeral')" variant="solo-filled"
                         prefix="($)" />
                 </v-col>
 
@@ -135,24 +135,24 @@
                     <v-text-field v-model="item_detalle_contrato.tercera_val_couta_mensual_numeral"
                         label="Tercera couta mensual" color="cyan-darken-1"
                         :error-messages="showFieldsErrors('tercera_val_couta_mensual_numeral')" prefix="($)"
-                        variant="outlined" />
+                        variant="solo-filled" />
                 </v-col>
 
                 <v-col cols="12" md="4">
                     <v-text-field v-model="item_detalle_contrato.lugar_firma_contrato"
                         label="Lugar de la firma del contrato" color="cyan-darken-1"
-                        :error-messages="showFieldsErrors('lugar_firma_contrato')" variant="outlined" />
+                        :error-messages="showFieldsErrors('lugar_firma_contrato')" variant="solo-filled" />
                 </v-col>
 
                 <v-col cols="12" md="4">
                     <v-text-field v-model="item_detalle_contrato.fecha_firma_contrato" label="Fecha de lafirma del contrato"
                         color="cyan-darken-1" :error-messages="showFieldsErrors('fecha_firma_contrato')" type="date"
-                        variant="outlined" />
+                        variant="solo-filled" />
                 </v-col>
 
                 <v-col cols="12" md="4">
                     <v-textarea v-model="item_contrato.descripcion" label="descripcion" color="cyan-darken-1"
-                        :error-messages="showFieldsErrors('descripcion')" variant="outlined" />
+                        :error-messages="showFieldsErrors('descripcion')" variant="solo-filled" />
                 </v-col>
 
             </v-row>
@@ -203,7 +203,7 @@ import Cliente from '@/http/services/Cliente';
 import useToastify from '@/composables/useToastify';
 
 //props
-const props = defineProps(['p_item_contrato', 'p_item_detalle_contrato',]);
+const props = defineProps(['p_item_contrato', 'p_item_detalle_contrato','p_selected_desarrolladora']);
 //emits
 const emit = defineEmits(['toNewForm', 'toLocalUpdateDataTable']);
 //data
@@ -251,7 +251,7 @@ watch(() => props.p_item_detalle_contrato, () => {
 const searchCliente = () => {
     loading_search_cliente.value = 'purple-darken-3';
     setTimeout(async () => {
-        const cliente = new Cliente();
+        const cliente = new Cliente(props.p_selected_desarrolladora);
         const response = await cliente.searchCliente(ci_cliente.value);
         loading_search_cliente.value = null;
         if (response.status) {
@@ -264,7 +264,7 @@ const searchCliente = () => {
         } else {
             useToastify('danger', response.message);
         }
-    }, 200);
+    }, 400);
 
 }
 

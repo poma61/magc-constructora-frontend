@@ -18,7 +18,7 @@ class Cliente {
         this.config = {
             headers: {
                 'Assept': 'application/json',
-               
+                'Content-Type': 'application/json'
             }
         }
         if (cliente != undefined) {
@@ -91,7 +91,7 @@ class Cliente {
     async searchCliente(is_ci) {
         try {
             const resolve = await axios.post('/cliente/search-cliente', {
-                desarrolladora:this.desarrolladora,
+                desarrolladora: this.desarrolladora,
                 ci: is_ci,
             }, this.config);
             return resolve.data;

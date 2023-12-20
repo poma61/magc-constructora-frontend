@@ -52,6 +52,15 @@
 
                 </template>
 
+                <template v-slot:item.correo_electronico="{ item }">
+                    {{ item.correo_electronico == null ? 'Sin correo electronico!' : item.correo_electronico }}
+                </template>
+
+                <template v-slot:item.ci="{ item }">
+                    <v-chip color="primary">
+                        {{ item.ci }} {{ item.ci_expedido }}
+                    </v-chip>
+                </template>
             </v-data-table>
         </v-card>
 
@@ -112,7 +121,7 @@ const columns = ref([
     { title: 'Apellido materno', key: 'apellido_materno' },
     { title: 'N° de contacto', key: 'n_de_contacto' },
     { title: 'Correo Electronico', key: 'correo_electronico' },
-    { title: 'CI', key: 'ci_concat', value: (item) => `${item.ci} ${item.ci_expedido}` },
+    { title: 'CI', key: 'ci' },
     { title: 'Direccion', key: 'direccion', },
     { title: 'Descripcion', key: 'descripcion', },
     { title: 'Acciones', key: 'actions', },

@@ -1,7 +1,7 @@
 <template>
-    <div class="d-flex flex-wrap justify-end" style="width: 100%;">
+    <div class="animate__animated animate__bounceInLeft d-flex flex-wrap justify-end" style="width: 100%;">
         <v-select label="Desarrolladoras" v-model="selected_desarrolladora" :items="list_desarrolladora"
-            color="purple-darken-1" @update:model-value="loadDataTable" />
+            color="purple-darken-1" @update:model-value="loadDataTable"  style="min-width: 400px;"/>
 
         <v-tooltip text="Actualizar tablero">
             <template v-slot:activator="{ props }">
@@ -58,7 +58,7 @@
         </v-card>
     </div>
     <FormContrato v-if="show_form" :p_item_contrato="item_contrato" :p_item_detalle_contrato="item_detalle_contrato"
-        @toNewForm="newForm" @toLocalUpdateDataTable="localUpdateDataTable" />
+       :p_selected_desarrolladora="selected_desarrolladora" @toNewForm="newForm" @toLocalUpdateDataTable="localUpdateDataTable" />
 
 
     <v-dialog v-model="dialog_delete" persistent transition="dialog-bottom-transition" max-width="500px">
