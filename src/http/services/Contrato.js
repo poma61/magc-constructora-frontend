@@ -1,5 +1,4 @@
 import axios from "@/http/connection/axios";
-
 import { NumerosALetras } from 'numero-a-letras';
 
 class Contrato {
@@ -18,9 +17,13 @@ class Contrato {
             n_de_lote: "",
             n_de_uv: "",
             zona: "",
-            superficie_terreno: "",
+            terreno_superficie: "",
+            terreno_valor_total_numeral: "",//puede ser null
+            terreno_valor_total_literal: "", //puede ser null
+            terreno_val_couta_inicial_numeral: "",//puede ser null
+            terreno_val_couta_mensual_numeral: "",//puede ser null
             numero_distrito: "",
-            numero_identificacion_terreno: "",//puede ser un string
+            numero_identificacion_terreno: "",
             norte_medida_terreno: "",
             norte_colinda_lote: "",
             sur_medida_terreno: "",
@@ -29,18 +32,20 @@ class Contrato {
             este_colinda_lote: "",
             oeste_medida_terreno: "",
             oeste_colinda_lote: "",
-            valor_construccion_literal: "",
-            valor_construccion_numeral: "",
-            valor_couta_inicial_literal: "",
-            valor_couta_inicial_numeral: "",
-            valor_couta_mensual_literal: "",
-            valor_couta_mensual_numeral: "",
+            construccion_descripcion: "",
+            construccion_superficie_terreno: "",
+            construccion_valor_total_literal: "",
+            construccion_valor_total_numeral: "",
+            construccion_cantidad_meses_de_entrega: "",
+            construccion_val_couta_inicial_literal: "",
+            construccion_val_couta_inicial_numeral: "",
+            construccion_val_couta_mensual_literal: "",
+            construccion_val_couta_mensual_numeral: "",
+            construccion_cantidad_couta_mensual: "",
             primera_val_couta_mensual_numeral: "",
             segunda_val_couta_mensual_numeral: "",
             tercera_val_couta_mensual_numeral: "",
             lugar_firma_contrato: "",
-            fecha_firma_contrato: "",
-            id_contrato: "",
         };
         this.config = {
             headers: {
@@ -77,16 +82,22 @@ class Contrato {
                 break;
             case 'detalle-contrato':
                 Object.entries(this.detalle_contrato).forEach(([key]) => {
+                   
                     if (Object.prototype.hasOwnProperty.call(item_contrato_all, key)) {
                         switch (key) {
-                            case 'valor_construccion_literal':
-                                this.detalle_contrato[key] = this.numberOfLetters(item_contrato_all.valor_construccion_numeral);
+                            case 'terreno_valor_total_literal':
+                                if (item_contrato_all.terreno_valor_total_numeral != null || item_contrato_all.terreno_valor_total_numeral != "" || item_contrato_all.terreno_valor_total_numeral != undefined) {
+                                    this.detalle_contrato[key] = this.numberOfLetters(item_contrato_all.terreno_valor_total_numeral);
+                                }
                                 break;
-                            case 'valor_couta_inicial_literal':
-                                this.detalle_contrato[key] = this.numberOfLetters(item_contrato_all.valor_couta_inicial_numeral);
+                            case 'construccion_valor_total_literal':
+                                this.detalle_contrato[key] = this.numberOfLetters(item_contrato_all.construccion_valor_total_numeral);
                                 break;
-                            case 'valor_couta_mensual_literal':
-                                this.detalle_contrato[key] = this.numberOfLetters(item_contrato_all.valor_couta_mensual_numeral);
+                            case 'construccion_val_couta_inicial_literal':
+                                this.detalle_contrato[key] = this.numberOfLetters(item_contrato_all.construccion_val_couta_inicial_numeral);
+                                break;
+                            case 'construccion_val_couta_mensual_literal':
+                                this.detalle_contrato[key] = this.numberOfLetters(item_contrato_all.construccion_val_couta_mensual_numeral);
                                 break;
                             default:
                                 this.detalle_contrato[key] = item_contrato_all[key];
@@ -154,7 +165,7 @@ class Contrato {
             const resolve = await axios.post('/contrato/edit-data', {
                 ...this.getAttributes('contrato'),
                 ...this.getAttributes('detalle-contrato'),
-           
+
             }, this.config);
 
             return resolve.data;

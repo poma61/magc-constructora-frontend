@@ -1,21 +1,21 @@
 <template>
-    <div class="animate__animated animate__bounceInLeft d-flex flex-wrap justify-end" style="width: 100%;">
-        <v-select label="Desarrolladoras" v-model="selected_desarrolladora" :items="list_desarrolladora"
-            color="purple-darken-1" @update:model-value="loadDataTable"  style="min-width: 400px;"/>
+    <div class="animate__animated animate__bounceInLeft d-flex flex-wrap" style="width: 100%;">
+        <v-select label="Desarrolladoras" v-model="selected_desarrolladora" :items="list_desarrolladora" color="primary"
+            @update:model-value="loadDataTable" style="min-width: 400px;" />
 
         <v-tooltip text="Actualizar tablero">
             <template v-slot:activator="{ props }">
-                <v-btn v-bind="props" @click="loadDataTable()" color="cyan-darken-1" class=" ma-1" variant="tonal">
+                <v-btn v-bind="props" @click="loadDataTable()" color="primary" class=" ma-1" variant="tonal">
                     <v-icon icon="mdi-refresh"></v-icon>&nbsp;
                 </v-btn>
             </template>
         </v-tooltip>
 
-        <v-btn @click="showDataTable()" color="cyan-darken-1" class=" ma-1"
+        <v-btn @click="showDataTable()" color="primary" class=" ma-1"
             :variant="show_data_table == true ? 'elevated' : 'tonal'">
             <v-icon icon="mdi-table-large"></v-icon>&nbsp;Ver tablero
         </v-btn>
-        <v-btn @click="newForm()" color="cyan-darken-1" class="ma-1" :variant="show_form == true ? 'elevated' : 'tonal'"
+        <v-btn @click="newForm()" color="primary" class="ma-1" :variant="show_form == true ? 'elevated' : 'tonal'"
             :disabled="edit_form">
             <v-icon icon="mdi-note-plus-outline"></v-icon>&nbsp;Nuevo contrato
         </v-btn>
@@ -26,7 +26,7 @@
         <!-- table -->
         <v-card class="animate__animated animate__bounceInUp">
             <v-text-field v-model="search_data" append-inner-icon="mdi-magnify" clearable label="Buscar Registros..."
-                color="cyan-darken-1" />
+                color="primary" />
             <v-data-table :hover="true" :items="data" :headers="columns" :search="search_data" :loading="loading_data_table"
                 :items-per-page-options="items_per_page_options" :show-current-page="true" :fixed-header="true"
                 :height="600" :sort-by="[{ key: 'id', order: 'desc' }]">
@@ -48,8 +48,7 @@
 
                 <template v-slot:item.actions="{ item }">
                     <div style="width: 150px;">
-                        <v-btn @click="editForm(item)" color="cyan-darken-1" icon="mdi-pencil" class="ma-1 "
-                            variant="tonal" />
+                        <v-btn @click="editForm(item)" color="primary" icon="mdi-pencil" class="ma-1 " variant="tonal" />
                         <v-btn @click="openDeleteData(item)" color="red" icon="mdi-delete" class="ma-1 " variant="tonal" />
                     </div>
                 </template>
@@ -58,7 +57,8 @@
         </v-card>
     </div>
     <FormContrato v-if="show_form" :p_item_contrato="item_contrato" :p_item_detalle_contrato="item_detalle_contrato"
-       :p_selected_desarrolladora="selected_desarrolladora" @toNewForm="newForm" @toLocalUpdateDataTable="localUpdateDataTable" />
+        :p_selected_desarrolladora="selected_desarrolladora" @toNewForm="newForm"
+        @toLocalUpdateDataTable="localUpdateDataTable" />
 
 
     <v-dialog v-model="dialog_delete" persistent transition="dialog-bottom-transition" max-width="500px">
@@ -75,7 +75,7 @@
                     <v-btn color="red" @click="closeDialogDelete()" class="ma-1 " variant="elevated">
                         <v-icon icon="mdi-cancel"></v-icon>&nbsp;Cancelar
                     </v-btn>
-                    <v-btn color="cyan-darken-1" @click="confirmDeleteData()" class="ma-1 " variant="elevated">
+                    <v-btn color="primary" @click="confirmDeleteData()" class="ma-1 " variant="elevated">
                         <v-icon icon="mdi-check-circle"></v-icon>&nbsp;Si
                     </v-btn>
                 </div>
@@ -100,13 +100,6 @@
             </v-card-actions>
         </v-card>
     </v-dialog>
-
-    <v-overlay v-model="loading_edit_form" class="d-flex align-center justify-center">
-        <div class="text-center">
-            <v-progress-circular color="yellow-darken-3" indeterminate size="100"></v-progress-circular>
-            <p class="text-h6 text-white">Cargando datos...</p>
-        </div>
-    </v-overlay>
 </template>
 
 <script setup>
@@ -117,6 +110,7 @@ import FormatDate from '@/util/FormatDate';
 import app from "@/config/app.js";
 import useToastify from '@/composables/useToastify';
 import Desarrolladora from '@/http/services/Desarrolladora';
+
 
 //data
 const data = ref([]);
@@ -132,9 +126,9 @@ const index_array = ref(-1);
 const edit_form = ref(false);
 const dialog_pdf = ref(false);
 const contrato_pdf_url = ref("");
-const loading_edit_form = ref(false);
 const list_desarrolladora = ref([]);
 const selected_desarrolladora = ref("");
+
 
 const items_per_page_options = ref([
     { value: 10, title: '10' },
@@ -175,27 +169,12 @@ const listDesarrolladora = async () => {
 const newForm = () => {
     const contrato = new Contrato();
     item_contrato.value = Object.assign({}, contrato.getAttributes('contrato'));
-    item_detalle_contrato.value = Object.assign({}, contrato.getAttributes('detalle-contrato'));
     showForm();
 }
 const editForm = (item) => {
-    loading_edit_form.value = true;
-    setTimeout(async () => {
-        index_array.value = data.value.indexOf(item);
-        item_contrato.value = Object.assign({}, item);
-        edit_form.value = true
-        const detalle_contrato = new Contrato(selected_desarrolladora.value, item_contrato.value);
-        const response = await detalle_contrato.showDetalleContrato();
-        loading_edit_form.value = false;
-
-        if (response.status) {
-            item_detalle_contrato.value = Object.assign({}, response.record);
-            showForm();
-        } else {
-            useToastify('error', response.message);
-        }
-    }, 200);
-
+    index_array.value = data.value.indexOf(item);
+    item_contrato.value = Object.assign({}, item);
+    edit_form.value = true
 }
 
 const openDeleteData = (item) => {
@@ -263,8 +242,9 @@ const localUpdateDataTable = (type, item) => {
             break;
     }
 }
+
 const loadDataTable = () => {
-    loading_data_table.value = 'cyan-darken-1';
+    loading_data_table.value = 'primary';
     setTimeout(async () => {
         const contrato = new Contrato(selected_desarrolladora.value);
         const response = await contrato.index();

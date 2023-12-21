@@ -21,7 +21,7 @@
                             <v-tooltip text="Anterior">
                                 <template v-slot:activator="{ props }">
                                     <v-btn v-bind="props" :disabled="page === 1" icon="mdi-arrow-left" density="comfortable"
-                                        variant="elevated" color="green-accent-4 " @click="prevPage"></v-btn>
+                                        variant="elevated" color="green-accent-4" @click="prevPage"></v-btn>
                                 </template>
                             </v-tooltip>
 

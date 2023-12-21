@@ -4,14 +4,15 @@
             <span class="text-h6">Registrar desarrolladora</span>
         </v-card-title>
         <v-card-text class="pa-3">
+            <p class="text-warning text-subtitle-1">Los campos marcados con (*) son obligatorios.</p>
             <v-row>
                 <v-col cols="12">
-                    <v-text-field v-model="item_desarrolladora.nombres" label="Nombres" color="purple-darken-1" clearable
+                    <v-text-field v-model="item_desarrolladora.nombres" label="Nombres (*)" color="purple-darken-1" clearable
                         :error-messages="showFieldsErrors('nombres')" variant="underlined" />
                 </v-col>
 
                 <v-col cols="12">
-                    <v-textarea v-model="item_desarrolladora.direccion" label="Direccion" color="purple-darken-1" clearable
+                    <v-textarea v-model="item_desarrolladora.direccion" label="Direccion (*)" color="purple-darken-1" clearable
                         :error-messages="showFieldsErrors('direccion')" variant="underlined" rows="2" />
                 </v-col>
 
@@ -27,7 +28,7 @@
                 </v-col>
 
                 <v-col cols="12" sm="8">
-                    <v-file-input accept="image/*" label="Logo desarrolladora" color="purple-darken-1"
+                    <v-file-input accept="image/*" label="Logo desarrolladora (*)" color="purple-darken-1"
                         :error-messages="showFieldsErrors('logo')" v-model="is_file" @change="uploadImage"
                         :clearable="false">
                     </v-file-input>

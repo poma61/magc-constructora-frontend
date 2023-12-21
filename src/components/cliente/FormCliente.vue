@@ -1,53 +1,58 @@
 <template>
+    
     <v-card>
+        
         <v-card-title class="animate__animated animate__bounceInRight bg-purple-darken-1">
             <span class="text-h6">Registrar Cliente</span>
         </v-card-title>
         <v-card-text class="pa-3">
+            <p class="text-warning text-subtitle-1">Los campos marcados con (*) son obligatorios.</p>
             <v-row>
-                <v-col cols="12" sm="6">
-                    <v-text-field v-model="item_cliente.nombres" label="Nombres" color="purple-darken-1" clearable
+            <!-- sm => es cuando en modo responsivo se aplica desde 600px aproximadamente-->
+            <!-- md=> es cuando en modo responsivo se aplica desde 800px aproximadamente   -->
+                <v-col cols="12" md="6" >
+                    <v-text-field v-model="item_cliente.nombres" label="Nombres (*)" color="purple-darken-1" clearable
                         :error-messages="showFieldsErrors('nombres')" variant="outlined" />
                 </v-col>
 
-                <v-col cols="12" sm="6">
-                    <v-text-field v-model="item_cliente.apellido_paterno" label="Apellido paterno" color="purple-darken-1"
+                <v-col cols="12" md="6">
+                    <v-text-field v-model="item_cliente.apellido_paterno" label="Apellido paterno (*)" color="purple-darken-1"
                         clearable :error-messages="showFieldsErrors('apellido_paterno')" variant="outlined" />
                 </v-col>
 
-                <v-col cols="12" sm="6">
-                    <v-text-field v-model="item_cliente.apellido_materno" label="Apeliido materno" color="purple-darken-1"
+                <v-col cols="12" md="6">
+                    <v-text-field v-model="item_cliente.apellido_materno" label="Apeliido materno (*)"  color="purple-darken-1"
                         clearable :error-messages="showFieldsErrors('apellido_materno')" variant="outlined" />
                 </v-col>
 
-                <v-col cols="12" sm="6">
-                    <v-text-field v-model="item_cliente.n_de_contacto" label="N° de contacto (N° de telefono/celular)"
+                <v-col cols="12" md="6">
+                    <v-text-field v-model="item_cliente.n_de_contacto" label="N° de contacto (N° de telefono/celular) (*)"
                         color="purple-darken-1" clearable :error-messages="showFieldsErrors('n_de_contacto')" type="number"
                         variant="outlined" />
                 </v-col>
 
-                <v-col cols="12" sm="4">
+                <v-col cols="12" md="4">
                     <v-text-field v-model="item_cliente.correo_electronico" label="Correo electronico"
                         color="purple-darken-1" clearable :error-messages="showFieldsErrors('correo_electronico')"
                         type="email" variant="outlined" />
                 </v-col>
 
-                <v-col cols="12" sm="4">
-                    <v-text-field v-model="item_cliente.ci" label="CI" color="purple-darken-1" clearable
+                <v-col cols="12" md="4">
+                    <v-text-field v-model="item_cliente.ci" label="Carnet de identidad (*)" color="purple-darken-1" clearable
                         :error-messages="showFieldsErrors('ci')" variant="outlined" />
                 </v-col>
 
-                <v-col cols="12" sm="4">
-                    <v-autocomplete v-model="item_cliente.ci_expedido" label="Expedido"
+                <v-col cols="12" md="4">
+                    <v-autocomplete v-model="item_cliente.ci_expedido" label="Expedido (*)"
                         :items="['SC', 'CH', 'CB', 'PT', 'BN', 'LP', 'PA', 'TJ', 'OR', 'SinExp']" color="purple-darken-1"
                         :error-messages="showFieldsErrors('ci_expedido')" variant="outlined" />
                 </v-col>
 
-                <v-col cols="12" sm="6">
-                    <v-textarea v-model="item_cliente.direccion" label="Direccion" color="purple-darken-1" clearable
+                <v-col cols="12" md="6">
+                    <v-textarea v-model="item_cliente.direccion" label="Direccion (*)" color="purple-darken-1" clearable
                         :error-messages="showFieldsErrors('direccion')" variant="outlined" rows="3" />
                 </v-col>
-                <v-col cols="12" sm="6">
+                <v-col cols="12" md="6">
                     <v-textarea v-model="item_cliente.descripcion" label="Descripcion" color="purple-darken-1" clearable
                         :error-messages="showFieldsErrors('descripcion')" variant="outlined" rows="3" />
                 </v-col>
