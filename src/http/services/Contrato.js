@@ -2,16 +2,13 @@ import axios from "@/http/connection/axios";
 import { NumerosALetras } from 'numero-a-letras';
 
 class Contrato {
-    constructor(desarrolladora, contrato, detalle_contrato) {
+    constructor(desarrolladora, clients, contrato, detalle_contrato) {
         this.desarrolladora = desarrolladora;
         this.contrato = {
             id: 0,
             n_contrato: "",
             descripcion: "",
             archivo_pdf: "",
-            //este atributo no tiene la tabla contratos de la db, 
-            //pero se envia para llenar la tabla clientes_has_contratos en la db
-            id_cliente: "",
         };
         this.detalle_contrato = {
             n_de_lote: "",
@@ -46,6 +43,7 @@ class Contrato {
             segunda_val_couta_mensual_numeral: "",
             tercera_val_couta_mensual_numeral: "",
             lugar_firma_contrato: "",
+            fecha_firma_contrato: "",
         };
         this.config = {
             headers: {
@@ -61,6 +59,10 @@ class Contrato {
             this.setAttributes('detalle-contrato', detalle_contrato);
         }
 
+        if (clients != undefined) {
+            this.clients = clients;
+        }
+
     }
 
     setDesarrolladora(desarrolladora) {
@@ -69,6 +71,14 @@ class Contrato {
 
     getDesarrolladora() {
         return this.desarrolladora;
+    }
+
+    setCliente(cliente) {
+        this.clients = cliente;
+    }
+
+    getCliente() {
+        return this.clients;
     }
 
     setAttributes(type, item_contrato_all) {
@@ -82,7 +92,7 @@ class Contrato {
                 break;
             case 'detalle-contrato':
                 Object.entries(this.detalle_contrato).forEach(([key]) => {
-                   
+
                     if (Object.prototype.hasOwnProperty.call(item_contrato_all, key)) {
                         switch (key) {
                             case 'terreno_valor_total_literal':
@@ -145,10 +155,13 @@ class Contrato {
     }
 
     async store() {
+
         try {
+            const is_clients = this.clients.map(cliente => cliente.getAttributes());
             const resolve = await axios.post('/contrato/new-data', {
-                ...this.getAttributes('contrato'),
-                ...this.getAttributes('detalle-contrato'),
+                clients: is_clients,
+                detalle_contrato: this.getAttributes('detalle-contrato'),
+                contrato: this.getAttributes('contrato'),
                 desarrolladora: this.desarrolladora,
             }, this.config);
 
