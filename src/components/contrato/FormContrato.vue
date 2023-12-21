@@ -55,14 +55,14 @@
                             </v-col>
                             <v-col cols="12" sm="6">
                                 <v-text-field v-model="cliente.nombres" label="Nombres (*)" color="cyan-darken-1" clearable
-                                    :error-messages="showFieldsErrors(`clients.${i}.nombres`)"
-                                    variant="solo-filled" />
+                                    :error-messages="showFieldsErrors(`clients.${i}.nombres`)" variant="solo-filled" />
                             </v-col>
 
                             <v-col cols="12" sm="6">
                                 <v-text-field v-model="cliente.apellido_paterno" label="Apellido paterno (*)"
                                     color="cyan-darken-1" clearable
-                                    :error-messages="showFieldsErrors(`clients.${i}.apellido_paterno`)" variant="solo-filled" />
+                                    :error-messages="showFieldsErrors(`clients.${i}.apellido_paterno`)"
+                                    variant="solo-filled" />
                             </v-col>
 
                             <v-col cols="12" sm="6">
@@ -138,8 +138,7 @@
 
                         <v-col cols="12" md="4">
                             <v-text-field v-model="item_detalle_contrato.zona" label="Zona  (*)" color="cyan-darken-1"
-                                :error-messages="showFieldsErrors('detalle_contrato.zona')"
-                                variant="solo-filled" />
+                                :error-messages="showFieldsErrors('detalle_contrato.zona')" variant="solo-filled" />
                         </v-col>
 
                         <v-col cols="12" md="4">
@@ -165,25 +164,25 @@
                         <v-divider class="border-opacity-25 mb-3"></v-divider>
                         <v-col cols="12" md="3">
                             <v-text-field v-model="item_detalle_contrato.norte_medida_terreno"
-                                label="Norte medida terreno (*)" color="cyan-darken-1" type="number"
+                                label="Norte, medida del terreno (*)" color="cyan-darken-1" type="number"
                                 :error-messages="showFieldsErrors('detalle_contrato.norte_medida_terreno')"
                                 variant="solo-filled" suffix="(m)" />
                         </v-col>
                         <v-col cols="12" md="3">
-                            <v-text-field v-model="item_detalle_contrato.norte_colinda_lote" label="Norte colinda lote (*)"
+                            <v-text-field v-model="item_detalle_contrato.norte_colinda_lote" label="Norte, colinda con lote (*)"
                                 color="cyan-darken-1"
                                 :error-messages="showFieldsErrors('detalle_contrato.norte_colinda_lote')"
                                 variant="solo-filled" />
                         </v-col>
                         <v-col cols="12" md="3">
                             <v-text-field v-model="item_detalle_contrato.sur_medida_terreno" type="number"
-                                label="Sur medida terreno (*)" color="cyan-darken-1"
+                                label="Sur, medida del terreno (*)" color="cyan-darken-1"
                                 :error-messages="showFieldsErrors('detalle_contrato.sur_medida_terreno')"
                                 variant="solo-filled" suffix="(m)" />
                         </v-col>
 
                         <v-col cols="12" md="3">
-                            <v-text-field v-model="item_detalle_contrato.sur_colinda_lote" label="Sur colinda lote (*)"
+                            <v-text-field v-model="item_detalle_contrato.sur_colinda_lote" label="Sur, colinda con lote (*)"
                                 color="cyan-darken-1"
                                 :error-messages="showFieldsErrors('detalle_contrato.sur_colinda_lote')"
                                 variant="solo-filled" />
@@ -191,13 +190,13 @@
 
                         <v-col cols="12" md="3">
                             <v-text-field v-model="item_detalle_contrato.este_medida_terreno" type="number"
-                                label="Este medida terreno (*)" color="cyan-darken-1"
+                                label="Este, medida del terreno (*)" color="cyan-darken-1"
                                 :error-messages="showFieldsErrors('detalle_contrato.este_medida_terreno')"
                                 variant="solo-filled" suffix="(m)" />
                         </v-col>
 
                         <v-col cols="12" md="3">
-                            <v-text-field v-model="item_detalle_contrato.este_colinda_lote" label="Este colinda lote (*)"
+                            <v-text-field v-model="item_detalle_contrato.este_colinda_lote" label="Este, colinda con lote (*)"
                                 color="cyan-darken-1"
                                 :error-messages="showFieldsErrors('detalle_contrato.este_colinda_lote')"
                                 variant="solo-filled" />
@@ -205,13 +204,13 @@
 
                         <v-col cols="12" md="3">
                             <v-text-field v-model="item_detalle_contrato.oeste_medida_terreno" type="number"
-                                label="Oeste medida terreno (*)" color="cyan-darken-1"
+                                label="Oeste, medida del terreno (*)" color="cyan-darken-1"
                                 :error-messages="showFieldsErrors('detalle_contrato.oeste_medida_terreno')" suffix="(m)"
                                 variant="solo-filled" />
                         </v-col>
 
                         <v-col cols="12" md="3">
-                            <v-text-field v-model="item_detalle_contrato.oeste_colinda_lote" label="Oeste colinda lote (*)"
+                            <v-text-field v-model="item_detalle_contrato.oeste_colinda_lote" label="Oeste, colinda con lote (*)"
                                 color="cyan-darken-1"
                                 :error-messages="showFieldsErrors('detalle_contrato.oeste_colinda_lote')"
                                 variant="solo-filled" />
@@ -300,46 +299,45 @@
 
                         <v-col cols="12" md="6">
                             <v-text-field v-model="item_detalle_contrato.fecha_firma_contrato"
-                                label="Fecha de lafirma del contrato (*)" color="cyan-darken-1"
+                                label="Fecha de la firma del contrato (*)" color="cyan-darken-1"
                                 :error-messages="showFieldsErrors('detalle_contrato.fecha_firma_contrato')" type="date"
                                 variant="solo-filled" />
                         </v-col>
 
                         <v-col cols="12">
                             <v-textarea v-model="item_contrato.descripcion" label="descripcion" color="cyan-darken-1"
-                                :error-messages="showFieldsErrors('detalle_contrato.descripcion')" variant="solo-filled"
-                                rows="2" />
+                                :error-messages="showFieldsErrors('contrato.descripcion')" variant="solo-filled" rows="2" />
                         </v-col>
 
                     </v-row>
                     <!-- form -->
                     <div>
                         <p class="text-subtitle-1  text-primary">Agregar datos adicionales del terreno</p>
-                        <v-switch color="primary" v-model="siwth_other_info_terreno" hide-details
-                            :label="siwth_other_info_terreno ? 'si' : 'no'" inset />
+                        <v-switch color="primary" v-model="item_detalle_contrato.add_info_terreno" hide-details
+                            :label="item_detalle_contrato.add_info_terreno ? 'si' : 'no'" inset />
                     </div>
 
                     <!-- informaciona dicional del terreno -->
-                    <v-row v-if="siwth_other_info_terreno" class="animate__animated animate__bounceInRight">
+                    <v-row v-if="item_detalle_contrato.add_info_terreno" class="animate__animated animate__bounceInRight">
                         <v-col cols="12" md="4">
-                            <v-text-field v-model="item_contrato.terreno_valor_total_numeral"
+                            <v-text-field v-model="item_detalle_contrato.terreno_valor_total_numeral"
                                 label="Valor total del terreno" type="number" prefix="($)" color="cyan-darken-1"
                                 variant="solo-filled" clearable
-                                :error-messages="showFieldsErrors('terreno_valor_total_numeral')" />
+                                :error-messages="showFieldsErrors('detalle_contrato.terreno_valor_total_numeral')" />
                         </v-col>
 
                         <v-col cols="12" md="4">
-                            <v-text-field v-model="item_contrato.terreno_val_couta_inicial_numeral" clearable
+                            <v-text-field v-model="item_detalle_contrato.terreno_val_couta_inicial_numeral" clearable
                                 label="Couta inicial del terreno" type="number" prefix="($)" color="cyan-darken-1"
                                 variant="solo-filled"
-                                :error-messages="showFieldsErrors('terreno_val_couta_inicial_numeral')" />
+                                :error-messages="showFieldsErrors('detalle_contrato.terreno_val_couta_inicial_numeral')" />
                         </v-col>
 
                         <v-col cols="12" md="4">
-                            <v-text-field v-model="item_contrato.terreno_val_couta_mensual_numeral" clearable
+                            <v-text-field v-model="item_detalle_contrato.terreno_val_couta_mensual_numeral" clearable
                                 label="Couta mensual del terreno" type="number" prefix="($)" color="cyan-darken-1"
                                 variant="solo-filled"
-                                :error-messages="showFieldsErrors('terreno_val_couta_mensual_numeral')" />
+                                :error-messages="showFieldsErrors('detalle_contrato.terreno_val_couta_mensual_numeral')" />
                         </v-col>
                     </v-row>
 
@@ -406,7 +404,6 @@ const item_detalle_contrato = item_contrato.value > 0 ? ref(props.p_item_detalle
 const loading_generate_pdf = ref(false);
 const contrato_pdf_url = ref("");
 const dialog_pdf = ref(false);
-const siwth_other_info_terreno = ref(false);
 const selected_cliente = ref('nuevo-cliente');
 const number_of_clients = ref('1');
 const ci_cliente = ref(null);
@@ -430,11 +427,17 @@ const showFieldsErrors = computed(() => {
 });
 
 //cuando  cambia props.p_item_contrato  por los botones nuevo contrato
-///entonces tambien debemos actualizar las variables en este componente
+//entonces ejecutamos un new forma 
 watch(() => props.p_item_contrato, () => {
-    item_contrato.value = props.p_item_contrato;
-    clear();
+    newForm();
 });
+
+const newForm = () => {
+    clear();
+    item_contrato.value = new Contrato().getAttributes('contrato');
+    item_detalle_contrato.value = new Contrato().getAttributes('detalle-contrato');
+    viewNumberOfClients();
+}
 
 const uploadDetalleContrato = () => {
     setTimeout(async () => {
@@ -478,10 +481,8 @@ const closePDF = () => {
     }, 400)
 };
 
-const newForm = () => {
-    emit('toNewForm');
-    clear();
-}
+
+
 const openPDF = (path_pdf) => {
     dialog_pdf.value = true;
     contrato_pdf_url.value = `${app.BASE_URL}${path_pdf}`;
@@ -505,8 +506,6 @@ const save = () => {
                 useToastify('success', response.message);
                 emit('toLocalUpdateDataTable', 'edit', response.record);
                 openPDF(response.record.archivo_pdf);
-
-
             } else {
                 if (response.message_errors != undefined) {
                     fields_errors.value = Object.assign({}, response.message_errors);
@@ -528,7 +527,6 @@ const save = () => {
                 }
                 useToastify('danger', response.message);
             }
-            console.log(response);
         }
 
     }, 200)
@@ -539,12 +537,13 @@ const clear = () => {
 
 }
 
-
 onMounted(() => {
     viewNumberOfClients();
     //cuando es edicion de datos cargamos detalle contrato desde el backend
     if (item_contrato.value.id > 0) {
         uploadDetalleContrato();
+    } else {
+        item_detalle_contrato.value = new Contrato().getAttributes('detalle-contrato');
     }
 })
 </script>
@@ -577,4 +576,5 @@ onMounted(() => {
         flex-grow: 1;
         width: 100%;
     }
-}</style>
+}
+</style>

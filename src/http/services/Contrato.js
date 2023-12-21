@@ -15,10 +15,6 @@ class Contrato {
             n_de_uv: "",
             zona: "",
             terreno_superficie: "",
-            terreno_valor_total_numeral: "",//puede ser null
-            terreno_valor_total_literal: "", //puede ser null
-            terreno_val_couta_inicial_numeral: "",//puede ser null
-            terreno_val_couta_mensual_numeral: "",//puede ser null
             numero_distrito: "",
             numero_identificacion_terreno: "",
             norte_medida_terreno: "",
@@ -44,6 +40,11 @@ class Contrato {
             tercera_val_couta_mensual_numeral: "",
             lugar_firma_contrato: "",
             fecha_firma_contrato: "",
+            add_info_terreno: false,//informacion adicional del terreno
+            terreno_valor_total_numeral: "",//puede ser null
+            terreno_valor_total_literal: "", //puede ser null
+            terreno_val_couta_inicial_numeral: "",//puede ser null
+            terreno_val_couta_mensual_numeral: "",//puede ser null
         };
         this.config = {
             headers: {
