@@ -56,11 +56,18 @@
                                                 <v-divider></v-divider>
                                                 <p class="my-1 text-medium-emphasis">{{ item.raw.direccion }}</p>
                                                 <v-divider></v-divider>
-                                                <p class="my-1 text-medium-emphasis">{{ item.raw.descripcion }}</p>
+                                                <p class="my-1 text-warning"
+                                                    v-if="item.raw.descripcion == null || item.raw.descripcion == ''">
+                                                    Sin descripcion!
+                                                </p>
+                                                <p class="my-1 text-medium-emphasis" v-else>
+                                                    {{ item.raw.descripcion }}
+                                                </p>
+
                                                 <v-divider></v-divider>
-                                                <p class="my-1 text-medium-emphasis"
+                                                <p class="my-1 text-warning"
                                                     v-if="item.raw.correo_electronico == null || item.raw.correo_electronico == ''">
-                                                    Sin correo electronico
+                                                    Sin correo electronico!
                                                 </p>
                                                 <p class="my-1 text-medium-emphasis" v-else>
                                                     {{ item.raw.correo_electronico }}
@@ -96,8 +103,7 @@
                 </template>
 
             </v-data-iterator>
-            <div class="as-data-iterator-content d-flex justify-center align-center" v-if="data.length == 0"
-              >
+            <div class="as-data-iterator-content d-flex justify-center align-center" v-if="data.length == 0">
                 <h1 class="text-h6 text-red">No hay datos.</h1>
             </div>
             <div class="float-end">

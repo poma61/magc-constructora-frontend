@@ -41,6 +41,15 @@
                     </v-chip>
                 </template>
 
+                <template v-slot:item.descripcion="{ item }">
+                    <p class="text-warning" v-if="item.descripcion == null || item.descripcion == ''">
+                        Sin descripcion!
+                    </p>
+                    <p v-else>
+                        {{ item.descripcion }}
+                    </p>
+                </template>
+
                 <template v-slot:item.archivo_pdf="{ item }">
                     <v-btn @click="viewPDF(item)" color="yellow-darken-3" icon="mdi-file-pdf-box" class="ma-1 "
                         variant="tonal" />
@@ -231,11 +240,9 @@ const localUpdateDataTable = (type, item) => {
     switch (type) {
         case 'new':
             data.value.push(Object.assign({}, item));
-            console.log("nuevo");
             break;
         case 'edit':
             Object.assign(data.value[index_array.value], item);
-            console.log("editado");
             break;
         default:
             useToastify('danger', 'No se encontro ningun tipo para actualizar el tablero');

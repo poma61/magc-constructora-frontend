@@ -53,8 +53,23 @@
                 </template>
 
                 <template v-slot:item.correo_electronico="{ item }">
-                    {{ item.correo_electronico == null ? 'Sin correo electronico!' : item.correo_electronico }}
+                    <p class="text-warning" v-if="item.correo_electronico == null || item.correo_electronico == ''">
+                        Sin correo electronico!
+                    </p>
+                    <p v-else>
+                        {{ item.correo_electronico }}
+                    </p>
                 </template>
+
+                <template v-slot:item.descripcion="{ item }">
+                    <p class="text-warning" v-if="item.descripcion == null || item.descripcion == ''">
+                        Sin descripcion!
+                    </p>
+                    <p v-else>
+                        {{ item.descripcion }}
+                    </p>
+                </template>
+
 
                 <template v-slot:item.ci="{ item }">
                     <v-chip color="primary">
