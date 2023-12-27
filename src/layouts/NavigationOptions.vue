@@ -21,15 +21,17 @@
                     <v-icon icon="mdi-file-document-outline" />
                     &nbsp;Contratos
                 </v-tab>
+                
                 <v-tab :to="{ name: 'n-historial-de-pago-cliente' }">
                     <v-icon icon="mdi-account-credit-card" />
                     &nbsp;Historial de pagos
                 </v-tab>
 
-                <v-tab>
-                    <v-icon icon="mdi-home-account" />
+                <v-tab :to="{ name: 'n-personal' }">
+                    <v-icon icon="mdi-home-account"  />
                     &nbsp;Personal
                 </v-tab>
+
                 <v-tab :to="{ name: 'n-usuario' }">
                     <v-icon icon="mdi-account-circle" />
                     &nbsp;Usuarios
@@ -70,7 +72,6 @@
                 </v-menu>
 
             </v-tabs>
-
         </div>
 
         <v-main class="as-content-app">

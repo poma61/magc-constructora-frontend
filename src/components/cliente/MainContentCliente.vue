@@ -69,8 +69,6 @@
                         {{ item.descripcion }}
                     </p>
                 </template>
-
-
                 <template v-slot:item.ci="{ item }">
                     <v-chip color="primary">
                         {{ item.ci }} {{ item.ci_expedido }}

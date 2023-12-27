@@ -12,9 +12,9 @@ class Personal {
             cargo: "",
             ci: "",
             ci_expedido: "",
-            n_contacto: "",
+            n_de_contacto: "",
             direccion: "",
-            email: "",
+            correo_electronico: "",
             foto: null,
         }
         if (personal != undefined) {
@@ -111,7 +111,6 @@ class Personal {
             return error.response.data;
         }
     }
-
 
 }//class
 

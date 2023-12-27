@@ -8,6 +8,7 @@ import InicioView from '@/views/InicioView.vue';
 import HistorialDePagoClienteView from '@/views/HistorialDePagoClienteView.vue';
 import ClienteView from '@/views/ClienteView.vue';
 import DesarrolladoraView from '@/views/DesarrolladoraView.vue';
+import PersonalView from '@/views/PersonalView.vue'
 
 const routes = [
   //esta parte es cuando se introduce una url que no existe 
@@ -72,6 +73,14 @@ const routes = [
     }
   },
 
+  {
+    path: '/personal',
+    name: 'n-personal',
+    component: PersonalView,
+    meta: {
+      requireAuth: true,
+    }
+  },
 
   {
     path: '/contrato-cliente',
