@@ -1,5 +1,5 @@
 <template>
-    <div class="d-flex flex-wrap justify-end">
+    <div class="animate__animated animate__lightSpeedInLeft d-flex flex-wrap justify-end">
         <v-select label="Desarrolladoras" v-model="selected_desarrolladora" :items="list_desarrolladora"
             color="purple-darken-1" @update:model-value="loadDataTable" style="min-width: 300px;" class="ma-1" />
 
@@ -9,7 +9,7 @@
     </div>
 
     <!-- iterator -->
-    <v-card class="as-flex-item as-data-iterator animate__animated animate__fadeInBottomLeft">
+    <v-card class="as-flex-item as-data-iterator animate__animated animate__lightSpeedInLeft">
         <v-overlay v-model="loading_data_iterator" contained class="d-flex align-center justify-center">
             <v-progress-circular color="orange-darken-1 " indeterminate size="64"></v-progress-circular>
         </v-overlay>

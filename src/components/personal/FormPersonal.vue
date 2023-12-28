@@ -1,6 +1,6 @@
 <template>
-    <v-card>
-        <v-card-title class="animate__animated animate__bounceInRight bg-light-blue-darken-3 py-3">
+    <v-card class="animate__animated animate__backInDown">
+        <v-card-title class="bg-light-blue-darken-3 py-3">
             <span class="text-h6">Registrar personal | {{ props.p_selected_desarrolladora }}</span>
         </v-card-title>
         <div class="pa-3">

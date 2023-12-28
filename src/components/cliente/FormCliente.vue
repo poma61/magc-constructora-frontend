@@ -38,7 +38,7 @@
                 </v-col>
 
                 <v-col cols="12" md="4">
-                    <v-text-field v-model="item_cliente.ci" label="Carnet de identidad (*)" color="purple-darken-1" clearable
+                    <v-text-field v-model="item_cliente.ci" label="C.I. (*)" color="purple-darken-1" clearable
                         :error-messages="showFieldsErrors('ci')" variant="outlined" />
                 </v-col>
 

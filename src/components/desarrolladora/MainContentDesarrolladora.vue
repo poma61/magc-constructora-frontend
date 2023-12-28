@@ -2,7 +2,7 @@
     <div class="as-flex">
 
         <!-- iterator -->
-        <v-card class="as-flex-item as-data-iterator animate__animated animate__fadeInBottomLeft">
+        <v-card class="as-flex-item as-data-iterator animate__animated animate__zoomIn">
             <v-overlay v-model="loading_data_iterator" contained class="d-flex align-center justify-center">
                 <v-progress-circular color="green-accent-4 " indeterminate size="64"></v-progress-circular>
             </v-overlay>
@@ -114,8 +114,7 @@
         </v-card>
         <!-- iterator -->
 
-        <FormDesarrolladora class="as-flex-item animate__animated animate__fadeInBottomRight"
-            :p_item_desarrolladora="item_desarrolladora" @toLocalUpdateDataTable="localUpdateDataTable"
+        <FormDesarrolladora :p_item_desarrolladora="item_desarrolladora" @toLocalUpdateDataTable="localUpdateDataTable"
             @toNewForm="newForm" />
 
         <v-dialog v-model="dialog_delete" persistent transition="dialog-bottom-transition" max-width="500px">

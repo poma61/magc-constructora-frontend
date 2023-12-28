@@ -1,5 +1,6 @@
 <template>
-    <div class="d-flex flex-wrap">
+
+    <div class="animate__animated animate__backInDown d-flex flex-wrap">
         <v-select style="min-width: 300px;" label="Desarrolladoras" v-model="selected_desarrolladora"
             :items="list_desarrolladora" class="ma-1" color="yellow-darken-2" @update:model-value="changeDataTable" />
 
@@ -21,12 +22,16 @@
         </v-btn>
     </div>
 
-    <v-card v-if="component_visible.table">
+    <v-card v-if="component_visible.table"  class="animate__animated animate__backInDown">
         <v-text-field v-model="buscar_data_table" append-inner-icon="mdi-magnify" clearable label="Buscar Registros..."
             color="yellow-darken-2" />
         <v-data-table :hover="true" :items="data" :headers="columns" :search="buscar_data_table"
             :loading="loading_data_table" :items-per-page-options="items_per_page_options" :show-current-page="true"
             :fixed-header="true" :height="600" :sort-by="[{ key: 'id', order: 'desc' }]">
+
+            <template v-slot:loading>
+                <v-skeleton-loader type="table-row@12"></v-skeleton-loader>
+            </template>
 
             <template v-slot:item.actions="{ item }">
                 <div style="width: 150px;">
@@ -80,7 +85,6 @@
     </v-dialog>
 </template>
 <script setup>
-
 import FormPersonal from '@/components/personal/FormPersonal.vue';
 import Personal from '@/http/services/Personal';
 import { onMounted } from 'vue';
@@ -147,34 +151,28 @@ const changeDataTable = () => {
         }
     }, 400);
 }//changeDataTable
-
 const clear = () => {
     item_personal.value = {};
     index_item.value = -1;
     fields_errors.value = {};
 }
-
 const showDataTable = () => {
     component_visible.value.table = true;
     component_visible.value.form = false;
 }
-
 const showForm = () => {
     component_visible.value.form = true;
     component_visible.value.table = false;
 }
-
 const openDeleteData = (item) => {
     item_personal.value = Object.assign({}, item);
     index_item.value = data.value.indexOf(item);
     dialog_delete.value = true;
 }
-
 const closeDeleteItem = () => {
     clear();
     dialog_delete.value = false;
 }
-
 const confirmDeleteData = async () => {
     const personal = new Personal(selected_desarrolladora.value, item_personal.value);
     const response = await personal.destroy();
@@ -186,8 +184,6 @@ const confirmDeleteData = async () => {
     }
     closeDeleteItem();
 }
-
-
 const newForm = () => {
     clear();
     const personal = new Personal();
@@ -220,7 +216,6 @@ const localUpdateDataTable = (type, item) => {
             break;
     }
 }
-
 
 onMounted(async () => {
     await listDesarrolladora();

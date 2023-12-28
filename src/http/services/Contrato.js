@@ -2,8 +2,9 @@ import axios from "@/http/connection/axios";
 import { NumerosALetras } from 'numero-a-letras';
 
 class Contrato {
-    constructor(desarrolladora, clients, contrato, detalle_contrato) {
+    constructor(desarrolladora, type_of_register_client, clients, contrato, detalle_contrato) {
         this.desarrolladora = desarrolladora;
+        this.type_of_register_client = type_of_register_client;
         this.contrato = {
             id: 0,
             n_contrato: "",
@@ -74,7 +75,8 @@ class Contrato {
         return this.desarrolladora;
     }
 
-    setCliente(cliente) {
+    setCliente(type_of_register_client, cliente) {
+        this.type_of_register_client = type_of_register_client;
         this.clients = cliente;
     }
 
@@ -160,10 +162,11 @@ class Contrato {
         try {
             const is_clients = this.clients.map(cliente => cliente.getAttributes());
             const resolve = await axios.post('/contrato/new-data', {
+                desarrolladora: this.desarrolladora,
+                type_of_register_client: this.type_of_register_client,
                 clients: is_clients,
                 detalle_contrato: this.getAttributes('detalle-contrato'),
                 contrato: this.getAttributes('contrato'),
-                desarrolladora: this.desarrolladora,
             }, this.config);
 
             return resolve.data;

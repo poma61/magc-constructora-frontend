@@ -1,5 +1,5 @@
 <template>
-    <v-card>
+    <v-card class="as-flex-item animate__animated animate__zoomIn">
         <v-card-title class="bg-purple-darken-1">
             <span class="text-h6">Registrar desarrolladora</span>
         </v-card-title>
@@ -7,13 +7,13 @@
             <p class="text-warning text-subtitle-1">Los campos marcados con (*) son obligatorios.</p>
             <v-row>
                 <v-col cols="12">
-                    <v-text-field v-model="item_desarrolladora.nombres" label="Nombres (*)" color="purple-darken-1" clearable
-                        :error-messages="showFieldsErrors('nombres')" variant="underlined" />
+                    <v-text-field v-model="item_desarrolladora.nombres" label="Nombres (*)" color="purple-darken-1"
+                        clearable :error-messages="showFieldsErrors('nombres')" variant="underlined" />
                 </v-col>
 
                 <v-col cols="12">
-                    <v-textarea v-model="item_desarrolladora.direccion" label="Direccion (*)" color="purple-darken-1" clearable
-                        :error-messages="showFieldsErrors('direccion')" variant="underlined" rows="2" />
+                    <v-textarea v-model="item_desarrolladora.direccion" label="Direccion (*)" color="purple-darken-1"
+                        clearable :error-messages="showFieldsErrors('direccion')" variant="underlined" rows="2" />
                 </v-col>
 
                 <v-col cols="12">
@@ -63,7 +63,6 @@ import Desarrolladora from '@/http/services/Desarrolladora';
 import useToastify from '@/composables/useToastify';
 import app from '@/config/app';
 
-
 const props = defineProps(['p_item_desarrolladora']);
 const emit = defineEmits(['toLocalUpdateDataTable', 'toNewForm']);
 const fields_errors = ref({});
@@ -80,7 +79,6 @@ watch(() => props.p_item_desarrolladora, () => {
         item_desarrolladora.value.logo = null;//colocamos null porque es update y no necesita una imagen nueva
     }
     fields_errors.value = {};
-
 });
 
 const showFieldsErrors = computed(() => {
@@ -117,7 +115,6 @@ const save = () => {
                 }
                 useToastify('danger', response.message);
             }
-
         } else {
             //cuando es store o nuevo registro
             const response = await desarrolladora.store();
@@ -146,9 +143,7 @@ const uploadImage = () => {
             src_image.value = e.target.result;
         };
     }
-
 }
-
 </script> 
 
 <style scoped>

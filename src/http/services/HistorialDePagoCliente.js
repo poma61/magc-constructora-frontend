@@ -1,6 +1,4 @@
-
 import axios from '@/http/connection/axios';
-
 class HistorialDePagoCliente {
     constructor(desarrolladora) {
         this.desarrolladora = desarrolladora;

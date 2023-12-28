@@ -1,6 +1,6 @@
 <template>
     <MainApp>
-        <h1 class="animate__animated animate__bounceInLeft text-h6 my-3 pa-1 bg-green-accent-4 as-box-shadow">
+        <h1 class="animate__animated animate__zoomIn text-h6 my-3 pa-1 bg-green-accent-4 as-box-shadow">
             <v-icon icon="mdi-home-group"></v-icon>&nbsp;Desarrolladora
         </h1>
         <MainContentDesarrolladora/>

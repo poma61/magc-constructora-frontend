@@ -9,44 +9,69 @@
                 </v-card-title>
 
                 <v-card-text class="pa-5">
-                    <v-radio-group label="Generar contrato para:" inline v-model="selected_cliente" class="ma-0 pa-0">
-                        <v-radio label="Registrar nuevo cliente" value="nuevo-cliente" color="primary"></v-radio>
-                        <v-radio label="Cliente registrado" value="cliente-registrado" color="primary"></v-radio>
-                    </v-radio-group>
+                    <div>
+                        <v-radio-group label="Generar contrato para:" inline v-model="type_of_register_client"
+                            class="ma-0 pa-0">
+                            <v-radio label="Cliente nuevo" value="cliente-nuevo" color="primary"></v-radio>
+                            <v-radio label="Cliente registrado" value="cliente-registrado" color="primary"></v-radio>
+                        </v-radio-group>
 
-                    <v-row v-if="selected_cliente == 'cliente-registrado'" class="animate__animated animate__bounceInRight">
-                        <v-col cols="12">
-                            <!-- buscar cliente -->
-                            <div class="d-flex">
-                                <v-text-field label="Buscar Cliente" prepend-inner-icon="mdi-magnify" color="cyan-darken-1"
-                                    :loading="loading_search_cliente" @keyup.enter="searchCliente()" variant="solo-filled"
-                                    placeholder="Introduzca el CI del cliente" clearable v-model="ci_cliente" />
-                                <v-btn icon="mdi-magnify" color="primary" @click="searchCliente()" class="ma-1"></v-btn>
-                            </div>
-                        </v-col>
-                        <v-col cols="12">
-                            <v-text-field v-model="item_contrato.nombres" label="Nombre cliente (*)" readonly
-                                color="cyan-darken-1" variant="solo-filled" />
-                        </v-col>
-
-                        <v-col cols="12">
-                            <v-text-field v-model="item_contrato.apellido_paterno" label="Nombre cliente (*)" readonly
-                                color="cyan-darken-1" variant="solo-filled" />
-                        </v-col>
-
-                        <v-col cols="12">
-                            <v-text-field v-model="item_contrato.apellido_materno" label="Nombre cliente (*)" readonly
-                                color="cyan-darken-1" variant="solo-filled" />
-                        </v-col>
-                        <v-col cols="12">
-                            <p class="text-red">{{ showFieldsErrors('id_cliente') }}</p>
-                        </v-col>
-
-                    </v-row>
-
-                    <div v-if="selected_cliente == 'nuevo-cliente'">
                         <v-select label="Clientes que firmaran el contrato:" v-model="number_of_clients" :items="['1', '2']"
                             color="primary" @update:model-value="viewNumberOfClients" />
+                    </div>
+
+                    <div v-if="type_of_register_client == 'cliente-registrado'"
+                        class="animate__animated animate__bounceInRight">
+                        <v-row v-for="(cliente, i)  in  items_cliente" :key="i">
+                            <v-col cols="12">
+                                <p class="text-subtitle-1 text-primary">Cliente {{ i + 1 }}</p>
+                                <v-divider class="border-opacity-25 mb-3" color="primary"></v-divider>
+                            </v-col>
+
+                            <v-col cols="12">
+                                <!-- buscar cliente -->
+                                <div class="d-flex">
+                                    <v-text-field label="Buscar Cliente" prepend-inner-icon="mdi-magnify"
+                                        color="cyan-darken-1" :loading="loading_search_cliente[i]"
+                                        @keyup.enter="searchCliente(i)" variant="solo-filled"
+                                        placeholder="Escriba el C.I. del cliente" clearable v-model="ci_cliente[i]" />
+                                    <v-btn icon="mdi-magnify" color="primary" @click="searchCliente(i)"
+                                        class="ma-1"></v-btn>
+                                </div>
+                            </v-col>
+
+                            <v-col cols="12" sm="6">
+                                <v-text-field v-model="cliente.nombres" label="Nombre cliente (*)" readonly
+                                    color="cyan-darken-1" variant="solo-filled"
+                                    :error-messages="showFieldsErrors(`clients.${i}.nombres`)" />
+                            </v-col>
+
+                            <v-col cols="12" sm="6">
+                                <v-text-field v-model="cliente.apellido_paterno" label="Apellido paterno (*)" readonly
+                                    color="cyan-darken-1" variant="solo-filled"
+                                    :error-messages="showFieldsErrors(`clients.${i}.apellido_paterno`)" />
+                            </v-col>
+
+                            <v-col cols="12" sm="6">
+                                <v-text-field v-model="cliente.apellido_materno" label="Apellido materno (*)" readonly
+                                    color="cyan-darken-1" variant="solo-filled"
+                                    :error-messages="showFieldsErrors(`clients.${i}.apellido_materno`)" />
+                            </v-col>
+
+                            <v-col cols="12" sm="6">
+                                <v-text-field v-model="cliente.ci" label="C.I. - solo número (*)" readonly
+                                    color="cyan-darken-1" variant="solo-filled"
+                                    :error-messages="showFieldsErrors(`clients.${i}.ci`)" />
+                            </v-col>
+
+                            <v-col cols="12" sm="6">
+                                <p class="text-red">{{ showFieldsErrors('id_cliente') }}</p>
+                            </v-col>
+
+                        </v-row>
+                    </div>
+
+                    <div v-if="type_of_register_client == 'cliente-nuevo'">
                         <v-row v-for="(cliente, i)  in  items_cliente" :key="i"
                             class="animate__animated animate__bounceInRight">
                             <v-col cols="12">
@@ -87,7 +112,7 @@
                             </v-col>
 
                             <v-col cols="12" sm="6">
-                                <v-text-field v-model="cliente.ci" label="CI  (*)" color="cyan-darken-1" clearable
+                                <v-text-field v-model="cliente.ci" label="C.I. (*)" color="cyan-darken-1" clearable
                                     :error-messages="showFieldsErrors(`clients.${i}.ci`)" variant="solo-filled" />
                             </v-col>
 
@@ -107,12 +132,10 @@
                                 <v-textarea v-model="cliente.descripcion" label="Descripcion" color="cyan-darken-1"
                                     clearable variant="solo-filled" rows="3" />
                             </v-col>
-
                         </v-row>
 
                     </div>
                 </v-card-text>
-
             </v-card>
 
             <!-- card contrato -->
@@ -169,8 +192,8 @@
                                 variant="solo-filled" suffix="(m)" />
                         </v-col>
                         <v-col cols="12" md="3">
-                            <v-text-field v-model="item_detalle_contrato.norte_colinda_lote" label="Norte, colinda con lote (*)"
-                                color="cyan-darken-1"
+                            <v-text-field v-model="item_detalle_contrato.norte_colinda_lote"
+                                label="Norte, colinda con lote (*)" color="cyan-darken-1"
                                 :error-messages="showFieldsErrors('detalle_contrato.norte_colinda_lote')"
                                 variant="solo-filled" />
                         </v-col>
@@ -196,8 +219,8 @@
                         </v-col>
 
                         <v-col cols="12" md="3">
-                            <v-text-field v-model="item_detalle_contrato.este_colinda_lote" label="Este, colinda con lote (*)"
-                                color="cyan-darken-1"
+                            <v-text-field v-model="item_detalle_contrato.este_colinda_lote"
+                                label="Este, colinda con lote (*)" color="cyan-darken-1"
                                 :error-messages="showFieldsErrors('detalle_contrato.este_colinda_lote')"
                                 variant="solo-filled" />
                         </v-col>
@@ -210,8 +233,8 @@
                         </v-col>
 
                         <v-col cols="12" md="3">
-                            <v-text-field v-model="item_detalle_contrato.oeste_colinda_lote" label="Oeste, colinda con lote (*)"
-                                color="cyan-darken-1"
+                            <v-text-field v-model="item_detalle_contrato.oeste_colinda_lote"
+                                label="Oeste, colinda con lote (*)" color="cyan-darken-1"
                                 :error-messages="showFieldsErrors('detalle_contrato.oeste_colinda_lote')"
                                 variant="solo-filled" />
                         </v-col>
@@ -274,7 +297,6 @@
                                 :error-messages="showFieldsErrors('detalle_contrato.primera_val_couta_mensual_numeral')"
                                 variant="solo-filled" />
                         </v-col>
-
 
                         <v-col cols="12" md="6">
                             <v-text-field v-model="item_detalle_contrato.segunda_val_couta_mensual_numeral" type="number"
@@ -343,7 +365,6 @@
 
                 </v-card-text>
             </v-card>
-
         </div>
 
         <v-btn class="my-5 float-end" color="primary" variant="elevated" @click="save()">
@@ -404,16 +425,19 @@ const item_detalle_contrato = item_contrato.value > 0 ? ref(props.p_item_detalle
 const loading_generate_pdf = ref(false);
 const contrato_pdf_url = ref("");
 const dialog_pdf = ref(false);
-const selected_cliente = ref('nuevo-cliente');
+const type_of_register_client = ref('cliente-nuevo');
 const number_of_clients = ref('1');
-const ci_cliente = ref(null);
-const loading_search_cliente = ref(null);
+const loading_search_cliente = ref();
 const fields_errors = ref({});
 const items_cliente = ref([]);
+const ci_cliente = ref([]);
 const loading_edit_form = ref(false);
 
 const viewNumberOfClients = () => {
     items_cliente.value = Array.from({ length: number_of_clients.value }, () => new Cliente().getAttributes());
+    // crea un array segun la cantidad de clientes para, para que cada input para buscar cliente tenga su loading
+    loading_search_cliente.value = Array.from({ length: number_of_clients.value }, () => false);
+    ci_cliente.value = Array.from({ length: number_of_clients.value }, () => "");
 }
 
 //computed
@@ -452,22 +476,24 @@ const uploadDetalleContrato = () => {
     }, 200)
 }
 
-const searchCliente = () => {
-    loading_search_cliente.value = 'purple-darken-3';
+const searchCliente = (i) => {
+    loading_search_cliente.value[i] = true;
+
     setTimeout(async () => {
         const cliente = new Cliente(props.p_selected_desarrolladora);
-        const response = await cliente.searchCliente(ci_cliente.value);
-        loading_search_cliente.value = null;
+        const response = await cliente.searchCliente(ci_cliente.value[i]);
+        loading_search_cliente.value[i] = false;
         if (response.status) {
-            item_contrato.value.id_cliente = response.record.id;
-            item_contrato.value.nombres = response.record.nombres;
-            item_contrato.value.apellido_paterno = response.record.apellido_paterno;
-            item_contrato.value.apellido_materno = response.record.apellido_materno;
-            ci_cliente.value = "";
+            items_cliente.value[i].id = response.record.id;
+            items_cliente.value[i].nombres = response.record.nombres;
+            items_cliente.value[i].apellido_paterno = response.record.apellido_paterno;
+            items_cliente.value[i].apellido_materno = response.record.apellido_materno;
+            items_cliente.value[i].ci = response.record.ci;
             useToastify('success', response.message);
         } else {
             useToastify('danger', response.message);
         }
+        ci_cliente.value[i] = "";
     }, 400);
 
 }
@@ -481,20 +507,20 @@ const closePDF = () => {
     }, 400)
 };
 
-
-
 const openPDF = (path_pdf) => {
     dialog_pdf.value = true;
     contrato_pdf_url.value = `${app.BASE_URL}${path_pdf}`;
 }
 
 const save = () => {
-
     loading_generate_pdf.value = true;
     setTimeout(async () => {
-        const clients = items_cliente.value.map(cliente => new Cliente(props.p_selected_desarrolladora, cliente));
+        //.map=> itera el array items_clientes y la variable clients es un array por que en javascript se determina
+        // el tipo de variable segun su contenido, entonces items_cliente.value.map(), devuelve un nuevo array
+        const clients = items_cliente.value.map(item => new Cliente(props.p_selected_desarrolladora, item));
+
         const contrato = new Contrato();
-        contrato.setCliente(clients);
+        contrato.setCliente(type_of_register_client.value, clients);
         contrato.setDesarrolladora(props.p_selected_desarrolladora);
         contrato.setAttributes('contrato', item_contrato.value);
         contrato.setAttributes('detalle-contrato', item_detalle_contrato.value);

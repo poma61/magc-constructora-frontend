@@ -1,5 +1,5 @@
 <template>
-    <div class="animate__animated animate__bounceInLeft d-flex flex-wrap" style="width: 100%;">
+    <div class="animate__animated animate__fadeInLeft d-flex flex-wrap" style="width: 100%;">
         <v-select label="Desarrolladoras" v-model="selected_desarrolladora" :items="list_desarrolladora" color="primary"
             @update:model-value="loadDataTable" style="min-width: 400px;" />
 
@@ -21,10 +21,9 @@
         </v-btn>
     </div>
 
-
     <div v-if="show_data_table" class="my-4">
         <!-- table -->
-        <v-card class="animate__animated animate__bounceInUp">
+        <v-card class="animate__animated animate__fadeInLeft">
             <v-text-field v-model="search_data" append-inner-icon="mdi-magnify" clearable label="Buscar Registros..."
                 color="primary" />
             <v-data-table :hover="true" :items="data" :headers="columns" :search="search_data" :loading="loading_data_table"

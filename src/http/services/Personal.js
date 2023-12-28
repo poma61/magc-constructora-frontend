@@ -1,6 +1,4 @@
-
 import axios from '@/http/connection/axios';
-
 class Personal {
     constructor(desarrolladora, personal) {
         this.desarrolladora = desarrolladora;
@@ -55,7 +53,7 @@ class Personal {
 
     async store() {
         try {
-            const resolve = await axios.post( "/personal/new-data", {
+            const resolve = await axios.post("/personal/new-data", {
                 ...this.getAttributes(),
                 desarrolladora: this.desarrolladora,
             }, this.config);
