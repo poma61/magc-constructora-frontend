@@ -178,11 +178,10 @@ class Contrato {
     async update() {
         this.config.headers['X-HTTP-Method-Override'] = 'PUT';
         try {
-
             const resolve = await axios.post('/contrato/edit-data', {
-                ...this.getAttributes('contrato'),
-                ...this.getAttributes('detalle-contrato'),
-
+                desarrolladora: this.desarrolladora,
+                detalle_contrato: this.getAttributes('detalle-contrato'),
+                contrato: this.getAttributes('contrato'),
             }, this.config);
 
             return resolve.data;
@@ -205,6 +204,18 @@ class Contrato {
     async showDetalleContrato() {
         try {
             const resolve = await axios.post('/contrato/see-detalle-contrato', {
+                id_contrato: this.getAttributes('contrato').id,
+            }, this.config);
+
+            return resolve.data;
+        } catch (error) {
+            return error.response.data;
+        }
+    }
+
+    async updatePdfFile() {
+        try {
+            const resolve = await axios.post('/contrato/actualizar-pdf', {
                 id_contrato: this.getAttributes('contrato').id,
             }, this.config);
 

@@ -15,8 +15,7 @@
             :variant="show_data_table == true ? 'elevated' : 'tonal'">
             <v-icon icon="mdi-table-large"></v-icon>&nbsp;Ver tablero
         </v-btn>
-        <v-btn @click="newForm()" color="primary" class="ma-1" :variant="show_form == true ? 'elevated' : 'tonal'"
-            :disabled="edit_form">
+        <v-btn @click="newForm()" color="primary" class="ma-1" :variant="show_form == true ? 'elevated' : 'tonal'">
             <v-icon icon="mdi-note-plus-outline"></v-icon>&nbsp;Nuevo contrato
         </v-btn>
     </div>
@@ -29,7 +28,6 @@
             <v-data-table :hover="true" :items="data" :headers="columns" :search="search_data" :loading="loading_data_table"
                 :items-per-page-options="items_per_page_options" :show-current-page="true" :fixed-header="true"
                 :height="600" :sort-by="[{ key: 'id', order: 'desc' }]">
-
                 <template v-slot:loading>
                     <v-skeleton-loader type="table-row@12"></v-skeleton-loader>
                 </template>
@@ -102,12 +100,23 @@
             </v-card-text>
             <v-card-actions>
                 <v-spacer></v-spacer>
+                <v-btn color="primary" @click="updatePDF()" variant="elevated">
+                    <v-icon icon="mdi-close-circle"></v-icon>&nbsp;Volver a generar pdf
+                </v-btn>
                 <v-btn color="yellow-darken-3" @click="closeDialogPDF()" variant="elevated">
                     <v-icon icon="mdi-close-circle"></v-icon>&nbsp;Cerrar
                 </v-btn>
+
             </v-card-actions>
         </v-card>
     </v-dialog>
+
+    <v-overlay v-model="loading_update_pdf" class="d-flex align-center justify-center">
+        <div class="text-center">
+            <v-progress-circular color="yellow-darken-3" indeterminate size="100"></v-progress-circular>
+            <p class="text-h6 text-white">Actualizando contrato...</p>
+        </div>
+    </v-overlay>
 </template>
 
 <script setup>
@@ -118,8 +127,6 @@ import FormatDate from '@/util/FormatDate';
 import app from "@/config/app.js";
 import useToastify from '@/composables/useToastify';
 import Desarrolladora from '@/http/services/Desarrolladora';
-
-
 //data
 const data = ref([]);
 const search_data = ref("");
@@ -131,21 +138,20 @@ const item_detalle_contrato = ref({});
 const date_format = ref(new FormatDate());
 const dialog_delete = ref(false);
 const index_array = ref(-1);
-const edit_form = ref(false);
 const dialog_pdf = ref(false);
 const contrato_pdf_url = ref("");
 const list_desarrolladora = ref([]);
 const selected_desarrolladora = ref("");
-
+const loading_update_pdf = ref(false);
 
 const items_per_page_options = ref([
     { value: 10, title: '10' },
     { value: 25, title: '25' },
     { value: 50, title: '50' },
-    { value: 100, title: '100' },
 ]);
 const columns = ref([
-    { title: 'Nombres cliente', key: 'name', value: (item) => { return ` ${item.nombres} ${item.apellido_materno} ${item.apellido_paterno}` } },
+    { title: 'Nombres cliente', key: 'name', value: (item) => { return ` ${item.nombres} ${item.apellido_paterno} ${item.apellido_materno}` } },
+    { title: 'C.I.', key: 'ci', value: (item) => { return ` ${item.ci} ${item.ci_expedido} ` } },
     { title: 'N° de contrato', key: 'n_contrato' },
     { title: 'Fecha de firma', key: 'fecha_firma_contrato' },
     { title: 'Descripcion', key: 'descripcion' },
@@ -156,7 +162,6 @@ const columns = ref([
 //methods
 const clear = () => {
     index_array.value = -1;
-    edit_form.value = false;
     item_contrato.value = {};
     item_detalle_contrato.value = {};
 }
@@ -173,7 +178,6 @@ const listDesarrolladora = async () => {
     }
 }
 
-
 const newForm = () => {
     const contrato = new Contrato();
     item_contrato.value = Object.assign({}, contrato.getAttributes('contrato'));
@@ -182,7 +186,7 @@ const newForm = () => {
 const editForm = (item) => {
     index_array.value = data.value.indexOf(item);
     item_contrato.value = Object.assign({}, item);
-    edit_form.value = true
+    showForm();
 }
 
 const openDeleteData = (item) => {
@@ -192,18 +196,42 @@ const openDeleteData = (item) => {
 }
 
 const viewPDF = (item) => {
-    dialog_pdf.value = true;
-    contrato_pdf_url.value = `${app.BASE_URL}/${item.archivo_pdf}`;
-}
+    item_contrato.value = Object.assign({}, item);
+    index_array.value = data.value.indexOf(item);
 
+    contrato_pdf_url.value = `${app.BASE_URL}/${item_contrato.value.archivo_pdf}`;
+    dialog_pdf.value = true;
+}
 const closeDialogPDF = () => {
     dialog_pdf.value = false;
     //para evitar que el contenido se distorcione cuando no haya archivo
     // al cerrar el dialog
     setTimeout(() => {
         contrato_pdf_url.value = "";
-    }, 400)
+    }, 400);
+    clear();
 };
+
+const updatePDF = () => {
+    const contrato = new Contrato();
+    contrato.setAttributes('contrato', item_contrato.value);
+    dialog_pdf.value = false;
+    loading_update_pdf.value = true;
+    setTimeout(async () => {
+        const response = await contrato.updatePdfFile();
+        loading_update_pdf.value = false;
+        dialog_pdf.value = true;
+        if (response.status) {
+            //actualizamos solo el path del pdf nada mas 
+            Object.assign(data.value[index_array.value], { archivo_pdf: response.record.archivo_pdf });
+            contrato_pdf_url.value = `${app.BASE_URL}/${response.record.archivo_pdf}`;
+            dialog_pdf.value = true;
+            useToastify('success', response.message);
+        } else {
+            useToastify('danger', response.message);
+        }
+    }, 100);
+}
 
 const confirmDeleteData = async () => {
     const contrato = new Contrato();
@@ -231,7 +259,7 @@ const showForm = () => {
 const showDataTable = () => {
     show_data_table.value = true;
     show_form.value = false;
-    clear();//para limpiar datos del forumlario al visualizar la tabla
+    clear();//para limpiar datos del formulario al visualizar la tabla
 }
 
 

@@ -69,11 +69,7 @@
                         {{ item.descripcion }}
                     </p>
                 </template>
-                <template v-slot:item.ci="{ item }">
-                    <v-chip color="primary">
-                        {{ item.ci }} {{ item.ci_expedido }}
-                    </v-chip>
-                </template>
+
             </v-data-table>
         </v-card>
 
@@ -126,7 +122,6 @@ const items_per_page_options = ref([
     { value: 10, title: '10' },
     { value: 25, title: '25' },
     { value: 50, title: '50' },
-    { value: 100, title: '100' },
 ]);
 const columns = ref([
     { title: 'Nombres', key: 'nombres', },
@@ -134,7 +129,7 @@ const columns = ref([
     { title: 'Apellido materno', key: 'apellido_materno' },
     { title: 'N° de contacto', key: 'n_de_contacto' },
     { title: 'Correo Electronico', key: 'correo_electronico' },
-    { title: 'CI', key: 'ci' },
+    { title: 'C.I.', key: 'ci_unido', value: (item) => { return ` ${item.ci} ${item.ci_expedido} ` } },
     { title: 'Direccion', key: 'direccion', },
     { title: 'Descripcion', key: 'descripcion', },
     { title: 'Acciones', key: 'actions', },

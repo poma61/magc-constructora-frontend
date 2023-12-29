@@ -9,7 +9,7 @@
                 </v-card-title>
 
                 <v-card-text class="pa-5">
-                    <div>
+                    <div v-if="new_form">
                         <v-radio-group label="Generar contrato para:" inline v-model="type_of_register_client"
                             class="ma-0 pa-0">
                             <v-radio label="Cliente nuevo" value="cliente-nuevo" color="primary"></v-radio>
@@ -17,7 +17,7 @@
                         </v-radio-group>
 
                         <v-select label="Clientes que firmaran el contrato:" v-model="number_of_clients" :items="['1', '2']"
-                            color="primary" @update:model-value="viewNumberOfClients" />
+                            color="primary" @update:model-value="initNumberOfClients" />
                     </div>
 
                     <div v-if="type_of_register_client == 'cliente-registrado'"
@@ -64,10 +64,6 @@
                                     :error-messages="showFieldsErrors(`clients.${i}.ci`)" />
                             </v-col>
 
-                            <v-col cols="12" sm="6">
-                                <p class="text-red">{{ showFieldsErrors('id_cliente') }}</p>
-                            </v-col>
-
                         </v-row>
                     </div>
 
@@ -79,61 +75,66 @@
                                 <v-divider class="border-opacity-25 mb-3" color="primary"></v-divider>
                             </v-col>
                             <v-col cols="12" sm="6">
-                                <v-text-field v-model="cliente.nombres" label="Nombres (*)" color="cyan-darken-1" clearable
-                                    :error-messages="showFieldsErrors(`clients.${i}.nombres`)" variant="solo-filled" />
+                                <v-text-field v-model="cliente.nombres" label="Nombres (*)" color="cyan-darken-1"
+                                    :clearable="new_form" :error-messages="showFieldsErrors(`clients.${i}.nombres`)"
+                                    variant="solo-filled" :readonly="edit_form" />
                             </v-col>
 
                             <v-col cols="12" sm="6">
                                 <v-text-field v-model="cliente.apellido_paterno" label="Apellido paterno (*)"
-                                    color="cyan-darken-1" clearable
+                                    color="cyan-darken-1" :clearable="new_form"
                                     :error-messages="showFieldsErrors(`clients.${i}.apellido_paterno`)"
-                                    variant="solo-filled" />
+                                    variant="solo-filled" :readonly="edit_form" />
                             </v-col>
 
                             <v-col cols="12" sm="6">
                                 <v-text-field v-model="cliente.apellido_materno" label="Apellido materno (*)"
-                                    color="cyan-darken-1" clearable
+                                    color="cyan-darken-1" :clearable="new_form"
                                     :error-messages="showFieldsErrors(`clients.${i}.apellido_materno`)"
-                                    variant="solo-filled" />
+                                    variant="solo-filled" :readonly="edit_form" />
                             </v-col>
 
                             <v-col cols="12" sm="6">
                                 <v-text-field v-model="cliente.n_de_contacto"
-                                    label="N° de contacto (N° de telefono/celular) (*)" color="cyan-darken-1" clearable
-                                    :error-messages="showFieldsErrors(`clients.${i}.n_de_contacto`)" type="number"
-                                    variant="solo-filled" />
-                            </v-col>
-
-                            <v-col cols="12">
-                                <v-text-field v-model="cliente.correo_electronico" label="Correo electronico"
-                                    color="cyan-darken-1" clearable
-                                    :error-messages="showFieldsErrors(`clients.${i}.correo_electronico`)"
-                                    variant="solo-filled" />
+                                    label="N° de contacto (N° de telefono/celular) (*)" color="cyan-darken-1"
+                                    :clearable="new_form" :error-messages="showFieldsErrors(`clients.${i}.n_de_contacto`)"
+                                    type="number" variant="solo-filled" :readonly="edit_form" />
                             </v-col>
 
                             <v-col cols="12" sm="6">
-                                <v-text-field v-model="cliente.ci" label="C.I. (*)" color="cyan-darken-1" clearable
-                                    :error-messages="showFieldsErrors(`clients.${i}.ci`)" variant="solo-filled" />
+                                <v-text-field v-model="cliente.ci" label="C.I. (*)" color="cyan-darken-1"
+                                    :clearable="new_form" :error-messages="showFieldsErrors(`clients.${i}.ci`)"
+                                    variant="solo-filled" :readonly="edit_form" />
                             </v-col>
 
                             <v-col cols="12" sm="6">
                                 <v-autocomplete v-model="cliente.ci_expedido" label="Expedido  (*)"
                                     :items="['SC', 'CH', 'CB', 'PT', 'BN', 'LP', 'PA', 'TJ', 'OR', 'SinExp']"
                                     color="cyan-darken-1" :error-messages="showFieldsErrors(`clients.${i}.ci_expedido`)"
-                                    variant="solo-filled" />
+                                    variant="solo-filled" :readonly="edit_form" />
                             </v-col>
 
                             <v-col cols="12" sm="6">
                                 <v-textarea v-model="cliente.direccion" label="Direccion  (*)" color="cyan-darken-1"
-                                    clearable :error-messages="showFieldsErrors(`clients.${i}.direccion`)"
-                                    variant="solo-filled" rows="3" />
+                                    :clearable="new_form" :error-messages="showFieldsErrors(`clients.${i}.direccion`)"
+                                    variant="solo-filled" rows="3" :readonly="edit_form" />
                             </v-col>
                             <v-col cols="12" sm="6">
                                 <v-textarea v-model="cliente.descripcion" label="Descripcion" color="cyan-darken-1"
-                                    clearable variant="solo-filled" rows="3" />
+                                    :clearable="new_form" variant="solo-filled" rows="3" :readonly="edit_form" />
+                            </v-col>
+
+                            <v-col cols="12" v-if="edit_form">
+                                <p class="text-red">Los datos del cliente solo se pueden actualizar en el menu "Clientes".
+                                </p>
+                            </v-col>
+
+                            <v-col cols="12" v-if="new_form">
+                                <p class="text-red">Si el cliente tiene correo electronico debe agregarlo en el menu
+                                    "Clientes".
+                                </p>
                             </v-col>
                         </v-row>
-
                     </div>
                 </v-card-text>
             </v-card>
@@ -277,18 +278,18 @@
                         </v-col>
 
                         <v-col cols="12" md="6">
-                            <v-text-field v-model="item_detalle_contrato.construccion_val_couta_mensual_numeral"
-                                label="Couta mensual de la construccion (*)" color="cyan-darken-1" type="number"
-                                :error-messages="showFieldsErrors('detalle_contrato.construccion_val_couta_mensual_numeral')"
-                                prefix="($)" variant="solo-filled" />
-                        </v-col>
-
-                        <v-col cols="12" md="6">
                             <v-text-field v-model="item_detalle_contrato.construccion_cantidad_couta_mensual"
                                 label="Cantidad de meses, couta mensual, construccion (*)" color="cyan-darken-1"
                                 type="number"
                                 :error-messages="showFieldsErrors('detalle_contrato.construccion_cantidad_couta_mensual')"
                                 variant="solo-filled" />
+                        </v-col>
+
+                        <v-col cols="12" md="6">
+                            <v-text-field v-model="item_detalle_contrato.construccion_val_couta_mensual_numeral"
+                                label="Couta mensual de la construccion (*)" color="cyan-darken-1" type="number"
+                                :error-messages="showFieldsErrors('detalle_contrato.construccion_val_couta_mensual_numeral')"
+                                prefix="($)" variant="solo-filled" />
                         </v-col>
 
                         <v-col cols="12" md="6">
@@ -432,8 +433,10 @@ const fields_errors = ref({});
 const items_cliente = ref([]);
 const ci_cliente = ref([]);
 const loading_edit_form = ref(false);
-
-const viewNumberOfClients = () => {
+const edit_form = ref(false);
+const new_form = ref(false);
+const initNumberOfClients = () => {
+    //crea un array de tipo clientes solamente sus atributos
     items_cliente.value = Array.from({ length: number_of_clients.value }, () => new Cliente().getAttributes());
     // crea un array segun la cantidad de clientes para, para que cada input para buscar cliente tenga su loading
     loading_search_cliente.value = Array.from({ length: number_of_clients.value }, () => false);
@@ -453,25 +456,55 @@ const showFieldsErrors = computed(() => {
 //cuando  cambia props.p_item_contrato  por los botones nuevo contrato
 //entonces ejecutamos un new forma 
 watch(() => props.p_item_contrato, () => {
-    newForm();
+    item_contrato.value = props.p_item_contrato;
+    isForm();
 });
 
-const newForm = () => {
-    clear();
-    item_contrato.value = new Contrato().getAttributes('contrato');
-    item_detalle_contrato.value = new Contrato().getAttributes('detalle-contrato');
-    viewNumberOfClients();
+watch(() => type_of_register_client.value, () => {
+    initNumberOfClients();
+});
+
+
+const isForm = () => {
+    initNumberOfClients();
+    fields_errors.value = {};
+    //cuando es edicion de datos cargamos detalle contrato desde el backend
+    if (item_contrato.value.id > 0) {
+        uploadDetalleContrato();
+        edit_form.value = true;
+        new_form.value = false;
+        items_cliente.value.forEach((item) => {
+            item.nombres = item_contrato.value.nombres;
+            item.apellido_paterno = item_contrato.value.apellido_paterno;
+            item.apellido_materno = item_contrato.value.apellido_materno;
+            item.apellido_materno = item_contrato.value.n_de_contacto;
+            item.n_de_contacto = item_contrato.value.n_de_contacto;
+            item.correo_electronico = item_contrato.value.correo_electronico;
+            item.ci = item_contrato.value.ci;
+            item.ci_expedido = item_contrato.value.ci_expedido;
+            item.direccion = item_contrato.value.direccion;
+            item.descripcion = item_contrato.value.descripcion;
+        });
+    } else {
+        edit_form.value = false;
+        new_form.value = true;
+        item_detalle_contrato.value = new Contrato().getAttributes('detalle-contrato');
+    }
 }
 
 const uploadDetalleContrato = () => {
+    loading_edit_form.value = true;
     setTimeout(async () => {
-        const detalle_contrato = new Contrato(props.p_selected_desarrolladora, item_contrato.value,);
+        const detalle_contrato = new Contrato();
+        detalle_contrato.setDesarrolladora(props.p_selected_desarrolladora);
+        detalle_contrato.setAttributes('contrato', item_contrato.value);
+        detalle_contrato.setCliente(null, item_contrato.value);
         const response = await detalle_contrato.showDetalleContrato();
         loading_edit_form.value = false;
         if (response.status) {
             item_detalle_contrato.value = Object.assign({}, response.record);
         } else {
-            useToastify('error', response.message);
+            useToastify('danger', response.message);
         }
     }, 200)
 }
@@ -518,11 +551,11 @@ const save = () => {
         //.map=> itera el array items_clientes y la variable clients es un array por que en javascript se determina
         // el tipo de variable segun su contenido, entonces items_cliente.value.map(), devuelve un nuevo array
         const clients = items_cliente.value.map(item => new Cliente(props.p_selected_desarrolladora, item));
-
         const contrato = new Contrato();
         contrato.setCliente(type_of_register_client.value, clients);
         contrato.setDesarrolladora(props.p_selected_desarrolladora);
         contrato.setAttributes('contrato', item_contrato.value);
+
         contrato.setAttributes('detalle-contrato', item_detalle_contrato.value);
         if (contrato.getAttributes('contrato').id > 0) {
             //para editar registro
@@ -546,7 +579,8 @@ const save = () => {
                 useToastify('success', response.message);
                 openPDF(response.record.archivo_pdf);
                 emit('toLocalUpdateDataTable', 'new', response.record);
-                newForm();
+                //descomentar
+                emit('toNewForm');
             } else {
                 if (response.message_errors != undefined) {
                     fields_errors.value = Object.assign({}, response.message_errors);
@@ -555,23 +589,13 @@ const save = () => {
             }
         }
 
-    }, 200)
+    }, 100)
 }
 
-const clear = () => {
-    fields_errors.value = {};
-
-}
 
 onMounted(() => {
-    viewNumberOfClients();
-    //cuando es edicion de datos cargamos detalle contrato desde el backend
-    if (item_contrato.value.id > 0) {
-        uploadDetalleContrato();
-    } else {
-        item_detalle_contrato.value = new Contrato().getAttributes('detalle-contrato');
-    }
-})
+    isForm();
+});
 </script>
 
 <style scoped>
