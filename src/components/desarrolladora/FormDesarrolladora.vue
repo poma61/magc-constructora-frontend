@@ -1,34 +1,34 @@
 <template>
     <v-card class="as-flex-item animate__animated animate__zoomIn">
-        <v-card-title class="bg-purple-darken-1">
+        <v-card-title class="bg-teal-accent-4">
             <span class="text-h6">Registrar desarrolladora</span>
         </v-card-title>
         <v-card-text class="pa-3">
             <p class="text-warning text-subtitle-1">Los campos marcados con (*) son obligatorios.</p>
             <v-row>
                 <v-col cols="12">
-                    <v-text-field v-model="item_desarrolladora.nombres" label="Nombres (*)" color="purple-darken-1"
+                    <v-text-field v-model="item_desarrolladora.nombres" label="Nombres (*)" color="teal-accent-4"
                         clearable :error-messages="showFieldsErrors('nombres')" variant="underlined" />
                 </v-col>
 
                 <v-col cols="12">
-                    <v-textarea v-model="item_desarrolladora.direccion" label="Direccion (*)" color="purple-darken-1"
+                    <v-textarea v-model="item_desarrolladora.direccion" label="Direccion (*)" color="teal-accent-4"
                         clearable :error-messages="showFieldsErrors('direccion')" variant="underlined" rows="2" />
                 </v-col>
 
                 <v-col cols="12">
-                    <v-textarea v-model="item_desarrolladora.descripcion" label="Descripcion" color="purple-darken-1"
+                    <v-textarea v-model="item_desarrolladora.descripcion" label="Descripcion" color="teal-accent-4"
                         clearable :error-messages="showFieldsErrors('descripcion')" variant="underlined" rows="2" />
                 </v-col>
 
                 <v-col cols="12">
                     <v-text-field v-model="item_desarrolladora.correo_electronico" label="Correo electronico"
-                        color="purple-darken-1" clearable :error-messages="showFieldsErrors('correo_electronico')"
+                        color="teal-accent-4" clearable :error-messages="showFieldsErrors('correo_electronico')"
                         type="email" variant="underlined" />
                 </v-col>
 
                 <v-col cols="12" sm="8">
-                    <v-file-input accept="image/*" label="Logo desarrolladora (*)" color="purple-darken-1"
+                    <v-file-input accept="image/*" label="Logo desarrolladora (*)" color="teal-accent-4"
                         :error-messages="showFieldsErrors('logo')" v-model="is_file" @change="uploadImage"
                         :clearable="false">
                     </v-file-input>
@@ -46,10 +46,10 @@
 
         <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="purple-darken-1" variant="elevated" @click="clear">
+            <v-btn color="red" variant="elevated" @click="clear">
                 <v-icon icon="mdi-delete-sweep"></v-icon>&nbsp;
             </v-btn>
-            <v-btn color="purple-darken-1" variant="elevated" @click="save" :loading="loading_btn">
+            <v-btn color="teal-accent-4" variant="elevated" @click="save" :loading="loading_btn">
                 <v-icon icon="mdi-content-save"></v-icon>&nbsp;Guardar
             </v-btn>
         </v-card-actions>

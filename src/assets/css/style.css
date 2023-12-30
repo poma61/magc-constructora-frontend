@@ -75,3 +75,55 @@ pdf
     flex-grow: 1;
     height: 800px;
 }
+
+/*=============================================
+estilos para desarrolladora y usuario
+==============================================*/
+.as-flex {
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.as-flex .as-flex-item {
+    flex-grow: 1;
+    width: 500px;
+}
+
+/* ========================================
+data iterator 
+el valor height de as-data-iterator es +130 o +100 sobre el valor height de as-data-iterator-content
+ejemplo: as-data-iterator-content =>height700px entonces as-data-iterator => height:130px+700px;
+ejemplo2: as-data-iterator-content =>height700px entonces as-data-iterator => height:100px+700px;
+========================================== */
+.as-data-iterator {
+    height: 830px;
+}
+
+.as-data-iterator-content {
+    overflow: hidden;
+    overflow-y: auto;
+    height: 700px;
+    border-top: 1px solid #c2c2c2;
+    border-bottom: 1px solid #c2c2c2;
+}
+.as-data-iterator-2 {
+    height: 730px;
+}
+.as-data-iterator-content-2 {
+    overflow: hidden;
+    overflow-y: auto;
+    height: 600px;
+    border-top: 1px solid #c2c2c2;
+    border-bottom: 1px solid #c2c2c2;
+}
+@media only screen and (max-width: 500px) {
+    .as-data-iterator {
+        height: 860px;
+    }
+    .as-data-iterator-2 {
+        height: 760px;
+    }
+}
+

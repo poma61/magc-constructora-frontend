@@ -2,15 +2,14 @@
 import axios from '@/http/connection/axios';
 
 class Usuario {
-    constructor(sucursal, usuario) {
-        this.prefix = "/usuario";
-        this.sucursal = sucursal;
+    constructor(desarrolladora, usuario) {
+        this.desarrolladora = desarrolladora;
         this.usuario = {
             id: 0,
-            usuario: "",
+            user: "",
             password: "",
             id_personal: "",
-            type_role: "",
+            rol_name: "",
         }
         if (usuario != undefined) {
             this.setAttributes(usuario);
@@ -18,17 +17,15 @@ class Usuario {
         this.config = {
             headers: {
                 'Assept': 'application/json',
-                'Content-Type': 'application/json;charset=UTF-8',
+                'Content-Type': 'application/json',
             }
-
         }
-
     }
 
     async index() {
         try {
-            const resolve = await axios.post(this.prefix + "/all", {
-                sucursal: this.sucursal
+            const resolve = await axios.post("/usuario/all-data", {
+                desarrolladora: this.desarrolladora
             }, this.config);
             return resolve.data;
         } catch (error) {
@@ -50,9 +47,9 @@ class Usuario {
 
     async store() {
         try {
-            const resolve = await axios.post(this.prefix + "/new", {
+            const resolve = await axios.post("/usuario/new-data", {
                 ...this.getAttributes(),
-                sucursal: this.sucursal
+                desarrolladora: this.desarrolladora
             }, this.config);
             return resolve.data;
         } catch (error) {
@@ -65,7 +62,7 @@ class Usuario {
     async update() {
         try {
             this.config.headers['X-HTTP-Method-Override'] = 'PUT';
-            const resolve = await axios.post(this.prefix + "/refresh", this.getAttributes(), this.config);
+            const resolve = await axios.post("/usuario/edit-data", this.getAttributes(), this.config);
             return resolve.data;
         } catch (error) {
             return error.response.data;
@@ -76,7 +73,7 @@ class Usuario {
 
     async destroy() {
         try {
-            const resolve = await axios.post(this.prefix + "/delete", {
+            const resolve = await axios.post( "/usuario/delete-data", {
                 id: this.getAttributes().id
             }, this.config);
             return resolve.data;
