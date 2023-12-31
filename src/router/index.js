@@ -8,7 +8,8 @@ import InicioView from '@/views/InicioView.vue';
 import HistorialDePagoClienteView from '@/views/HistorialDePagoClienteView.vue';
 import ClienteView from '@/views/ClienteView.vue';
 import DesarrolladoraView from '@/views/DesarrolladoraView.vue';
-import PersonalView from '@/views/PersonalView.vue'
+import PersonalView from '@/views/PersonalView.vue';
+import ProfileView from '@/views/ProfileView.vue';
 
 const routes = [
   //esta parte es cuando se introduce una url que no existe 
@@ -86,6 +87,15 @@ const routes = [
     path: '/contrato-cliente',
     name: 'n-contrato-cliente',
     component: () => import(/* webpackChunkName: "cliente" */ '@/views/ContratoView.vue'),
+    meta: {
+      requireAuth: true,
+    }
+  },
+
+  {
+    path: '/perfil',
+    name: 'n-perfil',
+    component: ProfileView,
     meta: {
       requireAuth: true,
     }

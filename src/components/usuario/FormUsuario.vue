@@ -5,41 +5,46 @@
         </v-card-title>
         <v-card-text class="pa-3">
             <p class="text-warning text-subtitle-1">Los campos marcados con (*) son obligatorios.</p>
-            <v-row>
-                <v-col cols="12">
-                    <v-text-field v-model="item_usuario.user" label="Usuario (*)" color="light-blue-accent-4" clearable
-                        :error-messages="showFieldsErrors('user')" variant="underlined" />
-                </v-col>
+            <v-form>
+                <v-row>
+                    <v-col cols="12">
+                        <v-text-field v-model="item_usuario.user" label="Usuario (*)" color="light-blue-accent-4" clearable
+                            :error-messages="showFieldsErrors('user')" variant="underlined" />
+                    </v-col>
 
-                <v-col cols="12">
-                    <v-text-field v-model="item_usuario.password" label="Contraseña (*)" color="light-blue-accent-4"
-                        clearable :error-messages="showFieldsErrors('password')" variant="underlined" rows="2" />
-                </v-col>
-                <v-col cols="12">
-                    <v-radio-group v-model="item_usuario.rol_name" label="Rol (*)"
-                        :error-messages="showFieldsErrors('rol_name')">
-                        <v-radio label="usuario" value="usuario" color="light-blue-accent-4"></v-radio>
-                        <v-radio label="administrador" value="administrador" color="light-blue-accent-4"></v-radio>
-                    </v-radio-group>
-                </v-col>
+                    <v-col cols="12">
+                        <v-text-field v-model="item_usuario.password" label="Contraseña (*)" color="light-blue-accent-4"
+                            clearable :error-messages="showFieldsErrors('password')" variant="underlined" 
+                            :append-inner-icon="show ? 'mdi-eye' : 'mdi-eye-off'" :type="show ? 'text' : 'password'"
+                            autocomplete="off" @click:append-inner="show = !show" />
+                    </v-col>
+                    <v-col cols="12">
+                        <v-radio-group v-model="item_usuario.rol_name" label="Rol (*)"
+                            :error-messages="showFieldsErrors('rol_name')">
+                            <v-radio label="usuario" value="usuario" color="light-blue-accent-4"></v-radio>
+                            <v-radio label="administrador" value="administrador" color="light-blue-accent-4"></v-radio>
+                        </v-radio-group>
+                    </v-col>
 
-                <v-col cols="12">
-                    <v-text-field color="light-blue-accent-4" label="Personal (*)" readonly v-model="nombreCompleto"
-                        :error-messages="showFieldsErrors('id_personal')" />
-                </v-col>
+                    <v-col cols="12">
+                        <v-text-field color="light-blue-accent-4" label="Personal (*)" readonly v-model="nombreCompleto"
+                            :error-messages="showFieldsErrors('id_personal')" />
+                    </v-col>
 
-                <v-col cols="12">
-                    <v-text-field label="Buscar Personal" color="light-blue-accent-4" @keyup.enter="searchPersonal()"
-                        prepend-inner-icon="mdi-magnify" placeholder="Escriba el CI del personal (Solo numero)."
-                        v-model="ci" :loading="change_search_personal">
-                        <template v-slot:append>
-                            <v-btn icon="mdi-magnify" color="orange-darken-3" @click="searchPersonal" variant="elevated" />
-                        </template>
-                    </v-text-field>
+                    <v-col cols="12">
+                        <v-text-field label="Buscar Personal" color="light-blue-accent-4" @keyup.enter="searchPersonal()"
+                            prepend-inner-icon="mdi-magnify" placeholder="Escriba el CI del personal (Solo numero)."
+                            v-model="ci" :loading="change_search_personal">
+                            <template v-slot:append>
+                                <v-btn icon="mdi-magnify" color="orange-darken-3" @click="searchPersonal"
+                                    variant="elevated" />
+                            </template>
+                        </v-text-field>
 
-                </v-col>
+                    </v-col>
 
-            </v-row>
+                </v-row>
+            </v-form>
         </v-card-text>
 
         <v-card-actions>
@@ -69,6 +74,7 @@ const loading_btn = ref(false);
 const src_image = ref("");
 const change_search_personal = ref(false);
 const ci = ref("");
+const show = ref(false);
 
 watch(() => props.p_item_usuario, () => {
     item_usuario.value = props.p_item_usuario;

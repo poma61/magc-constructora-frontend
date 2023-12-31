@@ -1,6 +1,6 @@
 <template>
     <v-app>
-        <div style="position: fixed; width: 100%;z-index: 99;">
+        <div style="position: fixed;top:0px; width: 100%;z-index: 999;">
             <v-tabs show-arrows color="light-blue-lighten-1" bg-color="black" class="as-navigation">
                 <v-tab :to="{ name: 'n-inicio' }">
                     <v-icon icon="mdi-view-dashboard" />
@@ -21,14 +21,14 @@
                     <v-icon icon="mdi-file-document-outline" />
                     &nbsp;Contratos
                 </v-tab>
-                
+
                 <v-tab :to="{ name: 'n-historial-de-pago-cliente' }">
                     <v-icon icon="mdi-account-credit-card" />
                     &nbsp;Historial de pagos
                 </v-tab>
 
                 <v-tab :to="{ name: 'n-personal' }">
-                    <v-icon icon="mdi-home-account"  />
+                    <v-icon icon="mdi-home-account" />
                     &nbsp;Personal
                 </v-tab>
 
@@ -40,7 +40,6 @@
                 <v-spacer></v-spacer>
                 <!-- Otros elementos del app bar si es necesario -->
 
-                <v-btn icon="mdi-cog" variant="text"></v-btn>
                 <v-btn icon="mdi-bell-alert-outline" variant="text"
                     class="animate__animated animate__delay-2s animate__infinite animate__headShake"></v-btn>
                 <v-menu v-model="menu" location="bottom" class="float-sm-end">
@@ -57,7 +56,7 @@
                         </v-list>
 
                         <v-list>
-                            <v-list-item link>
+                            <v-list-item :to="{ name: 'n-perfil' }">
                                 <v-icon icon="mdi-account"></v-icon>
                                 <span>Perfil</span>
                             </v-list-item>
@@ -121,5 +120,4 @@ const authLogout = async () => {
     }
     dialog.value = false;
 }
-
 </script>

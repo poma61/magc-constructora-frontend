@@ -1,8 +1,7 @@
 <template>
-
     <div class="animate__animated animate__backInDown d-flex flex-wrap">
         <v-select style="min-width: 300px;" label="Desarrolladoras" v-model="selected_desarrolladora"
-            :items="list_desarrolladora" class="ma-1" color="yellow-darken-2" @update:model-value="changeDataTable" />
+            :items="list_desarrolladora" class="ma-1" color="yellow-darken-4" @update:model-value="changeDataTable" />
 
         <v-btn color="yellow-darken-2" variant="elevated" class="ma-1" @click="showDataTable">
             <v-icon icon="mdi-list-box-outline" />&nbsp;Tabla
@@ -22,9 +21,9 @@
         </v-btn>
     </div>
 
-    <v-card v-if="component_visible.table"  class="animate__animated animate__backInDown">
+    <v-card v-if="component_visible.table" class="animate__animated animate__backInDown">
         <v-text-field v-model="buscar_data_table" append-inner-icon="mdi-magnify" clearable label="Buscar Registros..."
-            color="yellow-darken-2" />
+            color="yellow-darken-4" />
         <v-data-table :hover="true" :items="data" :headers="columns" :search="buscar_data_table"
             :loading="loading_data_table" :items-per-page-options="items_per_page_options" :show-current-page="true"
             :fixed-header="true" :height="600" :sort-by="[{ key: 'id', order: 'desc' }]">
@@ -53,6 +52,24 @@
                 </p>
                 <p v-else>
                     {{ item.correo_electronico }}
+                </p>
+            </template>
+
+            <template v-slot:item.direccion="{ item }">
+                <p class="text-warning" v-if="item.direccion == null || item.direccion == ''">
+                    Sin direccion!
+                </p>
+                <p v-else>
+                    {{ item.direccion }}
+                </p>
+            </template>
+
+            <template v-slot:item.n_de_contacto="{ item }">
+                <p class="text-warning" v-if="item.n_de_contacto == null || item.n_de_contacto == ''">
+                    Sin numero de contacto!
+                </p>
+                <p v-else>
+                    {{ item.n_de_contacto }}
                 </p>
             </template>
 
@@ -115,7 +132,7 @@ const columns = ref([
     { title: 'Apellido paterno', key: 'apellido_paterno' },
     { title: 'Apellido materno', key: 'apellido_materno' },
     { title: 'Cargo', key: 'cargo' },
-    { title: 'CI', key: 'ci' },
+    { title: 'CI', key: 'ci', value: (item) => `${item.ci} ${item.ci_expedido}` },
     { title: 'N° de contacto', key: 'n_de_contacto' },
     { title: 'Direccion', key: 'direccion' },
     { title: 'Correo electronico', key: 'correo_electronico' },

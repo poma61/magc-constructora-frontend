@@ -3,37 +3,38 @@
         <v-card-title class="bg-light-blue-darken-3 py-3">
             <span class="text-h6">Registrar personal | {{ props.p_selected_desarrolladora }}</span>
         </v-card-title>
-        <div class="pa-3">
+        <v-card-text class="pa-5">
+            <p class="text-warning text-subtitle-1">Los campos marcados con (*) son obligatorios.</p>
             <v-row>
                 <v-col cols="12" sm="6">
-                    <v-text-field v-model="item_personal.nombres" label="Nombres" color="light-blue-darken-3" clearable
+                    <v-text-field v-model="item_personal.nombres" label="Nombres (*)" color="light-blue-darken-3" clearable
                         :error-messages="showFieldsErrors('nombres')"></v-text-field>
                 </v-col>
 
                 <v-col cols="12" sm="6">
-                    <v-text-field v-model="item_personal.apellido_paterno" label="Apellido paterno"
+                    <v-text-field v-model="item_personal.apellido_paterno" label="Apellido paterno (*)"
                         color="light-blue-darken-3" clearable
                         :error-messages="showFieldsErrors('apellido_paterno')"></v-text-field>
                 </v-col>
 
                 <v-col cols="12" sm="6">
-                    <v-text-field v-model="item_personal.apellido_materno" label="Apellido materno"
+                    <v-text-field v-model="item_personal.apellido_materno" label="Apellido materno (*)"
                         color="light-blue-darken-3" clearable
                         :error-messages="showFieldsErrors('apellido_materno')"></v-text-field>
                 </v-col>
 
                 <v-col cols="12" sm="6">
-                    <v-text-field v-model="item_personal.cargo" label="Cargo" color="light-blue-darken-3" clearable
+                    <v-text-field v-model="item_personal.cargo" label="Cargo (*)" color="light-blue-darken-3" clearable
                         :error-messages="showFieldsErrors('cargo')"></v-text-field>
                 </v-col>
 
                 <v-col cols="12" sm="6">
-                    <v-text-field v-model="item_personal.ci" label="CI" color="light-blue-darken-3" clearable
+                    <v-text-field v-model="item_personal.ci" label="C.I. (*)" color="light-blue-darken-3" clearable
                         :error-messages="showFieldsErrors('ci')"></v-text-field>
                 </v-col>
 
                 <v-col cols="12" sm="6">
-                    <v-autocomplete v-model="item_personal.ci_expedido" label="Expedido"
+                    <v-autocomplete v-model="item_personal.ci_expedido" label="Expedido (*)"
                         :items="['SC', 'CH', 'CB', 'PT', 'BN', 'LP', 'PA', 'TJ', 'OR', 'SinExp']"
                         color="light-blue-darken-3" clearable
                         :error-messages="showFieldsErrors('ci_expedido')"></v-autocomplete>
@@ -41,7 +42,7 @@
 
                 <v-col cols="12" sm="6">
                     <v-text-field v-model="item_personal.n_de_contacto" label="N° de contacto" color="light-blue-darken-3"
-                        clearable :error-messages="showFieldsErrors('n_de_contacto')" type="number"></v-text-field>
+                        :error-messages="showFieldsErrors('n_de_contacto')" type="number"></v-text-field>
                 </v-col>
 
                 <v-col cols="12" sm="6">
@@ -51,13 +52,13 @@
                 </v-col>
 
                 <v-col cols="12">
-                    <v-textarea v-model="item_personal.direccion" label="Direccion" color="light-blue-darken-3" clearable
-                        :error-messages="showFieldsErrors('direccion')"></v-textarea>
+                    <v-textarea v-model="item_personal.direccion" label="Dirección" color="light-blue-darken-3" clearable
+                        :error-messages="showFieldsErrors('direccion')" rows="2"></v-textarea>
                 </v-col>
 
 
                 <v-col cols="12" sm="6">
-                    <v-file-input accept="image/*" label="Logo desarrolladora (*)" color="light-blue-darken-3"
+                    <v-file-input accept="image/*" label="Foto (*)" color="light-blue-darken-3"
                         :error-messages="showFieldsErrors('foto')" v-model="is_file" @change="uploadImage"
                         :clearable="false">
                         <template v-slot:append>
@@ -75,9 +76,7 @@
                 </v-col>
 
             </v-row>
-
-        </div>
-
+        </v-card-text>
         <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn color="light-blue-darken-3" variant="elevated" @click="save" :loading="loading_btn">

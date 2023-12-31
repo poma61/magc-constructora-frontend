@@ -1,7 +1,7 @@
 <template>
     <div class="animate__animated animate__backInDown">
         <v-select style="min-width: 300px;" label="Desarrolladoras" v-model="selected_desarrolladora"
-            :items="list_desarrolladora" color="teal-accent-4" @update:model-value="initDataIterator" />
+            :items="list_desarrolladora" color="teal-accent-4" @update:model-value="initDataIterator"/>
     </div>
     <div class="as-flex">
         <!-- iterator -->

@@ -77,7 +77,7 @@
                                             </div>
                                         </v-sheet>
 
-                                        <!-- dfgdfs -->
+                          
                                         <div class="d-flex justify-end px-4 flex-wrap">
                                             <div>
                                                 <v-tooltip text="Editar registro.">

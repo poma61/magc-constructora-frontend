@@ -8,13 +8,12 @@ export const useAuth = defineStore('useAuth', {
             is_auth: ref(false),
             access_token: ref(""),
             token_expiration_time: ref(0),
-            prefix:  "/auth",
         }
     },
     actions: {
         async login(is_user, is_password) {
             try {
-                const resolve = await axios.post(this.prefix + "/login", {
+                const resolve = await axios.post("/auth/login", {
                     user: is_user,
                     password: is_password,
                 });
@@ -34,18 +33,18 @@ export const useAuth = defineStore('useAuth', {
 
         async user() {
             try {
-                const resolve = await axios.post(this.prefix + "/me");
+                const resolve = await axios.post("/auth/me");
                 return resolve.data;
             } catch (error) {
-                console.log("ACCESO NO AUTORIZADO, DEBE INICIAR SESION");
-                return error.response.data.status;
+                return error.response.data;
             }
-
         },//user
-        async logout() {
-            try {
-                const response = await axios.post(this.prefix + "/logout");
 
+        async updateCredentials(credentials) {
+            try {
+                const response = await axios.post("/auth/actualizar-credenciales", {
+                    ...credentials,
+                });
                 if (response.data.status) {
                     this.toAuth();
                 }
@@ -54,7 +53,19 @@ export const useAuth = defineStore('useAuth', {
             } catch (error) {
                 return error.response.data;
             }
+        },
 
+        async logout() {
+            try {
+                const response = await axios.post("/auth/logout");
+                if (response.data.status) {
+                    this.toAuth();
+                }
+                return response.data;
+
+            } catch (error) {
+                return error.response.data;
+            }
         },
         checkTokenExpiration() {
             if (Date.now() >= this.token_expiration_time) {
