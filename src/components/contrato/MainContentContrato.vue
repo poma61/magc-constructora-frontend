@@ -101,7 +101,7 @@
             <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn color="primary" @click="updatePDF()" variant="elevated">
-                    <v-icon icon="mdi-close-circle"></v-icon>&nbsp;Volver a generar pdf
+                    <v-icon icon="mdi-refresh"></v-icon>&nbsp;Actualizar datos
                 </v-btn>
                 <v-btn color="yellow-darken-3" @click="closeDialogPDF()" variant="elevated">
                     <v-icon icon="mdi-close-circle"></v-icon>&nbsp;Cerrar

@@ -104,14 +104,15 @@ const routes = [
 ]
 
 const router = createRouter({
-  //history: createWebHistory(process.env.BASE_URL),
-  history: createWebHashHistory(process.env.BASE_URL),
-  routes
+  history: createWebHistory(process.env.BASE_URL),
+  //history: createWebHashHistory(process.env.BASE_URL),
+  routes,
 })
 
 
+
 //agregar middleware para proteger mlas rutas
-router.beforeEach((to, from, next) => {
+router.beforeResolve((to, from, next) => {
   authExpiration();
   authenticate(to, from, next);
 });

@@ -50,8 +50,9 @@
 
                     <v-card min-width="250">
                         <v-list>
-                            <v-list-item prepend-avatar="https://cdn.vuetifyjs.com/images/john.jpg"
-                                title="Carlos poma muñoz" subtitle="Administrador">
+                            <v-list-item :prepend-avatar="app.BASE_URL + user.foto"
+                                :title="`${user.nombres} ${user.apellido_paterno} ${user.apellido_materno}`"
+                                :subtitle="user.rol_name">
                             </v-list-item>
                         </v-list>
 
@@ -105,10 +106,20 @@ import { ref } from 'vue';
 import { useAuth } from '@/stores/useAuth';
 import { useRouter } from 'vue-router';
 import useToastify from '@/composables/useToastify';
+import { onMounted } from 'vue';
+import app from '@/config/app';
 //data
 const menu = ref(false);
 const dialog = ref(false);
 const router = useRouter();
+const user = ref({
+    user: "",
+    rol_name: "",
+    nombres: "",
+    apellido_paterno: "",
+    apellido_materno: "",
+    foto: "",
+});
 
 const authLogout = async () => {
     const use_auth = useAuth();
@@ -120,4 +131,19 @@ const authLogout = async () => {
     }
     dialog.value = false;
 }
+
+//methods
+const auth = async () => {
+    const auth = useAuth();
+    const response = await auth.user();
+    if (response.status) {
+        user.value = response.record;
+    } else {
+        useToastify('danger', response.message);
+    }
+};
+
+onMounted(() => {
+    auth();
+});
 </script>

@@ -1,16 +1,31 @@
 import { defineStore } from "pinia";
-import { ref } from "vue";
 import axios from "@/http/connection/axios"
-import jwt from "@/config/jwt";
+
 export const useAuth = defineStore('useAuth', {
     state: () => {
+        const auth = {
+            enable: false,
+            access_token: "",
+            token_expiration_time: 0,
+        };
+        if (localStorage.getItem('sessionAuth') == null || localStorage.getItem('sessionAuth') == undefined) {
+            localStorage.setItem('sessionAuth', JSON.stringify(auth));
+        }
         return {
-            is_auth: ref(false),
-            access_token: ref(""),
-            token_expiration_time: ref(0),
+            auth,
         }
     },
     actions: {
+        setAuth(auth) {
+            this.auth.enable = auth.enable;
+            this.auth.access_token = auth.access_token;
+            this.auth.token_expiration_time = auth.token_expiration_time;
+            localStorage.setItem('sessionAuth', JSON.stringify(this.auth));
+        },
+        getAuth() {
+            return JSON.parse(localStorage.getItem('sessionAuth'));
+        },
+
         async login(is_user, is_password) {
             try {
                 const resolve = await axios.post("/auth/login", {
@@ -18,13 +33,12 @@ export const useAuth = defineStore('useAuth', {
                     password: is_password,
                 });
                 if (resolve.data.status == true) {
-                    this.toAuth({
-                        is_auth: true,
+                    this.setAuth({
+                        enable: true,
                         access_token: resolve.data.access_token,
-                        token_expiration_time: Date.now() + Number(jwt.JWT_TTL * 60) * 1000,//convertimos de minutos, segundos a milisegundos 
+                        token_expiration_time: Date.now() + Number(resolve.data.expires_in * 60) * 1000,//convertimos de minutos, segundos a milisegundos 
                     });
                 }
-
                 return resolve.data;
             } catch (error) {
                 return error.response.data;
@@ -45,9 +59,6 @@ export const useAuth = defineStore('useAuth', {
                 const response = await axios.post("/auth/actualizar-credenciales", {
                     ...credentials,
                 });
-                if (response.data.status) {
-                    this.toAuth();
-                }
                 return response.data;
 
             } catch (error) {
@@ -59,7 +70,11 @@ export const useAuth = defineStore('useAuth', {
             try {
                 const response = await axios.post("/auth/logout");
                 if (response.data.status) {
-                    this.toAuth();
+                    this.setAuth({
+                        enable: false,
+                        access_token: "",
+                        token_expiration_time: 0,
+                    });
                 }
                 return response.data;
 
@@ -68,26 +83,15 @@ export const useAuth = defineStore('useAuth', {
             }
         },
         checkTokenExpiration() {
-            if (Date.now() >= this.token_expiration_time) {
-                this.toAuth();
+            if (this.getAuth().enable && Date.now() >= this.getAuth().token_expiration_time) {
+                this.setAuth({
+                    enable: false,
+                    access_token: "",
+                    token_expiration_time: 0,
+                });
             }
-
         },
-        toAuth(auth) {
-            if (auth == undefined) {
-                this.is_auth = false;
-                this.access_token = "";
-                this.token_expiration_time = 0;
-            } else {
-                this.is_auth = auth.is_auth;
-                this.access_token = auth.access_token;
-                this.token_expiration_time = auth.token_expiration_time;
-            }
-        }
-    },
-    persist: {
-        storage: sessionStorage,
-        paths: ['is_auth', 'access_token', 'token_expiration_time']
+
     },
 
 });

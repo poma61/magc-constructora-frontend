@@ -276,12 +276,17 @@
                                 :error-messages="showFieldsErrors('detalle_contrato.construccion_val_couta_inicial_numeral')"
                                 variant="solo-filled" prefix="($)" />
                         </v-col>
+                        <v-col cols="12" md="6">
+                            <v-text-field v-model="item_detalle_contrato.fecha_cancelacion_coutas"
+                                label="Fecha de cancelacion de coutas (*)" color="cyan-darken-1" type="date"
+                                :error-messages="showFieldsErrors('detalle_contrato.fecha_cancelacion_coutas')"
+                                variant="solo-filled" />
+                        </v-col>
 
                         <v-col cols="12" md="6">
-                            <v-text-field v-model="item_detalle_contrato.construccion_cantidad_couta_mensual"
-                                label="Cantidad de meses, couta mensual, construccion (*)" color="cyan-darken-1"
-                                type="number"
-                                :error-messages="showFieldsErrors('detalle_contrato.construccion_cantidad_couta_mensual')"
+                            <v-text-field v-model="item_detalle_contrato.cantidad_couta_mensual"
+                                label="Cantidad de coutas mensual (*)" color="cyan-darken-1" type="number"
+                                :error-messages="showFieldsErrors('detalle_contrato.cantidad_couta_mensual')"
                                 variant="solo-filled" />
                         </v-col>
 
@@ -291,28 +296,28 @@
                                 :error-messages="showFieldsErrors('detalle_contrato.construccion_val_couta_mensual_numeral')"
                                 prefix="($)" variant="solo-filled" />
                         </v-col>
-
-                        <v-col cols="12" md="6">
+                        <v-divider class="border-opacity-25 mb-3"></v-divider>
+                        <v-col cols="12" md="4">
                             <v-text-field v-model="item_detalle_contrato.primera_val_couta_mensual_numeral" type="number"
                                 label="Primera couta mensual (*)" color="cyan-darken-1" prefix="($)"
                                 :error-messages="showFieldsErrors('detalle_contrato.primera_val_couta_mensual_numeral')"
                                 variant="solo-filled" />
                         </v-col>
 
-                        <v-col cols="12" md="6">
+                        <v-col cols="12" md="4">
                             <v-text-field v-model="item_detalle_contrato.segunda_val_couta_mensual_numeral" type="number"
                                 label="Segunda couta mensual (*)" color="cyan-darken-1"
                                 :error-messages="showFieldsErrors('detalle_contrato.segunda_val_couta_mensual_numeral')"
                                 variant="solo-filled" prefix="($)" />
                         </v-col>
 
-                        <v-col cols="12" md="6">
+                        <v-col cols="12" md="4">
                             <v-text-field v-model="item_detalle_contrato.tercera_val_couta_mensual_numeral" type="number"
                                 label="Tercera couta mensual (*)" color="cyan-darken-1"
                                 :error-messages="showFieldsErrors('detalle_contrato.tercera_val_couta_mensual_numeral')"
                                 prefix="($)" variant="solo-filled" />
                         </v-col>
-
+                        <v-divider class="border-opacity-25 mb-3"></v-divider>
                         <v-col cols="12" md="6">
                             <v-text-field v-model="item_detalle_contrato.lugar_firma_contrato"
                                 label="Lugar de la firma del contrato (*)" color="cyan-darken-1"
@@ -564,7 +569,11 @@ const save = () => {
             if (response.status) {
                 useToastify('success', response.message);
                 emit('toLocalUpdateDataTable', 'edit', response.record);
-                openPDF(response.record.archivo_pdf);
+                //asignamos valores del servidor  para una mejor estabilidad del sistema y correcto manejo de datos
+                //porque la ruta del archivo contrato se debe actualizar
+                //porque hay la posibilidad de que el usuario vuelva a enviar el mismo formulario de edicion
+                item_contrato.value = response.record;
+                openPDF(item_contrato.value.archivo_pdf);
             } else {
                 if (response.message_errors != undefined) {
                     fields_errors.value = Object.assign({}, response.message_errors);

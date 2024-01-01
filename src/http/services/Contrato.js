@@ -35,7 +35,8 @@ class Contrato {
             construccion_val_couta_inicial_numeral: "",
             construccion_val_couta_mensual_literal: "",
             construccion_val_couta_mensual_numeral: "",
-            construccion_cantidad_couta_mensual: "",
+            fecha_cancelacion_coutas:"",
+            cantidad_couta_mensual: "",
             primera_val_couta_mensual_numeral: "",
             segunda_val_couta_mensual_numeral: "",
             tercera_val_couta_mensual_numeral: "",
@@ -142,8 +143,8 @@ class Contrato {
 
     numberOfLetters(numero) {
         const numero_literal = NumerosALetras(numero);
-        // Reemplaza "Pesos" y "M.N." con cadenas vacías y elimina espacios en blanco
-        return numero_literal.replace(/(Pesos|M\.N\.)/gi, '').trim();
+        // Reemplaza "Pesos" y "M.N." con cadenas vacias  y agrega al final Dólares Americanos
+        return numero_literal.replace(/(Pesos|M\.N\.)/gi, '').trim() + " Dólares Americanos";
     }
 
     async index() {
@@ -158,7 +159,6 @@ class Contrato {
     }
 
     async store() {
-
         try {
             const is_clients = this.clients.map(cliente => cliente.getAttributes());
             const resolve = await axios.post('/contrato/new-data', {

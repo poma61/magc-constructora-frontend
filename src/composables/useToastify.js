@@ -1,6 +1,4 @@
 import { createToast } from 'mosha-vue-toastify';
-// import the styling for the toast
-import 'mosha-vue-toastify/dist/style.css'
 
 const toastify = (is_type, is_message) => {
     createToast(is_message, {
