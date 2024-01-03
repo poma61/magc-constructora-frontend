@@ -1,9 +1,9 @@
 <template>
     <main class="animate__animated animate__bounceInRight">
         <p class="text-warning text-subtitle-1">Los campos marcados con (*) son obligatorios.</p>
-        <div class="as-flex">
+        <div class="as-flex-contrato">
 
-            <v-card class="as-flex-item as-form-cliente-contrato" elevation="12">
+            <v-card class="as-flex-item-contrato as-form-cliente-contrato" elevation="12">
                 <v-card-title class="bg-cyan-darken-1 py-3">
                     <span class="text-h6">Datos del cliente</span>
                 </v-card-title>
@@ -140,7 +140,7 @@
             </v-card>
 
             <!-- card contrato -->
-            <v-card class="as-flex-item" elevation="12">
+            <v-card class="as-flex-item-contrato" elevation="12">
                 <v-card-title class="bg-cyan-darken-1 py-3">
                     <span class="text-h6">Datos del contrato</span>
                 </v-card-title>
@@ -239,8 +239,18 @@
                                 :error-messages="showFieldsErrors('detalle_contrato.oeste_colinda_lote')"
                                 variant="solo-filled" />
                         </v-col>
-                        <!-- segunda parte -->
+
+                        <!-- tercera parte -->
                         <v-divider class="border-opacity-25 mb-3"></v-divider>
+                        <v-col cols="12">
+                            <v-data-table :headers="headers" :items="options_construcciones"
+                                v-model="option_selected_construccion" select-strategy="single" show-select return-object>
+                                <template v-slot:bottom>
+                                    <v-divider class="border-opacity-25 mt-3"></v-divider>
+                                </template>
+                            </v-data-table>
+                        </v-col>
+
                         <v-col cols="12" md="6">
                             <v-text-field v-model="item_detalle_contrato.construccion_descripcion"
                                 label="Descripcion del inmueble, construccion (*)" color="cyan-darken-1"
@@ -249,9 +259,9 @@
                         </v-col>
 
                         <v-col cols="12" md="6">
-                            <v-text-field v-model="item_detalle_contrato.construccion_superficie_terreno"
+                            <v-text-field v-model="item_detalle_contrato.construccion_superficie"
                                 label="Superficie del terreno, construccion (*)" color="cyan-darken-1" suffix="(m²)"
-                                :error-messages="showFieldsErrors('detalle_contrato.construccion_superficie_terreno')"
+                                :error-messages="showFieldsErrors('detalle_contrato.construccion_superficie')"
                                 variant="solo-filled" />
                         </v-col>
 
@@ -261,7 +271,6 @@
                                 :error-messages="showFieldsErrors('detalle_contrato.construccion_valor_total_numeral')"
                                 variant="solo-filled" />
                         </v-col>
-
 
                         <v-col cols="12" md="6">
                             <v-text-field v-model="item_detalle_contrato.construccion_cantidad_meses_de_entrega"
@@ -296,6 +305,7 @@
                                 :error-messages="showFieldsErrors('detalle_contrato.construccion_val_couta_mensual_numeral')"
                                 prefix="($)" variant="solo-filled" />
                         </v-col>
+
                         <v-divider class="border-opacity-25 mb-3"></v-divider>
                         <v-col cols="12" md="4">
                             <v-text-field v-model="item_detalle_contrato.primera_val_couta_mensual_numeral" type="number"
@@ -440,6 +450,37 @@ const ci_cliente = ref([]);
 const loading_edit_form = ref(false);
 const edit_form = ref(false);
 const new_form = ref(false);
+const options_construcciones = ref([
+    {
+        construccion_descripcion: 'Casa 1 planta - 1 Dormitorio',
+        construccion_superficie: '32',
+        construccion_valor_total_numeral: '9280.00',
+        construccion_val_couta_inicial_numeral: '3250.00',
+        construccion_val_couta_mensual_numeral: '3250.00',
+    },
+    {
+        construccion_descripcion: 'Casa 1 planta - 2 Dormitorios',
+        construccion_superficie: '45',
+        construccion_valor_total_numeral: '13050.00',
+        construccion_val_couta_inicial_numeral: '4570.00',
+        construccion_val_couta_mensual_numeral: '115.00',
+    }
+]
+);
+const option_selected_construccion = ref([]);
+
+const headers = ref([
+    { title: 'Descripcion', align: 'center', key: 'construccion_descripcion' },
+    { title: 'Superficie de construccion (m²)', align: 'center', key: 'construccion_superficie' },
+    { title: 'Valor total construccion ($us)', align: 'center', key: 'construccion_valor_total_numeral' },
+    { title: 'Valor couta inicial ($us)', align: 'center', key: 'construccion_val_couta_inicial_numeral' },
+    { title: 'Valor couta mensual ($sus)', align: 'center', key: 'construccion_val_couta_mensual_numeral' },
+]);
+
+watch(option_selected_construccion, (newValue, oldValue) => {
+    console.log(newValue);
+})
+
 const initNumberOfClients = () => {
     //crea un array de tipo clientes solamente sus atributos
     items_cliente.value = Array.from({ length: number_of_clients.value }, () => new Cliente().getAttributes());
@@ -608,30 +649,30 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.as-flex {
+.as-flex-contrato {
     display: flex;
     width: 100%;
     flex-wrap: wrap;
     gap: 15px;
 }
 
-.as-flex .as-flex-item {
+.as-flex-contrato .as-flex-item-contrato {
     flex-grow: 1;
     width: 600px;
 }
 
-.as-flex .as-form-cliente-contrato {
+.as-flex-contrato .as-form-cliente-contrato {
     flex-grow: 0;
     height: fit-content;
 }
 
 @media only screen and (max-width: 1450px) {
-    .as-flex .as-flex-item {
+    .as-flex-contrato .as-flex-item-contrato {
         flex-grow: 1;
         width: 100%;
     }
 
-    .as-flex .as-form-cliente-contrato {
+    .as-flex-contrato .as-form-cliente-contrato {
         flex-grow: 1;
         width: 100%;
     }

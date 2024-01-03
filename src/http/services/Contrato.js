@@ -27,7 +27,7 @@ class Contrato {
             oeste_medida_terreno: "",
             oeste_colinda_lote: "",
             construccion_descripcion: "",
-            construccion_superficie_terreno: "",
+            construccion_superficie: "",
             construccion_valor_total_literal: "",
             construccion_valor_total_numeral: "",
             construccion_cantidad_meses_de_entrega: "",
