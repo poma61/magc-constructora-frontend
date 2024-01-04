@@ -151,91 +151,96 @@
                         <v-col cols="12" md="4">
                             <v-text-field v-model="item_detalle_contrato.n_de_lote" label="N° de lote  (*)"
                                 color="cyan-darken-1" :error-messages="showFieldsErrors('detalle_contrato.n_de_lote')"
-                                variant="solo-filled" />
+                                variant="solo-filled" clearable />
                         </v-col>
 
                         <v-col cols="12" md="4">
                             <v-text-field v-model="item_detalle_contrato.n_de_uv" label="N° de UV  (*)"
                                 color="cyan-darken-1" :error-messages="showFieldsErrors('detalle_contrato.n_de_uv')"
-                                variant="solo-filled" />
+                                variant="solo-filled" clearable />
                         </v-col>
 
                         <v-col cols="12" md="4">
                             <v-text-field v-model="item_detalle_contrato.zona" label="Zona  (*)" color="cyan-darken-1"
-                                :error-messages="showFieldsErrors('detalle_contrato.zona')" variant="solo-filled" />
+                                :error-messages="showFieldsErrors('detalle_contrato.zona')" variant="solo-filled"
+                                clearable />
                         </v-col>
 
                         <v-col cols="12" md="4">
                             <v-text-field v-model="item_detalle_contrato.terreno_superficie"
                                 label="Superficie de terreno (*)" color="cyan-darken-1"
                                 :error-messages="showFieldsErrors('detalle_contrato.terreno_superficie')"
-                                variant="solo-filled" suffix="(m²)" />
+                                variant="solo-filled" suffix="(m²)"
+                                @input="asseptDoubleNumber($event, 'terreno_superficie')" clearable />
                         </v-col>
 
                         <v-col cols="12" md="4">
                             <v-text-field v-model="item_detalle_contrato.numero_distrito" label="Numero de distrito (*)"
                                 color="cyan-darken-1" :error-messages="showFieldsErrors('detalle_contrato.numero_distrito')"
-                                variant="solo-filled" />
+                                variant="solo-filled" clearable />
                         </v-col>
 
                         <v-col cols="12" md="4">
                             <v-text-field v-model="item_detalle_contrato.numero_identificacion_terreno"
                                 label="N° de identificación de terreno(*)" color="cyan-darken-1"
                                 :error-messages="showFieldsErrors('detalle_contrato.numero_identificacion_terreno')"
-                                variant="solo-filled" />
+                                variant="solo-filled" clearable />
                         </v-col>
 
                         <v-divider class="border-opacity-25 mb-3"></v-divider>
                         <v-col cols="12" md="3">
                             <v-text-field v-model="item_detalle_contrato.norte_medida_terreno"
-                                label="Norte, medida del terreno (*)" color="cyan-darken-1" type="number"
+                                label="Norte, medida del terreno (*)" color="cyan-darken-1"
                                 :error-messages="showFieldsErrors('detalle_contrato.norte_medida_terreno')"
-                                variant="solo-filled" suffix="(m)" />
+                                variant="solo-filled" suffix="(m)" clearable
+                                @input="asseptDoubleNumber($event, 'norte_medida_terreno')" />
                         </v-col>
                         <v-col cols="12" md="3">
                             <v-text-field v-model="item_detalle_contrato.norte_colinda_lote"
-                                label="Norte, colinda con lote (*)" color="cyan-darken-1"
+                                label="Norte, colinda con lote (*)" color="cyan-darken-1" clearable
                                 :error-messages="showFieldsErrors('detalle_contrato.norte_colinda_lote')"
                                 variant="solo-filled" />
                         </v-col>
                         <v-col cols="12" md="3">
-                            <v-text-field v-model="item_detalle_contrato.sur_medida_terreno" type="number"
+                            <v-text-field v-model="item_detalle_contrato.sur_medida_terreno"
                                 label="Sur, medida del terreno (*)" color="cyan-darken-1"
                                 :error-messages="showFieldsErrors('detalle_contrato.sur_medida_terreno')"
-                                variant="solo-filled" suffix="(m)" />
+                                variant="solo-filled" suffix="(m)" clearable
+                                @input="asseptDoubleNumber($event, 'sur_medida_terreno')" />
                         </v-col>
 
                         <v-col cols="12" md="3">
                             <v-text-field v-model="item_detalle_contrato.sur_colinda_lote" label="Sur, colinda con lote (*)"
-                                color="cyan-darken-1"
+                                color="cyan-darken-1" clearable
                                 :error-messages="showFieldsErrors('detalle_contrato.sur_colinda_lote')"
                                 variant="solo-filled" />
                         </v-col>
 
                         <v-col cols="12" md="3">
-                            <v-text-field v-model="item_detalle_contrato.este_medida_terreno" type="number"
+                            <v-text-field v-model="item_detalle_contrato.este_medida_terreno"
                                 label="Este, medida del terreno (*)" color="cyan-darken-1"
                                 :error-messages="showFieldsErrors('detalle_contrato.este_medida_terreno')"
-                                variant="solo-filled" suffix="(m)" />
+                                variant="solo-filled" suffix="(m)" clearable
+                                @input="asseptDoubleNumber($event, 'este_medida_terreno')" />
                         </v-col>
 
                         <v-col cols="12" md="3">
                             <v-text-field v-model="item_detalle_contrato.este_colinda_lote"
-                                label="Este, colinda con lote (*)" color="cyan-darken-1"
+                                label="Este, colinda con lote (*)" color="cyan-darken-1" clearable
                                 :error-messages="showFieldsErrors('detalle_contrato.este_colinda_lote')"
                                 variant="solo-filled" />
                         </v-col>
 
                         <v-col cols="12" md="3">
-                            <v-text-field v-model="item_detalle_contrato.oeste_medida_terreno" type="number"
-                                label="Oeste, medida del terreno (*)" color="cyan-darken-1"
+                            <v-text-field v-model="item_detalle_contrato.oeste_medida_terreno"
+                                label="Oeste, medida del terreno (*)" color="cyan-darken-1" clearable
                                 :error-messages="showFieldsErrors('detalle_contrato.oeste_medida_terreno')" suffix="(m)"
-                                variant="solo-filled" />
+                                variant="solo-filled" @input="asseptDoubleNumber($event, 'oeste_medida_terreno')" />
                         </v-col>
 
                         <v-col cols="12" md="3">
                             <v-text-field v-model="item_detalle_contrato.oeste_colinda_lote"
-                                label="Oeste, colinda con lote (*)" color="cyan-darken-1"
+                                label="Oeste, colinda con lote (*)" color="cyan-darken-1" clearable
                                 :error-messages="showFieldsErrors('detalle_contrato.oeste_colinda_lote')"
                                 variant="solo-filled" />
                         </v-col>
@@ -247,12 +252,12 @@
 
                     <div>
                         <p class="text-subtitle-1  text-success">Rellenar los datos de la tabla de forma manual</p>
-                        <v-switch color="success" v-model="disable_options_construcciones" hide-details
-                            :label="disable_options_construcciones ? 'si' : 'no'" inset />
+                        <v-switch color="success" v-model="enable_options_construcciones_manually" hide-details
+                            :label="enable_options_construcciones_manually ? 'si' : 'no'" inset />
                     </div>
 
                     <v-row>
-                        <v-col cols="12" v-if="disable_options_construcciones == false"
+                        <v-col cols="12" v-if="enable_options_construcciones_manually == false"
                             class="animate__animated animate__bounceInRight">
                             <v-data-table :headers="headers" :items="options_construcciones"
                                 v-model="option_selected_construccion" select-strategy="single" show-select return-object>
@@ -287,40 +292,43 @@
                         </v-col>
                     </v-row>
 
-                    <v-row v-if="disable_options_construcciones" class="animate__animated animate__bounceInRight">
+                    <v-row v-if="enable_options_construcciones_manually" class="animate__animated animate__bounceInRight">
                         <v-col cols="12">
                             <v-textarea v-model="item_detalle_contrato.construccion_descripcion"
                                 label="Descripcion del inmueble, construccion (*)" color="cyan-darken-1"
                                 :error-messages="showFieldsErrors('detalle_contrato.construccion_descripcion')"
-                                variant="solo-filled" rows="2" />
+                                variant="solo-filled" rows="2" clearable />
                         </v-col>
 
                         <v-col cols="12" md="6">
                             <v-text-field v-model="item_detalle_contrato.construccion_superficie"
                                 label="Superficie del terreno, construccion (*)" color="cyan-darken-1" suffix="(m²)"
-                                :error-messages="showFieldsErrors('detalle_contrato.construccion_superficie')" type="number"
-                                variant="solo-filled" />
+                                :error-messages="showFieldsErrors('detalle_contrato.construccion_superficie')"
+                                variant="solo-filled" clearable />
                         </v-col>
 
                         <v-col cols="12" md="6">
                             <v-text-field v-model="item_detalle_contrato.construccion_valor_total_numeral"
-                                label="Valor total de la construccion (*)" color="cyan-darken-1" prefix="($)" type="number"
+                                label="Valor total de la construccion (*)" color="cyan-darken-1" prefix="($)"
                                 :error-messages="showFieldsErrors('detalle_contrato.construccion_valor_total_numeral')"
-                                variant="solo-filled" />
+                                variant="solo-filled" clearable
+                                @input="asseptDoubleNumber($event, 'construccion_valor_total_numeral')" />
                         </v-col>
 
                         <v-col cols="12" md="6">
                             <v-text-field v-model="item_detalle_contrato.construccion_val_couta_inicial_numeral"
-                                type="number" label="Couta inicial de la construccion (*)" color="cyan-darken-1"
+                                label="Couta inicial de la construccion (*)" color="cyan-darken-1"
                                 :error-messages="showFieldsErrors('detalle_contrato.construccion_val_couta_inicial_numeral')"
-                                variant="solo-filled" prefix="($)" />
+                                variant="solo-filled" prefix="($)" clearable
+                                @input="asseptDoubleNumber($event, 'construccion_val_couta_inicial_numeral')" />
                         </v-col>
 
                         <v-col cols="12" md="6">
                             <v-text-field v-model="item_detalle_contrato.construccion_val_couta_mensual_numeral"
-                                label="Couta mensual de la construccion (*)" color="cyan-darken-1" type="number"
+                                label="Couta mensual de la construccion (*)" color="cyan-darken-1"
                                 :error-messages="showFieldsErrors('detalle_contrato.construccion_val_couta_mensual_numeral')"
-                                prefix="($)" variant="solo-filled" />
+                                prefix="($)" variant="solo-filled" clearable
+                                @input="asseptDoubleNumber($event, 'construccion_val_couta_mensual_numeral')" />
                         </v-col>
                     </v-row>
 
@@ -336,64 +344,69 @@
                             <v-text-field v-model="item_detalle_contrato.fecha_cancelacion_coutas"
                                 label="Fecha de cancelacion de coutas (*)" color="cyan-darken-1" type="date"
                                 :error-messages="showFieldsErrors('detalle_contrato.fecha_cancelacion_coutas')"
-                                variant="solo-filled" />
+                                variant="solo-filled" clearable />
                         </v-col>
 
                         <v-col cols="12" md="4">
-                            <v-text-field v-model="item_detalle_contrato.cantidad_couta_mensual"
+                            <v-text-field v-model="item_detalle_contrato.cantidad_coutas_mensuales"
                                 label="Cantidad de coutas mensuales (*)" color="cyan-darken-1" type="number"
-                                :error-messages="showFieldsErrors('detalle_contrato.cantidad_couta_mensual')"
+                                :error-messages="showFieldsErrors('detalle_contrato.cantidad_coutas_mensuales')"
                                 variant="solo-filled" />
                         </v-col>
 
 
                         <v-divider class="border-opacity-25 mb-3"></v-divider>
                         <v-col cols="12" md="3">
-                            <v-text-field v-model="item_detalle_contrato.primera_val_couta_mensual_numeral" type="number"
+                            <v-text-field v-model="item_detalle_contrato.primera_val_couta_mensual_numeral"
                                 label="Primera couta mensual (*)" color="cyan-darken-1" prefix="($)"
                                 :error-messages="showFieldsErrors('detalle_contrato.primera_val_couta_mensual_numeral')"
-                                variant="solo-filled" />
+                                variant="solo-filled" clearable
+                                @input="asseptDoubleNumber($event, 'primera_val_couta_mensual_numeral')" />
                         </v-col>
 
                         <v-col cols="12" md="3">
-                            <v-text-field v-model="item_detalle_contrato.segunda_val_couta_mensual_numeral" type="number"
+                            <v-text-field v-model="item_detalle_contrato.segunda_val_couta_mensual_numeral"
                                 label="Segunda couta mensual (*)" color="cyan-darken-1"
                                 :error-messages="showFieldsErrors('detalle_contrato.segunda_val_couta_mensual_numeral')"
-                                variant="solo-filled" prefix="($)" />
+                                variant="solo-filled" prefix="($)" clearable
+                                @input="asseptDoubleNumber($event, 'segunda_val_couta_mensual_numeral')" />
                         </v-col>
 
                         <v-col cols="12" md="3">
-                            <v-text-field v-model="item_detalle_contrato.tercera_val_couta_mensual_numeral" type="number"
+                            <v-text-field v-model="item_detalle_contrato.tercera_val_couta_mensual_numeral"
                                 label="Tercera couta mensual (*)" color="cyan-darken-1"
                                 :error-messages="showFieldsErrors('detalle_contrato.tercera_val_couta_mensual_numeral')"
-                                prefix="($)" variant="solo-filled" />
+                                prefix="($)" variant="solo-filled" clearable
+                                @input="asseptDoubleNumber($event, 'tercera_val_couta_mensual_numeral')" />
                         </v-col>
 
                         <v-col cols="12" md="3">
-                            <v-text-field v-model="item_detalle_contrato.cuarta_val_couta_mensual_numeral" type="number"
+                            <v-text-field v-model="item_detalle_contrato.cuarta_val_couta_mensual_numeral"
                                 label="Cuarta couta mensual (*)" color="cyan-darken-1"
                                 :error-messages="showFieldsErrors('detalle_contrato.cuarta_val_couta_mensual_numeral')"
-                                prefix="($)" variant="solo-filled" />
+                                prefix="($)" variant="solo-filled" clearable
+                                @input="asseptDoubleNumber($event, 'cuarta_val_couta_mensual_numeral')" />
                         </v-col>
 
                         <v-divider class="border-opacity-25 mb-3"></v-divider>
                         <v-col cols="12" md="6">
                             <v-text-field v-model="item_detalle_contrato.lugar_firma_contrato"
-                                label="Lugar de la firma del contrato (*)" color="cyan-darken-1"
+                                label="Lugar de la firma del contrato (*)" color="cyan-darken-1" clearable
                                 :error-messages="showFieldsErrors('detalle_contrato.lugar_firma_contrato')"
                                 variant="solo-filled" />
                         </v-col>
 
                         <v-col cols="12" md="6">
                             <v-text-field v-model="item_detalle_contrato.fecha_firma_contrato"
-                                label="Fecha de la firma del contrato (*)" color="cyan-darken-1"
+                                label="Fecha de la firma del contrato (*)" color="cyan-darken-1" clearable
                                 :error-messages="showFieldsErrors('detalle_contrato.fecha_firma_contrato')" type="date"
                                 variant="solo-filled" />
                         </v-col>
 
                         <v-col cols="12">
                             <v-textarea v-model="item_contrato.descripcion" label="descripcion" color="cyan-darken-1"
-                                :error-messages="showFieldsErrors('contrato.descripcion')" variant="solo-filled" rows="2" />
+                                clearable :error-messages="showFieldsErrors('contrato.descripcion')" variant="solo-filled"
+                                rows="2" />
                         </v-col>
 
                     </v-row>
@@ -408,23 +421,23 @@
                     <v-row v-if="item_detalle_contrato.add_info_terreno" class="animate__animated animate__bounceInRight">
                         <v-col cols="12" md="4">
                             <v-text-field v-model="item_detalle_contrato.terreno_valor_total_numeral"
-                                label="Valor total del terreno" type="number" prefix="($)" color="cyan-darken-1"
-                                variant="solo-filled" clearable
-                                :error-messages="showFieldsErrors('detalle_contrato.terreno_valor_total_numeral')" />
+                                label="Valor total del terreno" prefix="($)" color="cyan-darken-1" variant="solo-filled"
+                                clearable :error-messages="showFieldsErrors('detalle_contrato.terreno_valor_total_numeral')"
+                                @input="asseptDoubleNumber($event, 'terreno_valor_total_numeral')" />
                         </v-col>
 
                         <v-col cols="12" md="4">
                             <v-text-field v-model="item_detalle_contrato.terreno_val_couta_inicial_numeral" clearable
-                                label="Couta inicial del terreno" type="number" prefix="($)" color="cyan-darken-1"
-                                variant="solo-filled"
-                                :error-messages="showFieldsErrors('detalle_contrato.terreno_val_couta_inicial_numeral')" />
+                                label="Couta inicial del terreno" prefix="($)" color="cyan-darken-1" variant="solo-filled"
+                                :error-messages="showFieldsErrors('detalle_contrato.terreno_val_couta_inicial_numeral')"
+                                @input="asseptDoubleNumber($event, 'terreno_val_couta_inicial_numeral')" />
                         </v-col>
 
                         <v-col cols="12" md="4">
                             <v-text-field v-model="item_detalle_contrato.terreno_val_couta_mensual_numeral" clearable
-                                label="Couta mensual del terreno" type="number" prefix="($)" color="cyan-darken-1"
-                                variant="solo-filled"
-                                :error-messages="showFieldsErrors('detalle_contrato.terreno_val_couta_mensual_numeral')" />
+                                label="Couta mensual del terreno" prefix="($)" color="cyan-darken-1" variant="solo-filled"
+                                :error-messages="showFieldsErrors('detalle_contrato.terreno_val_couta_mensual_numeral')"
+                                @input="asseptDoubleNumber($event, 'terreno_val_couta_mensual_numeral')" />
                         </v-col>
                     </v-row>
 
@@ -573,7 +586,7 @@ const options_construcciones = ref([
 ]
 );
 const option_selected_construccion = ref([]);
-const disable_options_construcciones = ref(false);
+const enable_options_construcciones_manually = ref(false);
 const headers = ref([
     { title: 'Descripción', align: 'center', key: 'construccion_descripcion' },
     { title: 'Superficie de construccion (m²)', align: 'center', key: 'construccion_superficie' },
@@ -594,14 +607,31 @@ watch(option_selected_construccion, (new_value, old_value) => {
     }
 });
 
-//cuando cambia el valor de disable_options_construcciones se ejecuta este trozo de codigo
-watch(disable_options_construcciones, (new_value, old_value) => {
-    //verificamos si se  selecciona una fila de la tabla
+//cuando cambia el valor de enable_options_construcciones_manually se ejecuta este trozo de codigo
+watch(enable_options_construcciones_manually, (new_value, old_value) => {
+    //cuando es true enable_options_construcciones_manually significa que se rellenaran los datos de forma manual por lo tanto
+    //option_selected_construccion[] se vuelve un array vacio para evitar inestabilidad del sistema al momento de enviar los datos
     if (new_value) {
         option_selected_construccion.value = [];
     }
 });
 
+const asseptDoubleNumber = (event, campo) => {
+    let valor_campo = event.target.value;
+    // Eliminar los caracteres no válidos, excepto números y un único "."
+    valor_campo = valor_campo.replace(/[^\d.]/g, '');
+
+    // Validar si hay más de un "." y limitar a dos decimales
+    const partes = valor_campo.split('.');
+    if (partes.length > 2) {
+        valor_campo = partes[0] + '.' + partes[1];
+    } else if (partes.length == 2) {
+        partes[1] = partes[1].substring(0, 2);
+        valor_campo = partes.join('.');
+    }
+    // Actualizar el valor en el campo de entrada
+    item_detalle_contrato.value[campo] = valor_campo;
+}
 
 
 const initNumberOfClients = () => {
@@ -646,13 +676,12 @@ const isForm = () => {
             item.nombres = item_contrato.value.nombres;
             item.apellido_paterno = item_contrato.value.apellido_paterno;
             item.apellido_materno = item_contrato.value.apellido_materno;
-            item.apellido_materno = item_contrato.value.n_de_contacto;
             item.n_de_contacto = item_contrato.value.n_de_contacto;
             item.correo_electronico = item_contrato.value.correo_electronico;
             item.ci = item_contrato.value.ci;
             item.ci_expedido = item_contrato.value.ci_expedido;
             item.direccion = item_contrato.value.direccion;
-            item.descripcion = item_contrato.value.descripcion;
+            item.descripcion = item_contrato.value.descripcion_cliente;
         });
     } else {
         edit_form.value = false;
@@ -670,7 +699,6 @@ const objetosSonIguales = (objetoA, objetoB) => {
     if (keysA.length != keysB.length) {
         return false;
     }
-
     return keysA.every(key => objetoA[key] == objetoB[key]);
 }
 
@@ -698,7 +726,7 @@ const uploadDetalleContrato = () => {
 
             if (posicion == -1) {
                 //si ningun objeto esta en el array significa que introdujo los datos manualmente
-                disable_options_construcciones.value = true;
+                enable_options_construcciones_manually.value = true;
             } else {
                 option_selected_construccion.value = [options_construcciones.value[posicion]];
             }
@@ -750,8 +778,10 @@ const save = () => {
     loading_generate_pdf.value = true;
     setTimeout(async () => {
         //verificar si selecciono una fila de la tabla
-        if (disable_options_construcciones.value == false && option_selected_construccion.value.length == 0) {
-            useToastify('danger', 'Debe  seleccionar una fila con datos de la tabla!');
+        // si esta enable_options_construcciones_manually en false significa que la tabla se muestra y
+        //option_selected_construccion.length esta en 0 siginifica que no se selecciono un registro
+        if (enable_options_construcciones_manually.value == false && option_selected_construccion.value.length == 0) {
+            useToastify('danger', 'Debe  seleccionar una fila de la tabla!');
             loading_generate_pdf.value = false;
             return;
         }
@@ -776,6 +806,7 @@ const save = () => {
                 //porque hay la posibilidad de que el usuario vuelva a enviar el mismo formulario de edicion
                 item_contrato.value = response.record;
                 openPDF(item_contrato.value.archivo_pdf);
+                fields_errors.value = {};
             } else {
                 if (response.message_errors != undefined) {
                     fields_errors.value = Object.assign({}, response.message_errors);

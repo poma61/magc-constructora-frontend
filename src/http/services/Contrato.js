@@ -36,7 +36,7 @@ class Contrato {
             construccion_val_couta_mensual_literal: "",
             construccion_val_couta_mensual_numeral: "",
             fecha_cancelacion_coutas:"",
-            cantidad_couta_mensual: "",
+            cantidad_coutas_mensuales: "",
             primera_val_couta_mensual_numeral: "",
             segunda_val_couta_mensual_numeral: "",
             tercera_val_couta_mensual_numeral: "",
