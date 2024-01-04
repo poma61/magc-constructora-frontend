@@ -240,28 +240,65 @@
                                 variant="solo-filled" />
                         </v-col>
 
-                        <!-- tercera parte -->
-                        <v-divider class="border-opacity-25 mb-3"></v-divider>
-                        <v-col cols="12">
+                    </v-row>
+
+                    <!-- tercera parte -->
+                    <v-divider class="border-opacity-25 mb-3"></v-divider>
+
+                    <div>
+                        <p class="text-subtitle-1  text-success">Rellenar los datos de la tabla de forma manual</p>
+                        <v-switch color="success" v-model="disable_options_construcciones" hide-details
+                            :label="disable_options_construcciones ? 'si' : 'no'" inset />
+                    </div>
+
+                    <v-row>
+                        <v-col cols="12" v-if="disable_options_construcciones == false"
+                            class="animate__animated animate__bounceInRight">
                             <v-data-table :headers="headers" :items="options_construcciones"
                                 v-model="option_selected_construccion" select-strategy="single" show-select return-object>
+
+                                <template v-slot:item.construccion_superficie="{ item }">
+                                    {{ Number(item.construccion_superficie).toFixed(2) }} m²
+                                </template>
+
+                                <template v-slot:item.construccion_valor_total_numeral="{ item }">
+                                    $us {{ Number(item.construccion_valor_total_numeral).toFixed(2) }}
+                                </template>
+
+                                <template v-slot:item.construccion_val_couta_inicial_numeral="{ item }">
+                                    $us {{ Number(item.construccion_val_couta_inicial_numeral).toFixed(2) }}
+                                </template>
+
+                                <template v-slot:item.construccion_val_couta_mensual_numeral="{ item }">
+                                    $us {{ Number(item.construccion_val_couta_mensual_numeral).toFixed(2) }}
+                                </template>
+
                                 <template v-slot:bottom>
-                                    <v-divider class="border-opacity-25 mt-3"></v-divider>
+                                    <tr>
+                                        <td colspan="6">
+                                            <p class="text-red" v-if="option_selected_construccion.length == 0">
+                                                Debe seleccionar una determinada fila de la tabla de arriba.
+                                            </p>
+                                        </td>
+                                    </tr>
                                 </template>
                             </v-data-table>
-                        </v-col>
 
-                        <v-col cols="12" md="6">
-                            <v-text-field v-model="item_detalle_contrato.construccion_descripcion"
+                        </v-col>
+                    </v-row>
+
+                    <v-row v-if="disable_options_construcciones" class="animate__animated animate__bounceInRight">
+                        <v-col cols="12">
+                            <v-textarea v-model="item_detalle_contrato.construccion_descripcion"
                                 label="Descripcion del inmueble, construccion (*)" color="cyan-darken-1"
                                 :error-messages="showFieldsErrors('detalle_contrato.construccion_descripcion')"
-                                variant="solo-filled" />
+                                variant="solo-filled" rows="2" />
                         </v-col>
 
                         <v-col cols="12" md="6">
                             <v-text-field v-model="item_detalle_contrato.construccion_superficie"
                                 label="Superficie del terreno, construccion (*)" color="cyan-darken-1" suffix="(m²)"
-                                :error-messages="showFieldsErrors('detalle_contrato.construccion_superficie')"
+                                :error-messages="showFieldsErrors('detalle_contrato.construccion_superficie')" type="number"
                                 variant="solo-filled" />
                         </v-col>
 
@@ -273,30 +310,10 @@
                         </v-col>
 
                         <v-col cols="12" md="6">
-                            <v-text-field v-model="item_detalle_contrato.construccion_cantidad_meses_de_entrega"
-                                label="Cantidad de meses de entrega, construccion (*)" color="cyan-darken-1" type="number"
-                                :error-messages="showFieldsErrors('detalle_contrato.construccion_cantidad_meses_de_entrega')"
-                                variant="solo-filled" />
-                        </v-col>
-
-                        <v-col cols="12" md="6">
                             <v-text-field v-model="item_detalle_contrato.construccion_val_couta_inicial_numeral"
                                 type="number" label="Couta inicial de la construccion (*)" color="cyan-darken-1"
                                 :error-messages="showFieldsErrors('detalle_contrato.construccion_val_couta_inicial_numeral')"
                                 variant="solo-filled" prefix="($)" />
-                        </v-col>
-                        <v-col cols="12" md="6">
-                            <v-text-field v-model="item_detalle_contrato.fecha_cancelacion_coutas"
-                                label="Fecha de cancelacion de coutas (*)" color="cyan-darken-1" type="date"
-                                :error-messages="showFieldsErrors('detalle_contrato.fecha_cancelacion_coutas')"
-                                variant="solo-filled" />
-                        </v-col>
-
-                        <v-col cols="12" md="6">
-                            <v-text-field v-model="item_detalle_contrato.cantidad_couta_mensual"
-                                label="Cantidad de coutas mensual (*)" color="cyan-darken-1" type="number"
-                                :error-messages="showFieldsErrors('detalle_contrato.cantidad_couta_mensual')"
-                                variant="solo-filled" />
                         </v-col>
 
                         <v-col cols="12" md="6">
@@ -305,28 +322,60 @@
                                 :error-messages="showFieldsErrors('detalle_contrato.construccion_val_couta_mensual_numeral')"
                                 prefix="($)" variant="solo-filled" />
                         </v-col>
+                    </v-row>
+
+                    <v-row>
+                        <v-col cols="12" md="4">
+                            <v-text-field v-model="item_detalle_contrato.construccion_cantidad_meses_de_entrega"
+                                label="Cantidad de meses de entrega, construccion (*)" color="cyan-darken-1" type="number"
+                                :error-messages="showFieldsErrors('detalle_contrato.construccion_cantidad_meses_de_entrega')"
+                                variant="solo-filled" />
+                        </v-col>
+
+                        <v-col cols="12" md="4">
+                            <v-text-field v-model="item_detalle_contrato.fecha_cancelacion_coutas"
+                                label="Fecha de cancelacion de coutas (*)" color="cyan-darken-1" type="date"
+                                :error-messages="showFieldsErrors('detalle_contrato.fecha_cancelacion_coutas')"
+                                variant="solo-filled" />
+                        </v-col>
+
+                        <v-col cols="12" md="4">
+                            <v-text-field v-model="item_detalle_contrato.cantidad_couta_mensual"
+                                label="Cantidad de coutas mensuales (*)" color="cyan-darken-1" type="number"
+                                :error-messages="showFieldsErrors('detalle_contrato.cantidad_couta_mensual')"
+                                variant="solo-filled" />
+                        </v-col>
+
 
                         <v-divider class="border-opacity-25 mb-3"></v-divider>
-                        <v-col cols="12" md="4">
+                        <v-col cols="12" md="3">
                             <v-text-field v-model="item_detalle_contrato.primera_val_couta_mensual_numeral" type="number"
                                 label="Primera couta mensual (*)" color="cyan-darken-1" prefix="($)"
                                 :error-messages="showFieldsErrors('detalle_contrato.primera_val_couta_mensual_numeral')"
                                 variant="solo-filled" />
                         </v-col>
 
-                        <v-col cols="12" md="4">
+                        <v-col cols="12" md="3">
                             <v-text-field v-model="item_detalle_contrato.segunda_val_couta_mensual_numeral" type="number"
                                 label="Segunda couta mensual (*)" color="cyan-darken-1"
                                 :error-messages="showFieldsErrors('detalle_contrato.segunda_val_couta_mensual_numeral')"
                                 variant="solo-filled" prefix="($)" />
                         </v-col>
 
-                        <v-col cols="12" md="4">
+                        <v-col cols="12" md="3">
                             <v-text-field v-model="item_detalle_contrato.tercera_val_couta_mensual_numeral" type="number"
                                 label="Tercera couta mensual (*)" color="cyan-darken-1"
                                 :error-messages="showFieldsErrors('detalle_contrato.tercera_val_couta_mensual_numeral')"
                                 prefix="($)" variant="solo-filled" />
                         </v-col>
+
+                        <v-col cols="12" md="3">
+                            <v-text-field v-model="item_detalle_contrato.cuarta_val_couta_mensual_numeral" type="number"
+                                label="Cuarta couta mensual (*)" color="cyan-darken-1"
+                                :error-messages="showFieldsErrors('detalle_contrato.cuarta_val_couta_mensual_numeral')"
+                                prefix="($)" variant="solo-filled" />
+                        </v-col>
+
                         <v-divider class="border-opacity-25 mb-3"></v-divider>
                         <v-col cols="12" md="6">
                             <v-text-field v-model="item_detalle_contrato.lugar_firma_contrato"
@@ -453,33 +502,107 @@ const new_form = ref(false);
 const options_construcciones = ref([
     {
         construccion_descripcion: 'Casa 1 planta - 1 Dormitorio',
-        construccion_superficie: '32',
-        construccion_valor_total_numeral: '9280.00',
-        construccion_val_couta_inicial_numeral: '3250.00',
-        construccion_val_couta_mensual_numeral: '3250.00',
+        construccion_superficie: 32.00,
+        construccion_valor_total_numeral: 9280.00,
+        construccion_val_couta_inicial_numeral: 3250.00,
+        construccion_val_couta_mensual_numeral: 85.00,
     },
     {
         construccion_descripcion: 'Casa 1 planta - 2 Dormitorios',
-        construccion_superficie: '45',
-        construccion_valor_total_numeral: '13050.00',
-        construccion_val_couta_inicial_numeral: '4570.00',
-        construccion_val_couta_mensual_numeral: '115.00',
+        construccion_superficie: 45.00,
+        construccion_valor_total_numeral: 13050.00,
+        construccion_val_couta_inicial_numeral: 4570.00,
+        construccion_val_couta_mensual_numeral: 115.00,
+    },
+    {
+        construccion_descripcion: 'Casa 1 planta - 2 Dormitorios',
+        construccion_superficie: 54.00,
+        construccion_valor_total_numeral: 15660.00,
+        construccion_val_couta_inicial_numeral: 5485.00,
+        construccion_val_couta_mensual_numeral: 140.00,
+    },
+    {
+        construccion_descripcion: 'Casa 1 planta - 3 Dormitorios',
+        construccion_superficie: 76.00,
+        construccion_valor_total_numeral: 22040.00,
+        construccion_val_couta_inicial_numeral: 7715.00,
+        construccion_val_couta_mensual_numeral: 195.00,
+    },
+    {
+        construccion_descripcion: 'Casa 1 planta - 3 Dormitorios',
+        construccion_superficie: 90.00,
+        construccion_valor_total_numeral: 26100.00,
+        construccion_val_couta_inicial_numeral: 9135.00,
+        construccion_val_couta_mensual_numeral: 230.00,
+    },
+    {
+        construccion_descripcion: 'Casa 1 planta - 3 Dormitorios',
+        construccion_superficie: 105.00,
+        construccion_valor_total_numeral: 30450.00,
+        construccion_val_couta_inicial_numeral: '10660.00',
+        construccion_val_couta_mensual_numeral: '265.00',
+    },
+    {
+        construccion_descripcion: 'Casa 2 plantas - 2 Dormitorios',
+        construccion_superficie: '71.00',
+        construccion_valor_total_numeral: '22720.00',
+        construccion_val_couta_inicial_numeral: '7955.00',
+        construccion_val_couta_mensual_numeral: '200.00',
+    },
+    {
+        construccion_descripcion: 'Casa 2 plantas - 2 Dormitorios',
+        construccion_superficie: 80.00,
+        construccion_valor_total_numeral: 25600.00,
+        construccion_val_couta_inicial_numeral: 8960.00,
+        construccion_val_couta_mensual_numeral: 225.00,
+    },
+    {
+        construccion_descripcion: 'Casa 2 plantas - 3 Dormitorios',
+        construccion_superficie: 95.00,
+        construccion_valor_total_numeral: 30400.00,
+        construccion_val_couta_inicial_numeral: 10640.00,
+        construccion_val_couta_mensual_numeral: 265.00,
+    },
+    {
+        construccion_descripcion: 'Casa 2 plantas - 3 Dormitorios',
+        construccion_superficie: 120.00,
+        construccion_valor_total_numeral: 38400.00,
+        construccion_val_couta_inicial_numeral: 13440.00,
+        construccion_val_couta_mensual_numeral: 335.00,
     }
 ]
 );
 const option_selected_construccion = ref([]);
-
+const disable_options_construcciones = ref(false);
 const headers = ref([
-    { title: 'Descripcion', align: 'center', key: 'construccion_descripcion' },
+    { title: 'Descripción', align: 'center', key: 'construccion_descripcion' },
     { title: 'Superficie de construccion (m²)', align: 'center', key: 'construccion_superficie' },
-    { title: 'Valor total construccion ($us)', align: 'center', key: 'construccion_valor_total_numeral' },
-    { title: 'Valor couta inicial ($us)', align: 'center', key: 'construccion_val_couta_inicial_numeral' },
-    { title: 'Valor couta mensual ($sus)', align: 'center', key: 'construccion_val_couta_mensual_numeral' },
+    { title: 'Valor total construcción ($us)', align: 'center', key: 'construccion_valor_total_numeral' },
+    { title: 'Valor couta inicial construcción ($us)', align: 'center', key: 'construccion_val_couta_inicial_numeral' },
+    { title: 'Valor couta mensual construcción ($us) a 10 años', align: 'center', key: 'construccion_val_couta_mensual_numeral' },
 ]);
 
-watch(option_selected_construccion, (newValue, oldValue) => {
-    console.log(newValue);
-})
+//cuando cambia el valor de option_selected_construccion se ejecuta este trozo de codigo
+watch(option_selected_construccion, (new_value, old_value) => {
+    //verificamos si se  selecciona una fila de la tabla
+    if (new_value.length > 0) {
+        item_detalle_contrato.value.construccion_descripcion = new_value[0].construccion_descripcion;
+        item_detalle_contrato.value.construccion_superficie = new_value[0].construccion_superficie;
+        item_detalle_contrato.value.construccion_valor_total_numeral = new_value[0].construccion_valor_total_numeral;
+        item_detalle_contrato.value.construccion_val_couta_inicial_numeral = new_value[0].construccion_val_couta_inicial_numeral;
+        item_detalle_contrato.value.construccion_val_couta_mensual_numeral = new_value[0].construccion_val_couta_mensual_numeral;
+    }
+});
+
+//cuando cambia el valor de disable_options_construcciones se ejecuta este trozo de codigo
+watch(disable_options_construcciones, (new_value, old_value) => {
+    //verificamos si se  selecciona una fila de la tabla
+    if (new_value) {
+        option_selected_construccion.value = [];
+    }
+});
+
+
 
 const initNumberOfClients = () => {
     //crea un array de tipo clientes solamente sus atributos
@@ -535,7 +658,20 @@ const isForm = () => {
         edit_form.value = false;
         new_form.value = true;
         item_detalle_contrato.value = new Contrato().getAttributes('detalle-contrato');
+        option_selected_construccion.value = [];
     }
+}
+
+// Función de comparación
+const objetosSonIguales = (objetoA, objetoB) => {
+    const keysA = Object.keys(objetoA);
+    const keysB = Object.keys(objetoB);
+
+    if (keysA.length != keysB.length) {
+        return false;
+    }
+
+    return keysA.every(key => objetoA[key] == objetoB[key]);
 }
 
 const uploadDetalleContrato = () => {
@@ -549,6 +685,25 @@ const uploadDetalleContrato = () => {
         loading_edit_form.value = false;
         if (response.status) {
             item_detalle_contrato.value = Object.assign({}, response.record);
+            const is_option_construccion = {
+                construccion_descripcion: item_detalle_contrato.value.construccion_descripcion,
+                construccion_superficie: item_detalle_contrato.value.construccion_superficie,
+                construccion_valor_total_numeral: item_detalle_contrato.value.construccion_valor_total_numeral,
+                construccion_val_couta_inicial_numeral: item_detalle_contrato.value.construccion_val_couta_inicial_numeral,
+                construccion_val_couta_mensual_numeral: item_detalle_contrato.value.construccion_val_couta_mensual_numeral,
+            };
+
+            // Buscar la posición del objeto igual en el array
+            var posicion = options_construcciones.value.findIndex(objetoArray => objetosSonIguales(is_option_construccion, objetoArray));
+
+            if (posicion == -1) {
+                //si ningun objeto esta en el array significa que introdujo los datos manualmente
+                disable_options_construcciones.value = true;
+            } else {
+                option_selected_construccion.value = [options_construcciones.value[posicion]];
+            }
+
+
         } else {
             useToastify('danger', response.message);
         }
@@ -594,6 +749,12 @@ const openPDF = (path_pdf) => {
 const save = () => {
     loading_generate_pdf.value = true;
     setTimeout(async () => {
+        //verificar si selecciono una fila de la tabla
+        if (disable_options_construcciones.value == false && option_selected_construccion.value.length == 0) {
+            useToastify('danger', 'Debe  seleccionar una fila con datos de la tabla!');
+            loading_generate_pdf.value = false;
+            return;
+        }
         //.map=> itera el array items_clientes y la variable clients es un array por que en javascript se determina
         // el tipo de variable segun su contenido, entonces items_cliente.value.map(), devuelve un nuevo array
         const clients = items_cliente.value.map(item => new Cliente(props.p_selected_desarrolladora, item));

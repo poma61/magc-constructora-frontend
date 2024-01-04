@@ -40,6 +40,7 @@ class Contrato {
             primera_val_couta_mensual_numeral: "",
             segunda_val_couta_mensual_numeral: "",
             tercera_val_couta_mensual_numeral: "",
+            cuarta_val_couta_mensual_numeral: "",
             lugar_firma_contrato: "",
             fecha_firma_contrato: "",
             add_info_terreno: false,//informacion adicional del terreno
