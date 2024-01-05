@@ -70,7 +70,7 @@
 
                 <v-col cols="12">
                     <div class="ma-1 image-content">
-                        <v-img v-if="url_image != null" :width="280" :height="280" cover :src="url_image">
+                        <v-img v-if="url_image != null" :width="280" :height="280"  :src="url_image">
                         </v-img>
                     </div>
                 </v-col>
@@ -93,24 +93,23 @@
                     <v-icon icon="mdi-camera"></v-icon> Camara web
                 </span>
             </v-card-title>
-            <v-container>
+            <v-card-text>
                 <Camera ref="camera" :autoplay="false"></Camera>
 
                 <v-select :items="devices_camera.name" label="Dispositivos de camara" color="light-blue-darken-3"
-                    v-model="current_device_camera.name" @update:model-value="changeDeviceCamera"
-                    :error-messages="current_device_camera.active ? '' : 'No hay dispositivos de camara.'" />
-
-                <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn color="light-blue-darken-3" variant="elevated" @click="capturePhoto"
-                        :disabled="!current_device_camera.active ? true : false">
-                        <v-icon icon="mdi-camera"></v-icon>&nbsp;Tomar foto
-                    </v-btn>
-                    <v-btn color="red" variant="elevated" @click="closeCamera">
-                        <v-icon icon="mdi-close"></v-icon>&nbsp;Cerrar
-                    </v-btn>
-                </v-card-actions>
-            </v-container>
+                    v-model="selected_device_camera.name" @update:model-value="changeDeviceCamera"
+                    :error-messages="selected_device_camera.active ? '' : 'No hay dispositivos de camara.'" />
+            </v-card-text>
+            <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="light-blue-darken-3" variant="elevated" @click="capturePhoto"
+                    :disabled="!selected_device_camera.active ? true : false">
+                    <v-icon icon="mdi-camera"></v-icon>&nbsp;Tomar foto
+                </v-btn>
+                <v-btn color="red" variant="elevated" @click="closeCamera">
+                    <v-icon icon="mdi-close"></v-icon>&nbsp;Cerrar
+                </v-btn>
+            </v-card-actions>
         </v-card>
     </v-dialog>
 </template>
@@ -131,7 +130,7 @@ const devices_camera = ref({
     name: [],
     device: []
 });
-const current_device_camera = ref({ active: false, name: "" });
+const selected_device_camera = ref({ active: false, name: "" });
 const dialog_camera = ref(false);
 const item_personal = ref(props.p_item_personal);
 const camera = ref(null);
@@ -184,7 +183,7 @@ const openCamera = async () => {
 
 const capturePhoto = async () => {
     if (camera.value != null) {
-        const blob = await camera.value.snapshot({ width: 800, height: 500 }, "image/jpeg", 0.5);
+        const blob = await camera.value.snapshot({ width: 500, height: 700 }, "image/jpeg", 0.5);
         if (blob) {
             url_image.value = blob;
             url_image.value = URL.createObjectURL(blob);
@@ -202,7 +201,7 @@ const closeCamera = () => {
     }
     devices_camera.value.name = [];
     devices_camera.value.device = [];
-    current_device_camera.value = { active: false, name: "" };
+    selected_device_camera.value = { active: false, name: "" };
     dialog_camera.value = false;
 }
 const listDeviceCamera = async () => {
@@ -213,22 +212,21 @@ const listDeviceCamera = async () => {
     }
     //verificamos si se encontraron camaras
     if (devices.length > 0) {
-        current_device_camera.value.name = devices_camera.value.name[0];
-        current_device_camera.value.active = true;
-        useToastify('info', 'Camara iniciada!')
+        selected_device_camera.value.name = devices_camera.value.name[0];
+        selected_device_camera.value.active = true;
     } else {
-        useToastify('danger', 'No dispositvos de camara.')
+        useToastify('danger', 'No hay dispositvos de camara.')
     }
 
 }
-const changeDeviceCamera = () => {
+const changeDeviceCamera = async () => {
     for (let i = 0; i < devices_camera.value.device.length; i++) {
         //compara la camara selecciona de v-select con las camaras almacenadas en  devices_camera
-        if (current_device_camera.value.name == devices_camera.value.device[i].label) {
-            camera.value.changeCamera(devices_camera.value.device[i].deviceId);
-            useToastify('success', "Camara seleccionada " + devices_camera.value.device[i].label + ".");
-        } else {
-            useToastify('danger', "No se puedo seleccionar ningun camara.");
+        if (selected_device_camera.value.name == devices_camera.value.device[i].label) {
+            //esperamos que se active la camara seleccionada
+            await camera.value.changeCamera(devices_camera.value.device[i].deviceId);
+            //si se selecciona una camara salimos del ciclo for
+            break;
         }
     }
 
