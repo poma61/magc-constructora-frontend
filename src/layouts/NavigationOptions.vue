@@ -51,11 +51,12 @@
                     <v-card min-width="250">
                         <v-list>
                             <v-list-item :prepend-avatar="app.BASE_URL + user.foto"
-                                :title="`${user.nombres} ${user.apellido_paterno} ${user.apellido_materno}`"
-                                :subtitle="user.rol_name">
+                                :title="`${user.nombres} ${user.apellido_paterno} ${user.apellido_materno}`">
+                                <p class="text-medium-emphasis">Rol: {{ user.rol_name }}</p>
+                                <p class="text-medium-emphasis">Desarrolladora: {{ user.desarrolladora }}</p>
                             </v-list-item>
                         </v-list>
-
+                        <v-divider></v-divider>
                         <v-list>
                             <v-list-item :to="{ name: 'n-perfil' }">
                                 <v-icon icon="mdi-account"></v-icon>

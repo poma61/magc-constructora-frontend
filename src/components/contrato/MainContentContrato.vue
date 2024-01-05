@@ -1,7 +1,7 @@
 <template>
     <div class="animate__animated animate__fadeInLeft d-flex flex-wrap" style="width: 100%;">
         <v-select label="Desarrolladoras" v-model="selected_desarrolladora" :items="list_desarrolladora" color="primary"
-            @update:model-value="loadDataTable" style="min-width: 400px;" />
+            @update:model-value="loadDataTable" style="min-width: 400px;" :readonly="desarrolladora_by_disable" />
 
         <v-tooltip text="Actualizar tablero">
             <template v-slot:activator="{ props }">
@@ -126,6 +126,7 @@ import Contrato from '@/http/services/Contrato';
 import FormatDate from '@/util/FormatDate';
 import app from "@/config/app.js";
 import useToastify from '@/composables/useToastify';
+import useRoleByDesarrolladora from '@/composables/useRoleByDesarrolladora';
 import Desarrolladora from '@/http/services/Desarrolladora';
 //data
 const data = ref([]);
@@ -143,7 +144,7 @@ const contrato_pdf_url = ref("");
 const list_desarrolladora = ref([]);
 const selected_desarrolladora = ref("");
 const loading_update_pdf = ref(false);
-
+const desarrolladora_by_disable = ref(true);
 const items_per_page_options = ref([
     { value: 10, title: '10' },
     { value: 25, title: '25' },
@@ -172,7 +173,7 @@ const listDesarrolladora = async () => {
     if (response.status) {
         const all_desarrolladora = response.records;
         list_desarrolladora.value = all_desarrolladora.map(item => item.nombres);
-        selected_desarrolladora.value = list_desarrolladora.value[0];
+ 
     } else {
         useToastify('danger', response.message);
     }
@@ -292,8 +293,13 @@ const loadDataTable = () => {
 }
 
 onMounted(async () => {
-    showDataTable();
+    //esta parte es para desabilitar el v-select de la desarrolladora segun el rol que se le asigna
+    // y ademas se asigna la desarrolladora que le corresponde al usuario
+    const response = await useRoleByDesarrolladora();
+    desarrolladora_by_disable.value = response.disable;
+    selected_desarrolladora.value = response.desarrolladora;
     await listDesarrolladora();
+    showDataTable();
     loadDataTable();
 });
 

@@ -12,7 +12,7 @@
                     <v-text-field v-model="user" :readonly="loading" class="mb-2" clearable label="Usuario"
                         placeholder="Escriba su usuario..." color="blue-darken-3"></v-text-field>
 
-                    <v-text-field v-model="password" :readonly="loading" label="Password"
+                    <v-text-field v-model="password" :readonly="loading" label="Contraseña"
                         placeholder="Escriba su contraseña..." color="blue-darken-3"
                         :append-inner-icon="show ? 'mdi-eye' : 'mdi-eye-off'" :type="show ? 'text' : 'password'"
                         autocomplete="off" @click:append-inner="show = !show"></v-text-field>

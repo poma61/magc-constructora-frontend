@@ -1,6 +1,6 @@
 <template>
     <v-select label="Desarrolladoras" v-model="selected_desarrolladora" :items="list_desarrolladora" color="purple-darken-1"
-        @update:model-value="loadDataTable" />
+        @update:model-value="loadDataTable" :readonly="desarrolladora_by_disable" />
 
     <div class="d-flex">
         <div class="d-flex flex-column">
@@ -109,6 +109,7 @@ import { onMounted } from 'vue';
 import { ref } from 'vue';
 import useToastify from '@/composables/useToastify';
 import Desarrolladora from '@/http/services/Desarrolladora';
+import useRoleByDesarrolladora from '@/composables/useRoleByDesarrolladora';
 
 const index_data_item = ref(-1);
 const dialog_delete = ref(false);
@@ -123,6 +124,7 @@ const items_per_page_options = ref([
     { value: 25, title: '25' },
     { value: 50, title: '50' },
 ]);
+const desarrolladora_by_disable = ref("");
 const columns = ref([
     { title: 'Nombres', key: 'nombres', },
     { title: 'Apellido paterno', key: 'apellido_paterno' },
@@ -143,7 +145,6 @@ const listDesarrolladora = async () => {
     if (response.status) {
         const all_desarrolladora = response.records;
         list_desarrolladora.value = all_desarrolladora.map(item => item.nombres);
-        selected_desarrolladora.value = list_desarrolladora.value[0];
     } else {
         useToastify('danger', response.message);
     }
@@ -224,7 +225,11 @@ const updateDataTable = (type, item) => {
 }
 
 onMounted(async () => {
-    //primero esperamos a listar las desarrolladoras
+    //esta parte es para desabilitar el v-select de la desarrolladora segun el rol que tiene el usuario
+    // y ademas se asigna la desarrolladora que le corresponde al usuario
+    const response = await useRoleByDesarrolladora();
+    desarrolladora_by_disable.value = response.disable;
+    selected_desarrolladora.value = response.desarrolladora;
     await listDesarrolladora();
     loadDataTable();
 });

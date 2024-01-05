@@ -1,8 +1,12 @@
-import { createRouter, createWebHistory, createWebHashHistory } from 'vue-router'
-import LoginView from '@/views/LoginView.vue'
-import UsuarioView from '@/views/UsuarioView.vue'
-import authExpiration from '@/http/middleware/authExpiration'
-import authenticate from '@/http/middleware/authenticate'
+import { createRouter, createWebHistory, createWebHashHistory } from 'vue-router';
+import middleware from '@/http/middleware/middleware';
+//add 
+import LoginView from '@/views/LoginView.vue';
+import UsuarioView from '@/views/UsuarioView.vue';
+import authExpiration from '@/http/middleware/authExpiration';
+import authenticate from '@/http/middleware/authenticate';
+import checkRole from '@/http/middleware/checkRole';
+import rendirect from '@/http/middleware/redirect';
 import NotFound from '@/views/NotFound.vue';
 import InicioView from '@/views/InicioView.vue';
 import HistorialDePagoClienteView from '@/views/HistorialDePagoClienteView.vue';
@@ -10,6 +14,7 @@ import ClienteView from '@/views/ClienteView.vue';
 import DesarrolladoraView from '@/views/DesarrolladoraView.vue';
 import PersonalView from '@/views/PersonalView.vue';
 import ProfileView from '@/views/ProfileView.vue';
+import AccessDenied from '@/views/AccessDenied.vue';
 
 const routes = [
   //esta parte es cuando se introduce una url que no existe 
@@ -18,7 +23,27 @@ const routes = [
     component: NotFound,
     meta: {
       requireAuth: true,
-    }
+    },
+    beforeEnter: [
+      middleware(authExpiration),
+      middleware(rendirect),
+      middleware(authenticate),
+      middleware(checkRole, ['administrador', 'usuario'])
+    ],
+  },
+
+  {
+    path: '/access-denied',
+    component: AccessDenied,
+    meta: {
+      requireAuth: true,
+    },
+    beforeEnter: [
+      middleware(authExpiration),
+      middleware(rendirect),
+      middleware(authenticate),
+      middleware(checkRole, ['administrador', 'usuario'])
+    ],
   },
 
   {
@@ -27,7 +52,13 @@ const routes = [
     component: LoginView,
     meta: {
       requireAuth: false,
-    }
+    },
+    beforeEnter: [
+      middleware(authExpiration),
+      middleware(rendirect),
+      middleware(authenticate),
+      middleware(checkRole, ['administrador', 'usuario'])
+    ],
   },
   {
     path: '/inicio',
@@ -35,7 +66,13 @@ const routes = [
     component: InicioView,
     meta: {
       requireAuth: true,
-    }
+    },
+    beforeEnter: [
+      middleware(authExpiration),
+      middleware(rendirect),
+      middleware(authenticate),
+      middleware(checkRole, ['administrador', 'usuario'])
+    ],
   },
 
   {
@@ -44,7 +81,13 @@ const routes = [
     component: DesarrolladoraView,
     meta: {
       requireAuth: true,
-    }
+    },
+    beforeEnter: [
+      middleware(authExpiration),
+      middleware(rendirect),
+      middleware(authenticate),
+      middleware(checkRole, ['administrador'])
+    ],
   },
 
   {
@@ -53,7 +96,13 @@ const routes = [
     component: ClienteView,
     meta: {
       requireAuth: true,
-    }
+    },
+    beforeEnter: [
+      middleware(authExpiration),
+      middleware(rendirect),
+      middleware(authenticate),
+      middleware(checkRole, ['administrador', 'usuario'])
+    ],
   },
 
   {
@@ -62,7 +111,13 @@ const routes = [
     component: UsuarioView,
     meta: {
       requireAuth: true,
-    }
+    },
+    beforeEnter: [
+      middleware(authExpiration),
+      middleware(rendirect),
+      middleware(authenticate),
+      middleware(checkRole, ['administrador'])
+    ],
   },
 
   {
@@ -71,7 +126,13 @@ const routes = [
     component: HistorialDePagoClienteView,
     meta: {
       requireAuth: true,
-    }
+    },
+    beforeEnter: [
+      middleware(authExpiration),
+      middleware(rendirect),
+      middleware(authenticate),
+      middleware(checkRole, ['administrador'])
+    ], 
   },
 
   {
@@ -80,7 +141,13 @@ const routes = [
     component: PersonalView,
     meta: {
       requireAuth: true,
-    }
+    },
+    beforeEnter: [
+      middleware(authExpiration),
+      middleware(rendirect),
+      middleware(authenticate),
+      middleware(checkRole, ['administrador'])
+    ],
   },
 
   {
@@ -89,7 +156,13 @@ const routes = [
     component: () => import(/* webpackChunkName: "cliente" */ '@/views/ContratoView.vue'),
     meta: {
       requireAuth: true,
-    }
+    },
+    beforeEnter: [
+      middleware(authExpiration),
+      middleware(rendirect),
+      middleware(authenticate),
+      middleware(checkRole, ['administrador', 'usuario'])
+    ],
   },
 
   {
@@ -98,7 +171,13 @@ const routes = [
     component: ProfileView,
     meta: {
       requireAuth: true,
-    }
+    },
+    beforeEnter: [
+      middleware(authExpiration),
+      middleware(rendirect),
+      middleware(authenticate),
+      middleware(checkRole, ['administrador', 'usuario'])
+    ],
   },
 
 ]
@@ -108,13 +187,5 @@ const router = createRouter({
   history: createWebHashHistory(process.env.BASE_URL),
   routes,
 })
-
-
-
-//agregar middleware para proteger mlas rutas
-router.beforeResolve((to, from, next) => {
-  authExpiration();
-  authenticate(to, from, next);
-});
 
 export default router

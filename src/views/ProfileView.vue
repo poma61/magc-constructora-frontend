@@ -17,7 +17,9 @@
                     <tbody>
                         <tr>
                             <td colspan="2">
-                                <v-img :src="app.BASE_URL + is_user.foto" height="200" class="ma-2" />
+                                <div class="text-center ma-2">
+                                    <v-avatar :image="app.BASE_URL + is_user.foto" size="200" />
+                                </div>
                             </td>
                         </tr>
                         <tr>

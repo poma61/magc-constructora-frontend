@@ -9,9 +9,9 @@
                 <v-row justify="center">
                     <v-col cols="auto" md="auto">
                         <v-hover v-slot="{ isHovering, props }" close-delay="100">
-                            <v-card :elevation="isHovering ? 24 : 2" :class="{ 'on-hover': isHovering }" height="350"
-                                width="350" v-bind="props" class="ma-2">
-                                <v-img :src="require('@/assets/images/img-1.jpg')" height="350" width="350" cover>
+                            <v-card :elevation="isHovering ? 24 : 2" :class="{ 'on-hover': isHovering }" height="300"
+                                width="300" v-bind="props" class="ma-2">
+                                <v-img :src="require('@/assets/images/img-1.jpg')" class="as-img-home" cover>
                                     <v-expand-transition>
                                         <div v-if="isHovering"
                                             class="d-flex flex-column justify-center transition-fast-in-fast-out v-card--reveal as-transparent-blank pa-5"
@@ -25,11 +25,6 @@
                                                 10 años de experiencia al servicio de nuestros clientes, posicionándonos
                                                 como
                                                 empresa líder en el mercado gracias a la preferencia de nuestros clientes.
-                                                Todos nuestros servicios están garantizados, recibirás la mejor atención y
-                                                te
-                                                ayudaremos a encontrar la solución más adecuada para tus necesidades.
-                                                ¿Tienes alguna duda o requieres más información?, ponte en contacto con
-                                                nosotros, con gusto te asesoraremos y resolveremos tus dudas.
                                             </p>
 
                                         </div>
@@ -41,9 +36,9 @@
 
                     <v-col cols="auto" md="auto">
                         <v-hover v-slot="{ isHovering, props }" close-delay="100">
-                            <v-card :elevation="isHovering ? 24 : 2" :class="{ 'on-hover': isHovering }" height="350"
-                                width="350" v-bind="props" class="ma-2">
-                                <v-img :src="require('@/assets/images/img-2.jpeg')" height="350" width="350" cover>
+                            <v-card :elevation="isHovering ? 24 : 2" :class="{ 'on-hover': isHovering }" height="300"
+                                width="300" v-bind="props" class="ma-2">
+                                <v-img :src="require('@/assets/images/img-2.jpeg')" class="as-img-home" cover>
                                     <v-expand-transition>
                                         <div v-if="isHovering"
                                             class="d-flex flex-column justify-center transition-fast-in-fast-out v-card--reveal as-transparent-blank pa-5 "
@@ -66,9 +61,9 @@
 
                     <v-col cols="auto" md="auto">
                         <v-hover v-slot="{ isHovering, props }" close-delay="100">
-                            <v-card :elevation="isHovering ? 24 : 2" :class="{ 'on-hover': isHovering }" height="350"
-                                width="350" v-bind="props" class="ma-2">
-                                <v-img :src="require('@/assets/images/img-3.jpeg')" height="350" width="350" cover>
+                            <v-card :elevation="isHovering ? 24 : 2" :class="{ 'on-hover': isHovering }" height="300"
+                                width="300" v-bind="props" class="ma-2">
+                                <v-img :src="require('@/assets/images/img-3.jpeg')" class="as-img-home" cover>
                                     <v-expand-transition>
                                         <div v-if="isHovering"
                                             class="d-flex flex-column justify-center transition-fast-in-fast-out as-transparent-blank v-card--reveal  pa-5"
@@ -90,53 +85,53 @@
 
                     <v-col cols="auto" md="auto">
                         <v-hover v-slot="{ isHovering, props }" close-delay="100">
-                            <v-card :elevation="isHovering ? 24 : 2" :class="{ 'on-hover': isHovering }" height="350"
-                                width="350" v-bind="props" class="ma-2">
-                                <v-img :src="require('@/assets/images/img-4.jpeg')" height="350" width="350" cover />
+                            <v-card :elevation="isHovering ? 24 : 2" :class="{ 'on-hover': isHovering }" height="300"
+                                width="300" v-bind="props" class="ma-2">
+                                <v-img :src="require('@/assets/images/img-4.jpeg')" class="as-img-home" cover />
                             </v-card>
                         </v-hover>
                     </v-col>
 
                     <v-col cols="auto" md="auto">
                         <v-hover v-slot="{ isHovering, props }" close-delay="100">
-                            <v-card :elevation="isHovering ? 24 : 2" :class="{ 'on-hover': isHovering }" height="350"
-                                width="350" v-bind="props" class="ma-2">
-                                <v-img :src="require('@/assets/images/img-4.jpeg')" height="350" width="350" cover />
+                            <v-card :elevation="isHovering ? 24 : 2" :class="{ 'on-hover': isHovering }" height="300"
+                                width="300" v-bind="props" class="ma-2">
+                                <v-img :src="require('@/assets/images/img-4.jpeg')" class="as-img-home" cover />
                             </v-card>
                         </v-hover>
                     </v-col>
 
                     <v-col cols="auto" md="auto">
                         <v-hover v-slot="{ isHovering, props }" close-delay="100">
-                            <v-card :elevation="isHovering ? 24 : 2" :class="{ 'on-hover': isHovering }" height="350"
-                                width="350" v-bind="props" class="ma-2">
-                                <v-img :src="require('@/assets/images/img-5.jpg')" height="350" width="350" cover />
+                            <v-card :elevation="isHovering ? 24 : 2" :class="{ 'on-hover': isHovering }" height="300"
+                                width="300" v-bind="props" class="ma-2">
+                                <v-img :src="require('@/assets/images/img-5.jpg')" class="as-img-home" cover />
                             </v-card>
                         </v-hover>
                     </v-col>
 
                     <v-col cols="auto" md="auto">
                         <v-hover v-slot="{ isHovering, props }" close-delay="100">
-                            <v-card :elevation="isHovering ? 24 : 2" :class="{ 'on-hover': isHovering }" height="350"
-                                width="350" v-bind="props" class="ma-2">
-                                <v-img :src="require('@/assets/images/img-6.jpeg')" height="350" width="350" cover />
+                            <v-card :elevation="isHovering ? 24 : 2" :class="{ 'on-hover': isHovering }" height="300"
+                                width="300" v-bind="props" class="ma-2">
+                                <v-img :src="require('@/assets/images/img-6.jpeg')" class="as-img-home" cover />
                             </v-card>
                         </v-hover>
                     </v-col>
                     <v-col cols="auto" md="auto">
                         <v-hover v-slot="{ isHovering, props }" close-delay="100">
-                            <v-card :elevation="isHovering ? 24 : 2" :class="{ 'on-hover': isHovering }" height="350"
-                                width="350" v-bind="props" class="ma-2">
-                                <v-img :src="require('@/assets/images/img-7.jpeg')" height="350" width="350" cover />
+                            <v-card :elevation="isHovering ? 24 : 2" :class="{ 'on-hover': isHovering }" height="300"
+                                width="300" v-bind="props" class="ma-2">
+                                <v-img :src="require('@/assets/images/img-7.jpeg')" class="as-img-home" cover />
                             </v-card>
                         </v-hover>
                     </v-col>
 
                     <v-col cols="auto" md="auto">
                         <v-hover v-slot="{ isHovering, props }" close-delay="100">
-                            <v-card :elevation="isHovering ? 24 : 2" :class="{ 'on-hover': isHovering }" height="350"
-                                width="350" v-bind="props" class="ma-2">
-                                <v-img :src="require('@/assets/images/img-8.jpeg')" height="350" width="350" cover />
+                            <v-card :elevation="isHovering ? 24 : 2" :class="{ 'on-hover': isHovering }" height="300"
+                                width="300" v-bind="props" class="ma-2">
+                                <v-img :src="require('@/assets/images/img-8.jpeg')" class="as-img-home" cover />
                             </v-card>
                         </v-hover>
                     </v-col>
@@ -154,4 +149,10 @@ import MainApp from '@/layouts/MainApp.vue';
 .as-transparent-blank {
     background-color: rgba(0, 0, 0, 0.39);
 }
+
+.as-img-home {
+    width: 350px;
+    height: 350px;
+}
+
 </style>

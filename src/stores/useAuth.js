@@ -54,6 +54,15 @@ export const useAuth = defineStore('useAuth', {
             }
         },//user
 
+        async hasRole() {
+            try {
+                const resolve = await axios.post("/auth/verify-role");
+                return resolve.data;
+            } catch (error) {
+                return error.response.data;
+            }
+        },//user
+
         async updateCredentials(credentials) {
             try {
                 const response = await axios.post("/auth/actualizar-credenciales", {
