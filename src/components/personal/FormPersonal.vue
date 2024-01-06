@@ -284,7 +284,6 @@ const clear = () => {
 onMounted(() => {
     showImage();
 })
-
 </script> 
 
 

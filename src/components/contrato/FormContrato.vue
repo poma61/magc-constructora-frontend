@@ -304,7 +304,8 @@
                             <v-text-field v-model="item_detalle_contrato.construccion_superficie"
                                 label="Superficie del terreno, construccion (*)" color="cyan-darken-1" suffix="(m²)"
                                 :error-messages="showFieldsErrors('detalle_contrato.construccion_superficie')"
-                                variant="solo-filled" clearable />
+                                variant="solo-filled" clearable 
+                                @input="asseptDoubleNumber($event, 'construccion_superficie')"/>
                         </v-col>
 
                         <v-col cols="12" md="6">
@@ -722,7 +723,7 @@ const uploadDetalleContrato = () => {
             };
 
             // Buscar la posición del objeto igual en el array
-            var posicion = options_construcciones.value.findIndex(objetoArray => objetosSonIguales(is_option_construccion, objetoArray));
+            var posicion = options_construcciones.value.findIndex(item => objetosSonIguales(is_option_construccion, item));
 
             if (posicion == -1) {
                 //si ningun objeto esta en el array significa que introdujo los datos manualmente
