@@ -1,5 +1,6 @@
 <template>
     <div class="animate__animated animate__fadeInLeft d-flex flex-wrap" style="width: 100%;">
+
         <v-select label="Desarrolladoras" v-model="selected_desarrolladora" :items="list_desarrolladora" color="primary"
             @update:model-value="loadDataTable" style="min-width: 400px;" :readonly="desarrolladora_by_disable" />
 
@@ -15,9 +16,11 @@
             :variant="show_data_table == true ? 'elevated' : 'tonal'">
             <v-icon icon="mdi-table-large"></v-icon>&nbsp;Ver tablero
         </v-btn>
+
         <v-btn @click="newForm()" color="primary" class="ma-1" :variant="show_form == true ? 'elevated' : 'tonal'">
             <v-icon icon="mdi-note-plus-outline"></v-icon>&nbsp;Nuevo contrato
         </v-btn>
+
     </div>
 
     <div v-if="show_data_table" class="my-4">
@@ -173,7 +176,7 @@ const listDesarrolladora = async () => {
     if (response.status) {
         const all_desarrolladora = response.records;
         list_desarrolladora.value = all_desarrolladora.map(item => item.nombres);
- 
+
     } else {
         useToastify('danger', response.message);
     }

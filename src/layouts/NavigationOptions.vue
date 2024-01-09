@@ -22,9 +22,9 @@
                     &nbsp;Contratos
                 </v-tab>
 
-                <v-tab :to="{ name: 'n-historial-de-pago-cliente' }">
+                <v-tab :to="{ name: 'n-transaccion-pago-couta' }">
                     <v-icon icon="mdi-account-credit-card" />
-                    &nbsp;Historial de pagos
+                    &nbsp;Transacciones de pagos
                 </v-tab>
 
                 <v-tab :to="{ name: 'n-personal' }">

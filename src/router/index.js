@@ -9,7 +9,7 @@ import checkRole from '@/http/middleware/checkRole';
 import rendirect from '@/http/middleware/redirect';
 import NotFound from '@/views/NotFound.vue';
 import InicioView from '@/views/InicioView.vue';
-import HistorialDePagoClienteView from '@/views/HistorialDePagoClienteView.vue';
+import TransaccionPagoCoutaView from '@/views/TransaccionPagoCoutaView.vue';
 import ClienteView from '@/views/ClienteView.vue';
 import DesarrolladoraView from '@/views/DesarrolladoraView.vue';
 import PersonalView from '@/views/PersonalView.vue';
@@ -121,9 +121,9 @@ const routes = [
   },
 
   {
-    path: '/historial-de-pago-cliente',
-    name: 'n-historial-de-pago-cliente',
-    component: HistorialDePagoClienteView,
+    path: '/transaccion-pago-couta',
+    name: 'n-transaccion-pago-couta',
+    component: TransaccionPagoCoutaView,
     meta: {
       requireAuth: true,
     },

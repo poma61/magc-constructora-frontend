@@ -1,9 +1,8 @@
 <template>
     <main class="animate__animated animate__bounceInRight">
         <p class="text-warning text-subtitle-1">Los campos marcados con (*) son obligatorios.</p>
-        <div class="as-flex-contrato">
-
-            <v-card class="as-flex-item-contrato as-form-cliente-contrato" elevation="12">
+       
+            <v-card  elevation="12" class="my-2">
                 <v-card-title class="bg-cyan-darken-1 py-3">
                     <span class="text-h6">Datos del cliente</span>
                 </v-card-title>
@@ -74,40 +73,40 @@
                                 <p class="text-subtitle-1 text-primary">Cliente {{ i + 1 }}</p>
                                 <v-divider class="border-opacity-25 mb-3" color="primary"></v-divider>
                             </v-col>
-                            <v-col cols="12" sm="6">
+                            <v-col cols="12" sm="4">
                                 <v-text-field v-model="cliente.nombres" label="Nombres (*)" color="cyan-darken-1"
                                     :clearable="new_form" :error-messages="showFieldsErrors(`clients.${i}.nombres`)"
                                     variant="solo-filled" :readonly="edit_form" />
                             </v-col>
 
-                            <v-col cols="12" sm="6">
+                            <v-col cols="12" sm="4">
                                 <v-text-field v-model="cliente.apellido_paterno" label="Apellido paterno (*)"
                                     color="cyan-darken-1" :clearable="new_form"
                                     :error-messages="showFieldsErrors(`clients.${i}.apellido_paterno`)"
                                     variant="solo-filled" :readonly="edit_form" />
                             </v-col>
 
-                            <v-col cols="12" sm="6">
+                            <v-col cols="12" sm="4">
                                 <v-text-field v-model="cliente.apellido_materno" label="Apellido materno (*)"
                                     color="cyan-darken-1" :clearable="new_form"
                                     :error-messages="showFieldsErrors(`clients.${i}.apellido_materno`)"
                                     variant="solo-filled" :readonly="edit_form" />
                             </v-col>
 
-                            <v-col cols="12" sm="6">
+                            <v-col cols="12" sm="4">
                                 <v-text-field v-model="cliente.n_de_contacto"
-                                    label="N° de contacto (N° de telefono/celular) (*)" color="cyan-darken-1"
+                                    label="N° de contacto (*)" color="cyan-darken-1"
                                     :clearable="new_form" :error-messages="showFieldsErrors(`clients.${i}.n_de_contacto`)"
                                     type="number" variant="solo-filled" :readonly="edit_form" />
                             </v-col>
 
-                            <v-col cols="12" sm="6">
+                            <v-col cols="12" sm="4">
                                 <v-text-field v-model="cliente.ci" label="C.I. (*)" color="cyan-darken-1"
                                     :clearable="new_form" :error-messages="showFieldsErrors(`clients.${i}.ci`)"
                                     variant="solo-filled" :readonly="edit_form" />
                             </v-col>
 
-                            <v-col cols="12" sm="6">
+                            <v-col cols="12" sm="4">
                                 <v-autocomplete v-model="cliente.ci_expedido" label="Expedido  (*)"
                                     :items="['SC', 'CH', 'CB', 'PT', 'BN', 'LP', 'PA', 'TJ', 'OR', 'SinExp']"
                                     color="cyan-darken-1" :error-messages="showFieldsErrors(`clients.${i}.ci_expedido`)"
@@ -140,7 +139,7 @@
             </v-card>
 
             <!-- card contrato -->
-            <v-card class="as-flex-item-contrato" elevation="12">
+            <v-card  elevation="12" class="mt-5">
                 <v-card-title class="bg-cyan-darken-1 py-3">
                     <span class="text-h6">Datos del contrato</span>
                 </v-card-title>
@@ -444,7 +443,7 @@
 
                 </v-card-text>
             </v-card>
-        </div>
+      
 
         <v-btn class="my-5 float-end" color="primary" variant="elevated" @click="save()">
             <v-icon icon="mdi-content-save"></v-icon>&nbsp;Generar contrato
@@ -832,7 +831,7 @@ const save = () => {
             }
         }
 
-    }, 100)
+    }, 200)
 }
 
 
@@ -841,33 +840,3 @@ onMounted(() => {
 });
 </script>
 
-<style scoped>
-.as-flex-contrato {
-    display: flex;
-    width: 100%;
-    flex-wrap: wrap;
-    gap: 15px;
-}
-
-.as-flex-contrato .as-flex-item-contrato {
-    flex-grow: 1;
-    width: 600px;
-}
-
-.as-flex-contrato .as-form-cliente-contrato {
-    flex-grow: 0;
-    height: fit-content;
-}
-
-@media only screen and (max-width: 1450px) {
-    .as-flex-contrato .as-flex-item-contrato {
-        flex-grow: 1;
-        width: 100%;
-    }
-
-    .as-flex-contrato .as-form-cliente-contrato {
-        flex-grow: 1;
-        width: 100%;
-    }
-}
-</style>
