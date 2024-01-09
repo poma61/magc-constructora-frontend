@@ -99,6 +99,13 @@
             </v-card>
         </v-dialog>
 
+        <v-overlay v-model="loading_logout" class="d-flex align-center justify-center">
+            <div class="text-center">
+                <v-progress-circular color="cyan-darken-1" indeterminate size="100"></v-progress-circular>
+                <p class="text-h6 text-white">Cerrando todos los modulos del sistema...</p>
+            </div>
+        </v-overlay>
+
     </v-app>
 </template>
 
@@ -121,19 +128,26 @@ const user = ref({
     apellido_materno: "",
     foto: "",
 });
-
-const authLogout = async () => {
-    const use_auth = useAuth();
-    const response = await use_auth.logout();
-    if (response.status) {
-        router.push('/');
-    } else {
-        useToastify('danger', response.message);
-    }
-    dialog.value = false;
-}
+const loading_logout = ref(false);
 
 //methods
+const authLogout = () => {
+    const use_auth = useAuth();
+    dialog.value = false;
+    loading_logout.value = true;
+    
+    setTimeout(async () => {
+        const response = await use_auth.logout();
+        loading_logout.value = false;
+        if (response.status) {
+            router.push('/');
+        } else {
+            useToastify('danger', response.message);
+        }
+    }, 200);
+}
+
+
 const auth = async () => {
     const auth = useAuth();
     const response = await auth.user();
