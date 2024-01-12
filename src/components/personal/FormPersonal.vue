@@ -183,7 +183,7 @@ const openCamera = async () => {
 
 const capturePhoto = async () => {
     if (camera.value != null) {
-        const blob = await camera.value.snapshot({ width: 500, height: 700 }, "image/jpeg", 0.5);
+        const blob = await camera.value.snapshot({ width: 500, height: 500 }, "image/jpeg");
         if (blob) {
             url_image.value = blob;
             url_image.value = URL.createObjectURL(blob);

@@ -104,7 +104,7 @@
             <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn color="primary" @click="updatePDF()" variant="elevated">
-                    <v-icon icon="mdi-refresh"></v-icon>&nbsp;Actualizar datos
+                    <v-icon icon="mdi-refresh"></v-icon>&nbsp;Actualizar contrato
                 </v-btn>
                 <v-btn color="yellow-darken-3" @click="closeDialogPDF()" variant="elevated">
                     <v-icon icon="mdi-close-circle"></v-icon>&nbsp;Cerrar
@@ -141,7 +141,7 @@ const item_contrato = ref({});
 const item_detalle_contrato = ref({});
 const date_format = ref(new FormatDate());
 const dialog_delete = ref(false);
-const index_array = ref(-1);
+const index_array = ref([-1, -1]);
 const dialog_pdf = ref(false);
 const contrato_pdf_url = ref("");
 const list_desarrolladora = ref([]);
@@ -165,7 +165,8 @@ const columns = ref([
 
 //methods
 const clear = () => {
-    index_array.value = -1;
+    index_array.value[0] = -1;
+    index_array.value[1] = -1;
     item_contrato.value = {};
     item_detalle_contrato.value = {};
 }
@@ -188,21 +189,44 @@ const newForm = () => {
     showForm();
 }
 const editForm = (item) => {
-    index_array.value = data.value.indexOf(item);
+    //reduce se utiliza para iterar sobre el array data.value.
+    //En cada iteración, verifica si la propiedad archivo_pdf del objeto actual coincide con archivoPDFItem.
+    //Si la condición se cumple, agrega el índice actual al array acc.
+    //Al final, reduce devuelve el array acc que contiene los índices de los objetos que cumplen con la condición.
+    let indices_para_actualizar = data.value.reduce((acc, obj, index) => {
+        // Obtener los índices de los objetos que cumplen con la condición
+        if (obj.archivo_pdf == item.archivo_pdf) {
+            acc.push(index);
+        }
+        return acc;
+    }, []);
+    index_array.value = indices_para_actualizar;
+
     item_contrato.value = Object.assign({}, item);
     showForm();
 }
 
 const openDeleteData = (item) => {
-    index_array.value = data.value.indexOf(item);
+    index_array.value[0] = data.value.indexOf(item);
     item_contrato.value = Object.assign({}, item);
     dialog_delete.value = true;
 }
 
 const viewPDF = (item) => {
+    //reduce se utiliza para iterar sobre el array data.value.
+    //En cada iteración, verifica si la propiedad archivo_pdf del objeto actual coincide con archivoPDFItem.
+    //Si la condición se cumple, agrega el índice actual al array acc.
+    //Al final, reduce devuelve el array acc que contiene los índices de los objetos que cumplen con la condición.
+    let indices_para_actualizar_pdf = data.value.reduce((acc, obj, index) => {
+        // Obtener los índices de los objetos que cumplen con la condición
+        //hacemos esto porque mas de 1 cliente firman un contrato 
+        if (obj.archivo_pdf == item.archivo_pdf) {
+            acc.push(index);
+        }
+        return acc;
+    }, []);
+    index_array.value = indices_para_actualizar_pdf;
     item_contrato.value = Object.assign({}, item);
-    index_array.value = data.value.indexOf(item);
-
     contrato_pdf_url.value = `${app.BASE_URL}/${item_contrato.value.archivo_pdf}`;
     dialog_pdf.value = true;
 }
@@ -227,9 +251,16 @@ const updatePDF = () => {
         dialog_pdf.value = true;
         if (response.status) {
             //actualizamos solo el path del pdf nada mas 
-            Object.assign(data.value[index_array.value], { archivo_pdf: response.record.archivo_pdf });
-            contrato_pdf_url.value = `${app.BASE_URL}/${response.record.archivo_pdf}`;
+            //Hacemos un for porque posiblemente mas de 1 cliente firme el contrato
+            //en la respuesta del backend devolera un array segun cuantos clientes firman un contrato
+            const item = response.record[0];
+            for (let i = 0; i < item.length; i++) {
+                Object.assign(data.value[index_array.value[i]], { archivo_pdf: response.record[0].archivo_pdf });
+            }
+
+            contrato_pdf_url.value = `${app.BASE_URL}/${response.record[0].archivo_pdf}`;
             dialog_pdf.value = true;
+
             useToastify('success', response.message);
         } else {
             useToastify('danger', response.message);
@@ -242,7 +273,7 @@ const confirmDeleteData = async () => {
     contrato.setAttributes('contrato', item_contrato.value);
     const response = await contrato.destroy();
     if (response.status) {
-        data.value.splice(index_array.value, 1)
+        data.value.splice(index_array.value[0], 1)
         useToastify('success', response.message);
     } else {
         useToastify('danger', response.message);
@@ -266,14 +297,24 @@ const showDataTable = () => {
     clear();//para limpiar datos del formulario al visualizar la tabla
 }
 
-
 const localUpdateDataTable = (type, item) => {
     switch (type) {
         case 'new':
-            data.value.push(Object.assign({}, item));
+            item.forEach(obj => {
+                data.value.push(Object.assign({}, obj));
+            });
             break;
+
         case 'edit':
-            Object.assign(data.value[index_array.value], item);
+            const update_required_attributes = {
+                archivo_pdf: item[0].archivo_pdf,
+                descripcion: item[0].descripcion,
+                fecha_firma_contrato: item[0].fecha_firma_contrato,
+            }
+
+            for (let i = 0; i < item.length; i++) {
+                Object.assign(data.value[index_array.value[i]], update_required_attributes);
+            }
             break;
         default:
             useToastify('danger', 'No se encontro ningun tipo para actualizar el tablero');
@@ -289,6 +330,7 @@ const loadDataTable = () => {
         loading_data_table.value = null;
         if (response.status) {
             data.value = response.records;
+
         } else {
             useToastify('danger', response.message);
         }

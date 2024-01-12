@@ -14,10 +14,11 @@ class Contrato {
         this.detalle_contrato = {
             n_de_lote: "",
             n_de_uv: "",
+            n_de_manzano: "",
             zona: "",
             terreno_superficie: "",
-            numero_distrito: "",
-            numero_identificacion_terreno: "",
+            nombre_urbanizacion: "",
+            n_identificacion_terreno: "",
             norte_medida_terreno: "",
             norte_colinda_lote: "",
             sur_medida_terreno: "",
@@ -35,7 +36,7 @@ class Contrato {
             construccion_val_couta_inicial_numeral: "",
             construccion_val_couta_mensual_literal: "",
             construccion_val_couta_mensual_numeral: "",
-            fecha_cancelacion_coutas:"",
+            fecha_cancelacion_coutas: "",
             cantidad_coutas_mensuales: "",
             primera_val_couta_mensual_numeral: "",
             segunda_val_couta_mensual_numeral: "",
@@ -194,7 +195,7 @@ class Contrato {
     async destroy() {
         try {
             const resolve = await axios.post('/contrato/delete-data', {
-                id: this.getAttributes('contrato').id,
+                id_contrato: this.getAttributes('contrato').id,
             }, this.config);
 
             return resolve.data;

@@ -1,21 +1,21 @@
 import { createRouter, createWebHistory, createWebHashHistory } from 'vue-router';
 import middleware from '@/http/middleware/middleware';
 //add 
-import LoginView from '@/views/LoginView.vue';
-import UsuarioView from '@/views/UsuarioView.vue';
 import authExpiration from '@/http/middleware/authExpiration';
 import authenticate from '@/http/middleware/authenticate';
 import checkRole from '@/http/middleware/checkRole';
 import rendirect from '@/http/middleware/redirect';
 import NotFound from '@/views/NotFound.vue';
 import InicioView from '@/views/InicioView.vue';
-import TransaccionPagoCoutaView from '@/views/TransaccionPagoCoutaView.vue';
-import ClienteView from '@/views/ClienteView.vue';
-import DesarrolladoraView from '@/views/DesarrolladoraView.vue';
-import PersonalView from '@/views/PersonalView.vue';
 import ProfileView from '@/views/ProfileView.vue';
 import AccessDenied from '@/views/AccessDenied.vue';
 
+/*
+Para hacer que el sistema sea mas rapido debemos importar el componente de forma diferente,
+se realiza esto en casos de que la vista tenga muchos componentes y/o el sistema tenga muchas vistas
+asi de esta manera separamos en archivos diferentes y con eso mejoramos el renderizado del sistema.
+*/
+//component: () => import(/* webpackChunkName: "nombreArchivo" */ '@/views/TransaccionPagoCoutaView.vue'),
 const routes = [
   //esta parte es cuando se introduce una url que no existe 
   {
@@ -49,7 +49,7 @@ const routes = [
   {
     path: '/',
     name: 'n-login',
-    component: LoginView,
+    component: () => import(/* webpackChunkName: "LoginView" */ '@/views/LoginView.vue'),
     meta: {
       requireAuth: false,
     },
@@ -78,7 +78,7 @@ const routes = [
   {
     path: '/desarrolladora',
     name: 'n-desarrolladora',
-    component: DesarrolladoraView,
+    component: () => import(/* webpackChunkName: "DesarrolladoraView" */ '@/views/DesarrolladoraView.vue'),
     meta: {
       requireAuth: true,
     },
@@ -93,7 +93,7 @@ const routes = [
   {
     path: '/cliente',
     name: 'n-cliente',
-    component: ClienteView,
+    component: () => import(/* webpackChunkName: "ClienteView" */ '@/views/ClienteView.vue'),
     meta: {
       requireAuth: true,
     },
@@ -108,7 +108,7 @@ const routes = [
   {
     path: '/usuario',
     name: 'n-usuario',
-    component: UsuarioView,
+    component: () => import(/* webpackChunkName: "UsuarioView" */ '@/views/UsuarioView.vue'),
     meta: {
       requireAuth: true,
     },
@@ -123,7 +123,7 @@ const routes = [
   {
     path: '/transaccion-pago-couta',
     name: 'n-transaccion-pago-couta',
-    component: TransaccionPagoCoutaView,
+    component: () => import(/* webpackChunkName: "TransaccionPagoCoutaView" */ '@/views/TransaccionPagoCoutaView.vue'),
     meta: {
       requireAuth: true,
     },
@@ -132,13 +132,13 @@ const routes = [
       middleware(rendirect),
       middleware(authenticate),
       middleware(checkRole, ['administrador'])
-    ], 
+    ],
   },
 
   {
     path: '/personal',
     name: 'n-personal',
-    component: PersonalView,
+    component: () => import(/* webpackChunkName: "PersonalView" */ '@/views/PersonalView.vue'),
     meta: {
       requireAuth: true,
     },
@@ -153,7 +153,7 @@ const routes = [
   {
     path: '/contrato-cliente',
     name: 'n-contrato-cliente',
-    component: () => import(/* webpackChunkName: "cliente" */ '@/views/ContratoView.vue'),
+    component: () => import(/* webpackChunkName: "ContratoView" */ '@/views/ContratoView.vue'),
     meta: {
       requireAuth: true,
     },

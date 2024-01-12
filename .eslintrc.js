@@ -15,6 +15,8 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'vue/valid-v-slot': ['error', { allowModifiers: true }],//desactivar slot modifier
     'no-unused-vars': 'off', // Desactivar la regla no-unused-vars
+    //estamos indicando a ESLint que permita la declaración de variables dentro de bloques case 
+    'no-case-declarations': ['off', { 'ignorePatterns': ['^case\\s+[\\s\\S]+?:'] }]//
   },
   overrides: [
     {
