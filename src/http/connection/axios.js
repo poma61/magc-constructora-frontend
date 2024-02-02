@@ -7,7 +7,7 @@ const instance = axios.create({
 
 instance.interceptors.request.use((config) => {
     const use_auth = useAuth();
-    if (use_auth.getAuth().enable) {
+    if (use_auth.getAuth().state) {
         const token = use_auth.getAuth().access_token;
         config.headers['Authorization'] = `Bearer ${token}`;
     }

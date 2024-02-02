@@ -6,7 +6,7 @@ const authenticate = (to, from, next) => {
 
     if (need_auth) {
         //SI necesita autenticacion
-        if (use_auth.getAuth().enable) {
+        if (use_auth.getAuth().state) {
             next();
         } else {
             next({ path: '/' });
@@ -15,6 +15,7 @@ const authenticate = (to, from, next) => {
         // NO necesita autenticacion
         next();
     }
+   
 };
 
 export default authenticate;

@@ -4,7 +4,7 @@ import middleware from '@/http/middleware/middleware';
 import authExpiration from '@/http/middleware/authExpiration';
 import authenticate from '@/http/middleware/authenticate';
 import checkRole from '@/http/middleware/checkRole';
-import rendirect from '@/http/middleware/redirect';
+import redirectifauthenticated from '@/http/middleware/redirectIfAuthenticated';
 import NotFound from '@/views/NotFound.vue';
 import InicioView from '@/views/InicioView.vue';
 import ProfileView from '@/views/ProfileView.vue';
@@ -26,9 +26,8 @@ const routes = [
     },
     beforeEnter: [
       middleware(authExpiration),
-      middleware(rendirect),
+      middleware(redirectifauthenticated),
       middleware(authenticate),
-      middleware(checkRole, ['administrador', 'usuario'])
     ],
   },
 
@@ -40,9 +39,8 @@ const routes = [
     },
     beforeEnter: [
       middleware(authExpiration),
-      middleware(rendirect),
+      middleware(redirectifauthenticated),
       middleware(authenticate),
-      middleware(checkRole, ['administrador', 'usuario'])
     ],
   },
 
@@ -50,15 +48,6 @@ const routes = [
     path: '/',
     name: 'n-login',
     component: () => import(/* webpackChunkName: "LoginView" */ '@/views/LoginView.vue'),
-    meta: {
-      requireAuth: false,
-    },
-    beforeEnter: [
-      middleware(authExpiration),
-      middleware(rendirect),
-      middleware(authenticate),
-      middleware(checkRole, ['administrador', 'usuario'])
-    ],
   },
   {
     path: '/inicio',
@@ -69,7 +58,7 @@ const routes = [
     },
     beforeEnter: [
       middleware(authExpiration),
-      middleware(rendirect),
+      middleware(redirectifauthenticated),
       middleware(authenticate),
       middleware(checkRole, ['administrador', 'usuario'])
     ],
@@ -84,7 +73,7 @@ const routes = [
     },
     beforeEnter: [
       middleware(authExpiration),
-      middleware(rendirect),
+      middleware(redirectifauthenticated),
       middleware(authenticate),
       middleware(checkRole, ['administrador'])
     ],
@@ -99,7 +88,7 @@ const routes = [
     },
     beforeEnter: [
       middleware(authExpiration),
-      middleware(rendirect),
+      middleware(redirectifauthenticated),
       middleware(authenticate),
       middleware(checkRole, ['administrador', 'usuario'])
     ],
@@ -114,7 +103,7 @@ const routes = [
     },
     beforeEnter: [
       middleware(authExpiration),
-      middleware(rendirect),
+      middleware(redirectifauthenticated),
       middleware(authenticate),
       middleware(checkRole, ['administrador'])
     ],
@@ -129,7 +118,7 @@ const routes = [
     },
     beforeEnter: [
       middleware(authExpiration),
-      middleware(rendirect),
+      middleware(redirectifauthenticated),
       middleware(authenticate),
       middleware(checkRole, ['administrador'])
     ],
@@ -144,7 +133,7 @@ const routes = [
     },
     beforeEnter: [
       middleware(authExpiration),
-      middleware(rendirect),
+      middleware(redirectifauthenticated),
       middleware(authenticate),
       middleware(checkRole, ['administrador'])
     ],
@@ -159,7 +148,7 @@ const routes = [
     },
     beforeEnter: [
       middleware(authExpiration),
-      middleware(rendirect),
+      middleware(redirectifauthenticated),
       middleware(authenticate),
       middleware(checkRole, ['administrador', 'usuario'])
     ],
@@ -174,7 +163,7 @@ const routes = [
     },
     beforeEnter: [
       middleware(authExpiration),
-      middleware(rendirect),
+      middleware(redirectifauthenticated),
       middleware(authenticate),
       middleware(checkRole, ['administrador', 'usuario'])
     ],

@@ -721,17 +721,18 @@ const uploadDetalleContrato = () => {
                 construccion_val_couta_mensual_numeral: item_detalle_contrato.value.construccion_val_couta_mensual_numeral,
             };
 
+
             // Buscar la posición del objeto igual en el array
+            //hacemos esto para mostrar en el tablero options_construcciones ue opcion se eligio
             var posicion = options_construcciones.value.findIndex(item => objetosSonIguales(is_option_construccion, item));
 
             if (posicion == -1) {
                 //si ningun objeto esta en el array significa que introdujo los datos manualmente
                 enable_options_construcciones_manually.value = true;
             } else {
+                //significa que se selecciono una opcionde la table
                 option_selected_construccion.value = [options_construcciones.value[posicion]];
             }
-
-
         } else {
             useToastify('danger', response.message);
         }
@@ -800,12 +801,13 @@ const save = () => {
             loading_generate_pdf.value = false;
             if (response.status) {
                 useToastify('success', response.message);
-                emit('toLocalUpdateDataTable', 'edit', response.record);
+                emit('toLocalUpdateDataTable', 'edit', response.records);
                 //asignamos valores del servidor  para una mejor estabilidad del sistema y correcto manejo de datos
                 //porque la ruta del archivo contrato se debe actualizar
                 //porque hay la posibilidad de que el usuario vuelva a enviar el mismo formulario de edicion
                 //del back estamos recibiendo un array porque hay posibilidad de que un contrato sea firmado por mas de 1 persona
-                item_contrato.value = response.record[0];
+                item_contrato.value = response.records[0];
+                console.log(item_contrato.value);
                 openPDF(item_contrato.value.archivo_pdf);
                 fields_errors.value = {};
             } else {
@@ -823,8 +825,8 @@ const save = () => {
                 //aqui no es necesario agregar valores del servidor a item_contrato porque cuando es nuevo registro los campos se limpian automaticamente
                 //solo cuando editamos los campos No se limpian. 
                 //del back estamos recibiendo un array porque hay posibilidad de que un contrato sea firmado por mas de 1 persona
-                openPDF(response.record[0].archivo_pdf);
-                emit('toLocalUpdateDataTable', 'new', response.record);
+                openPDF(response.records[0].archivo_pdf);
+                emit('toLocalUpdateDataTable', 'new', response.records);
                 //descomentar
                 emit('toNewForm');
             } else {

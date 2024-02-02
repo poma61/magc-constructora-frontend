@@ -24,7 +24,8 @@
     <v-card v-if="component_visible.table" class="animate__animated animate__backInDown">
         <v-text-field v-model="buscar_data_table" append-inner-icon="mdi-magnify" clearable label="Buscar Registros..."
             color="yellow-darken-4" />
-        <v-data-table :hover="true" :items="data" :headers="columns" :search="buscar_data_table"
+                 <!-- table  item-value="id" es para elegir la clave unica para cada fila de la tabla  -->
+        <v-data-table :hover="true" :items="data" item-value="id" :headers="columns" :search="buscar_data_table"
             :loading="loading_data_table" :items-per-page-options="items_per_page_options" :show-current-page="true"
             :fixed-header="true" :height="600" :sort-by="[{ key: 'id', order: 'desc' }]">
 
@@ -35,10 +36,10 @@
             <template v-slot:item.actions="{ item }">
                 <div style="width: 150px;">
                     <v-btn @click="editForm(item)" color="light-blue-lighten-1" class="ma-1" variant="elevated">
-                        <span class="mdi mdi-pencil is-size-5"></span>
+                        <span class="mdi mdi-pencil"></span>
                     </v-btn>
                     <v-btn @click="openDeleteData(item)" color="red" class="ma-1" variant="elevated">
-                        <span class="mdi mdi-delete is-size-5"></span>
+                        <span class="mdi mdi-delete"></span>
                     </v-btn>
                 </div>
             </template>
@@ -80,7 +81,7 @@
         v-if="component_visible.form" @toLocalUpdateDataTable="localUpdateDataTable" />
 
     <v-dialog v-model="dialog_delete" persistent transition="dialog-bottom-transition" max-width="500px">
-        <v-card class="px-5 py-5">
+        <v-card class="pa-5">
             <v-card-text class="text-center">
                 <v-icon icon="mdi mdi-trash-can-outline" size="100" color="red"
                     class="animate__animated animate__infinite animate__bounce"></v-icon>
@@ -117,7 +118,6 @@ const component_visible = ref({
 });
 const dialog_delete = ref(false);
 const item_personal = ref({});
-const fields_errors = ref({});
 const list_desarrolladora = ref([]);
 const selected_desarrolladora = ref("");
 const buscar_data_table = ref("");
@@ -170,7 +170,6 @@ const changeDataTable = () => {
 const clear = () => {
     item_personal.value = {};
     index_item.value = -1;
-    fields_errors.value = {};
 }
 const showDataTable = () => {
     component_visible.value.table = true;

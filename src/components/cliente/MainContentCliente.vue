@@ -1,6 +1,15 @@
 <template>
-    <v-select label="Desarrolladoras" v-model="selected_desarrolladora" :items="list_desarrolladora" color="purple-darken-1"
-        @update:model-value="loadDataTable" :readonly="desarrolladora_by_disable" />
+    <div v-if="v_select_desarrolladora_enable">
+        <v-select label="Desarrolladoras" v-model="selected_desarrolladora" :items="list_desarrolladora"
+            color="purple-darken-1" @update:model-value="loadDataTable" />
+    </div>
+    <div class="my-6" v-else>
+        <div class="d-flex">
+            <p class="px-1 text-h6"> Desarrolladora: </p>
+            <p class="px-1 text-h6 text-secondary">{{ selected_desarrolladora }}</p>
+        </div>
+        <v-divider class="border-opacity-25 my-2"></v-divider>
+    </div>
 
     <div class="d-flex">
         <div class="d-flex flex-column">
@@ -21,9 +30,10 @@
         <v-card class="my-2 flex-grow-1">
             <v-text-field v-model="search_data" append-inner-icon="mdi-magnify" clearable label="Buscar Registros..."
                 color="amber-darken-3" />
-            <v-data-table :hover="true" :items="data" :headers="columns" :search="search_data" :loading="loading_data_table"
-                :items-per-page-options="items_per_page_options" :show-current-page="true" :fixed-header="true"
-                :height="600" :sort-by="[{ key: 'id', order: 'desc' }]">
+            <!-- table  item-value="id" es para elegir la clave unica para cada fila de la tabla  -->
+            <v-data-table :hover="true" :items="data" item-value="id" :headers="columns" :search="search_data"
+                :loading="loading_data_table" :items-per-page-options="items_per_page_options" :show-current-page="true"
+                :fixed-header="true" :height="600" :sort-by="[{ key: 'id', order: 'desc' }]">
                 <template v-slot:loading>
                     <v-skeleton-loader type="table-row@13"></v-skeleton-loader>
                 </template>
@@ -87,7 +97,6 @@
                 <p class="text-h6">
                     ¿Esta seguro(a) de eliminar este registro?
                 </p>
-
             </v-card-text>
             <v-card-actions>
                 <div class="d-flex justify-center" style="width: 100%;">
@@ -109,7 +118,7 @@ import { onMounted } from 'vue';
 import { ref } from 'vue';
 import useToastify from '@/composables/useToastify';
 import Desarrolladora from '@/http/services/Desarrolladora';
-import useRoleByDesarrolladora from '@/composables/useRoleByDesarrolladora';
+import useUserByDesarrolladora from '@/composables/useUserByDesarrolladora';
 
 const index_data_item = ref(-1);
 const dialog_delete = ref(false);
@@ -124,7 +133,7 @@ const items_per_page_options = ref([
     { value: 25, title: '25' },
     { value: 50, title: '50' },
 ]);
-const desarrolladora_by_disable = ref("");
+const v_select_desarrolladora_enable = ref("");
 const columns = ref([
     { title: 'Nombres', key: 'nombres', },
     { title: 'Apellido paterno', key: 'apellido_paterno' },
@@ -227,10 +236,12 @@ const updateDataTable = (type, item) => {
 onMounted(async () => {
     //esta parte es para desabilitar el v-select de la desarrolladora segun el rol que tiene el usuario
     // y ademas se asigna la desarrolladora que le corresponde al usuario
-    const response = await useRoleByDesarrolladora();
-    desarrolladora_by_disable.value = response.disable;
+    const response = await useUserByDesarrolladora();
+    v_select_desarrolladora_enable.value = response.enable;
     selected_desarrolladora.value = response.desarrolladora;
-    await listDesarrolladora();
+    if (response.enable) {
+        await listDesarrolladora();
+    }
     loadDataTable();
 });
 </script>

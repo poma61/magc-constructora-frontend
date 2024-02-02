@@ -59,12 +59,12 @@
                         <v-divider></v-divider>
                         <v-list>
                             <v-list-item :to="{ name: 'n-perfil' }">
-                                <v-icon icon="mdi-account"></v-icon>
+                                <v-icon icon="mdi-account" color="success"></v-icon>
                                 <span>Perfil</span>
                             </v-list-item>
 
                             <v-list-item @click="dialog = true">
-                                <v-icon icon="mdi-close-box"></v-icon>
+                                <v-icon icon="mdi-close-circle" color="red"></v-icon>
                                 <span>Salir</span>
                             </v-list-item>
 
@@ -79,21 +79,20 @@
             <slot></slot>
         </v-main>
         <v-dialog v-model="dialog" persistent width="auto">
-            <v-card class="px-5 py-5">
+            <v-card class="pa-5">
                 <v-card-text class="text-center">
-                    <v-icon icon="mdi-lock-alert-outline" size="100" color="red"
+                    <v-icon icon="mdi-lock-outline" size="100" color="red"
                         class="animate__animated animate__infinite animate__bounce"></v-icon>
                 </v-card-text>
                 <p class="text-h6 text-center">
                     ¿Esta seguro de salir del sistema?
                 </p>
-
                 <div class="d-flex justify-center">
                     <v-btn color="red" variant="tonal" @click="dialog = false" class="ma-1">
                         <v-icon icon="mdi-cancel"></v-icon>&nbsp;Cancelar
                     </v-btn>
                     <v-btn color="green-darken-1" variant="tonal" class="ma-1" @click="authLogout()">
-                        <v-icon icon="mdi-check-circle-outline"></v-icon>&nbsp;Aceptar
+                        <v-icon icon="mdi-check-circle-outline"></v-icon>&nbsp;Si
                     </v-btn>
                 </div>
             </v-card>

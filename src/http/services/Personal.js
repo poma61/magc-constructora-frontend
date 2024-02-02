@@ -97,7 +97,8 @@ class Personal {
             return error.response.data;
         }
 
-    }//index
+    }//destroy
+    
     async byCiPersonal() {
         try {
             const resolve = await axios.post("/personal/by-ci-personal", {

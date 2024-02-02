@@ -1,9 +1,17 @@
 <template>
+    <div class="animate__animated animate__fadeInLeft" v-if="v_select_desarrolladora_enable">
+        <v-select label="Desarrolladoras" v-model="selected_desarrolladora" :items="list_desarrolladora"
+            color="purple-darken-1" @update:model-value="loadDataTable" />
+    </div>
+    <div class="animate__animated animate__fadeInLeft my-6" v-else>
+        <div class="d-flex">
+            <p class="px-1 text-h6"> Desarrolladora: </p>
+            <p class="px-1 text-h6 text-secondary">{{ selected_desarrolladora }}</p>
+        </div>
+        <v-divider class="border-opacity-25 my-2"></v-divider>
+    </div>
+
     <div class="animate__animated animate__fadeInLeft d-flex flex-wrap" style="width: 100%;">
-
-        <v-select label="Desarrolladoras" v-model="selected_desarrolladora" :items="list_desarrolladora" color="primary"
-            @update:model-value="loadDataTable" style="min-width: 400px;" :readonly="desarrolladora_by_disable" />
-
         <v-tooltip text="Actualizar tablero">
             <template v-slot:activator="{ props }">
                 <v-btn v-bind="props" @click="loadDataTable()" color="primary" class=" ma-1" variant="tonal">
@@ -20,17 +28,17 @@
         <v-btn @click="newForm()" color="primary" class="ma-1" :variant="show_form == true ? 'elevated' : 'tonal'">
             <v-icon icon="mdi-note-plus-outline"></v-icon>&nbsp;Nuevo contrato
         </v-btn>
-
     </div>
 
     <div v-if="show_data_table" class="my-4">
-        <!-- table -->
+        <!-- table  item-value="id" es para elegir la clave unica para cada fila de la tabla  -->
         <v-card class="animate__animated animate__fadeInLeft">
             <v-text-field v-model="search_data" append-inner-icon="mdi-magnify" clearable label="Buscar Registros..."
                 color="primary" />
-            <v-data-table :hover="true" :items="data" :headers="columns" :search="search_data" :loading="loading_data_table"
-                :items-per-page-options="items_per_page_options" :show-current-page="true" :fixed-header="true"
-                :height="600" :sort-by="[{ key: 'id', order: 'desc' }]">
+            <v-data-table :hover="true" :headers="columns" :items="data" item-value="id_clientes_has_contratos"
+                :search="search_data" :loading="loading_data_table" :items-per-page-options="items_per_page_options"
+                :show-current-page="true" :fixed-header="true" :height="550"
+                :sort-by="[{ key: 'id_clientes_has_contratos', order: 'desc' }]">
                 <template v-slot:loading>
                     <v-skeleton-loader type="table-row@12"></v-skeleton-loader>
                 </template>
@@ -71,9 +79,9 @@
 
 
     <v-dialog v-model="dialog_delete" persistent transition="dialog-bottom-transition" max-width="500px">
-        <v-card class="card">
+        <v-card class="pa-5">
             <v-card-text class="text-center">
-                <v-icon icon="mdi-file-question" color="warning" size="100"
+                <v-icon icon="mdi-trash-can-outline" color="warning" size="100"
                     class="animate__animated animate__infinite animate__bounce"></v-icon>
                 <p class="text-h6 text-center">
                     ¿Esta seguro(a) de eliminar el registro seleccionado?
@@ -89,7 +97,6 @@
                     </v-btn>
                 </div>
             </v-card-actions>
-
         </v-card>
     </v-dialog>
 
@@ -109,7 +116,6 @@
                 <v-btn color="yellow-darken-3" @click="closeDialogPDF()" variant="elevated">
                     <v-icon icon="mdi-close-circle"></v-icon>&nbsp;Cerrar
                 </v-btn>
-
             </v-card-actions>
         </v-card>
     </v-dialog>
@@ -129,7 +135,7 @@ import Contrato from '@/http/services/Contrato';
 import FormatDate from '@/util/FormatDate';
 import app from "@/config/app.js";
 import useToastify from '@/composables/useToastify';
-import useRoleByDesarrolladora from '@/composables/useRoleByDesarrolladora';
+import useUserByDesarrolladora from '@/composables/useUserByDesarrolladora';
 import Desarrolladora from '@/http/services/Desarrolladora';
 //data
 const data = ref([]);
@@ -141,13 +147,13 @@ const item_contrato = ref({});
 const item_detalle_contrato = ref({});
 const date_format = ref(new FormatDate());
 const dialog_delete = ref(false);
-const index_array = ref([-1, -1]);
+const index_item = ref([-1, -1]);
 const dialog_pdf = ref(false);
 const contrato_pdf_url = ref("");
 const list_desarrolladora = ref([]);
 const selected_desarrolladora = ref("");
 const loading_update_pdf = ref(false);
-const desarrolladora_by_disable = ref(true);
+const v_select_desarrolladora_enable = ref(true);
 const items_per_page_options = ref([
     { value: 10, title: '10' },
     { value: 25, title: '25' },
@@ -165,8 +171,8 @@ const columns = ref([
 
 //methods
 const clear = () => {
-    index_array.value[0] = -1;
-    index_array.value[1] = -1;
+    index_item.value[0] = -1;
+    index_item.value[1] = -1;
     item_contrato.value = {};
     item_detalle_contrato.value = {};
 }
@@ -193,6 +199,7 @@ const editForm = (item) => {
     //En cada iteración, verifica si la propiedad archivo_pdf del objeto actual coincide con archivoPDFItem.
     //Si la condición se cumple, agrega el índice actual al array acc.
     //Al final, reduce devuelve el array acc que contiene los índices de los objetos que cumplen con la condición.
+    //hacemos todo esto porque un cliente o  dos clientes firmen 1 contrato, por lo tanto debemos almacenar los index_item
     let indices_para_actualizar = data.value.reduce((acc, obj, index) => {
         // Obtener los índices de los objetos que cumplen con la condición
         if (obj.archivo_pdf == item.archivo_pdf) {
@@ -200,14 +207,14 @@ const editForm = (item) => {
         }
         return acc;
     }, []);
-    index_array.value = indices_para_actualizar;
+    index_item.value = indices_para_actualizar;
 
     item_contrato.value = Object.assign({}, item);
     showForm();
 }
 
 const openDeleteData = (item) => {
-    index_array.value[0] = data.value.indexOf(item);
+    index_item.value[0] = data.value.indexOf(item);
     item_contrato.value = Object.assign({}, item);
     dialog_delete.value = true;
 }
@@ -219,13 +226,14 @@ const viewPDF = (item) => {
     //Al final, reduce devuelve el array acc que contiene los índices de los objetos que cumplen con la condición.
     let indices_para_actualizar_pdf = data.value.reduce((acc, obj, index) => {
         // Obtener los índices de los objetos que cumplen con la condición
-        //hacemos esto porque mas de 1 cliente firman un contrato 
+        //hacemos esto porque mas de 1 cliente firman un contrato +//por lo tanto debemos almacenar en un array los
+        //indices del array data
         if (obj.archivo_pdf == item.archivo_pdf) {
             acc.push(index);
         }
         return acc;
     }, []);
-    index_array.value = indices_para_actualizar_pdf;
+    index_item.value = indices_para_actualizar_pdf;
     item_contrato.value = Object.assign({}, item);
     contrato_pdf_url.value = `${app.BASE_URL}/${item_contrato.value.archivo_pdf}`;
     dialog_pdf.value = true;
@@ -253,11 +261,9 @@ const updatePDF = () => {
             //actualizamos solo el path del pdf nada mas 
             //Hacemos un for porque posiblemente mas de 1 cliente firme el contrato
             //en la respuesta del backend devolera un array segun cuantos clientes firman un contrato
-            const item = response.record[0];
-            for (let i = 0; i < item.length; i++) {
-                Object.assign(data.value[index_array.value[i]], { archivo_pdf: response.record[0].archivo_pdf });
+            for (let i = 0; i < index_item.value.length; i++) {
+                Object.assign(data.value[index_item.value[i]], { archivo_pdf: response.record[0].archivo_pdf });
             }
-
             contrato_pdf_url.value = `${app.BASE_URL}/${response.record[0].archivo_pdf}`;
             dialog_pdf.value = true;
 
@@ -273,7 +279,7 @@ const confirmDeleteData = async () => {
     contrato.setAttributes('contrato', item_contrato.value);
     const response = await contrato.destroy();
     if (response.status) {
-        data.value.splice(index_array.value[0], 1)
+        data.value.splice(index_item.value[0], 1)
         useToastify('success', response.message);
     } else {
         useToastify('danger', response.message);
@@ -313,7 +319,7 @@ const localUpdateDataTable = (type, item) => {
             }
 
             for (let i = 0; i < item.length; i++) {
-                Object.assign(data.value[index_array.value[i]], update_required_attributes);
+                Object.assign(data.value[index_item.value[i]], update_required_attributes);
             }
             break;
         default:
@@ -330,7 +336,6 @@ const loadDataTable = () => {
         loading_data_table.value = null;
         if (response.status) {
             data.value = response.records;
-
         } else {
             useToastify('danger', response.message);
         }
@@ -340,12 +345,15 @@ const loadDataTable = () => {
 onMounted(async () => {
     //esta parte es para desabilitar el v-select de la desarrolladora segun el rol que se le asigna
     // y ademas se asigna la desarrolladora que le corresponde al usuario
-    const response = await useRoleByDesarrolladora();
-    desarrolladora_by_disable.value = response.disable;
+    const response = await useUserByDesarrolladora();
+    v_select_desarrolladora_enable.value = response.enable;
     selected_desarrolladora.value = response.desarrolladora;
-    await listDesarrolladora();
+    if (response.enable) {
+        await listDesarrolladora();
+    }
     showDataTable();
     loadDataTable();
 });
 
 </script>
+
