@@ -107,7 +107,7 @@ export const useAuth = defineStore('useAuth', {
             }
         },
         checkTokenExpiration() {
-            if (this.getAuth().enable && Date.now() >= this.getAuth().time_expiration_token) {
+            if (this.getAuth().state && Date.now() >= this.getAuth().time_expiration_token) {
                 this.setAuth({
                     state: false,
                     access_token: "",

@@ -807,7 +807,7 @@ const save = () => {
                 //porque hay la posibilidad de que el usuario vuelva a enviar el mismo formulario de edicion
                 //del back estamos recibiendo un array porque hay posibilidad de que un contrato sea firmado por mas de 1 persona
                 item_contrato.value = response.records[0];
-                console.log(item_contrato.value);
+
                 openPDF(item_contrato.value.archivo_pdf);
                 fields_errors.value = {};
             } else {

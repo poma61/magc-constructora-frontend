@@ -4,7 +4,7 @@ import middleware from '@/http/middleware/middleware';
 import authExpiration from '@/http/middleware/authExpiration';
 import authenticate from '@/http/middleware/authenticate';
 import checkRole from '@/http/middleware/checkRole';
-import redirectifauthenticated from '@/http/middleware/redirectIfAuthenticated';
+import redirectIfAuthenticated from '@/http/middleware/redirectIfAuthenticated';
 import NotFound from '@/views/NotFound.vue';
 import InicioView from '@/views/InicioView.vue';
 import ProfileView from '@/views/ProfileView.vue';
@@ -26,7 +26,6 @@ const routes = [
     },
     beforeEnter: [
       middleware(authExpiration),
-      middleware(redirectifauthenticated),
       middleware(authenticate),
     ],
   },
@@ -39,7 +38,6 @@ const routes = [
     },
     beforeEnter: [
       middleware(authExpiration),
-      middleware(redirectifauthenticated),
       middleware(authenticate),
     ],
   },
@@ -48,6 +46,12 @@ const routes = [
     path: '/',
     name: 'n-login',
     component: () => import(/* webpackChunkName: "LoginView" */ '@/views/LoginView.vue'),
+    meta: {
+      requireAuth: false,
+    },
+    beforeEnter: [
+      middleware(redirectIfAuthenticated),
+    ],
   },
   {
     path: '/inicio',
@@ -58,9 +62,7 @@ const routes = [
     },
     beforeEnter: [
       middleware(authExpiration),
-      middleware(redirectifauthenticated),
       middleware(authenticate),
-      middleware(checkRole, ['administrador', 'usuario'])
     ],
   },
 
@@ -73,7 +75,6 @@ const routes = [
     },
     beforeEnter: [
       middleware(authExpiration),
-      middleware(redirectifauthenticated),
       middleware(authenticate),
       middleware(checkRole, ['administrador'])
     ],
@@ -88,7 +89,6 @@ const routes = [
     },
     beforeEnter: [
       middleware(authExpiration),
-      middleware(redirectifauthenticated),
       middleware(authenticate),
       middleware(checkRole, ['administrador', 'usuario'])
     ],
@@ -103,7 +103,6 @@ const routes = [
     },
     beforeEnter: [
       middleware(authExpiration),
-      middleware(redirectifauthenticated),
       middleware(authenticate),
       middleware(checkRole, ['administrador'])
     ],
@@ -118,7 +117,6 @@ const routes = [
     },
     beforeEnter: [
       middleware(authExpiration),
-      middleware(redirectifauthenticated),
       middleware(authenticate),
       middleware(checkRole, ['administrador'])
     ],
@@ -133,7 +131,6 @@ const routes = [
     },
     beforeEnter: [
       middleware(authExpiration),
-      middleware(redirectifauthenticated),
       middleware(authenticate),
       middleware(checkRole, ['administrador'])
     ],
@@ -148,7 +145,6 @@ const routes = [
     },
     beforeEnter: [
       middleware(authExpiration),
-      middleware(redirectifauthenticated),
       middleware(authenticate),
       middleware(checkRole, ['administrador', 'usuario'])
     ],
@@ -163,7 +159,6 @@ const routes = [
     },
     beforeEnter: [
       middleware(authExpiration),
-      middleware(redirectifauthenticated),
       middleware(authenticate),
       middleware(checkRole, ['administrador', 'usuario'])
     ],
@@ -175,6 +170,6 @@ const router = createRouter({
   //history: createWebHistory(process.env.BASE_URL),
   history: createWebHashHistory(process.env.BASE_URL),
   routes,
-})
+});
 
 export default router
