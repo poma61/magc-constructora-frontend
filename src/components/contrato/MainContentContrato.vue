@@ -110,12 +110,14 @@
             </v-card-text>
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="primary" @click="updatePDF()" variant="elevated">
-                    <v-icon icon="mdi-refresh"></v-icon>&nbsp;Actualizar contrato
-                </v-btn>
-                <v-btn color="yellow-darken-3" @click="closeDialogPDF()" variant="elevated">
-                    <v-icon icon="mdi-close-circle"></v-icon>&nbsp;Cerrar
-                </v-btn>
+                <div class="d-flex flex-wrap" >
+                    <v-btn color="primary" @click="updatePDF()" variant="elevated">
+                        <v-icon icon="mdi-refresh"></v-icon>&nbsp;Actualizar contrato
+                    </v-btn>
+                    <v-btn color="yellow-darken-3" @click="closeDialogPDF()" variant="elevated">
+                        <v-icon icon="mdi-close-circle"></v-icon>&nbsp;Cerrar
+                    </v-btn>
+                </div>
             </v-card-actions>
         </v-card>
     </v-dialog>
@@ -262,9 +264,9 @@ const updatePDF = () => {
             //Hacemos un for porque posiblemente mas de 1 cliente firme el contrato
             //en la respuesta del backend devolera un array segun cuantos clientes firman un contrato
             for (let i = 0; i < index_item.value.length; i++) {
-                Object.assign(data.value[index_item.value[i]], { archivo_pdf: response.record[0].archivo_pdf });
+                Object.assign(data.value[index_item.value[i]], { archivo_pdf: response.record.archivo_pdf });
             }
-            contrato_pdf_url.value = `${app.BASE_URL}/${response.record[0].archivo_pdf}`;
+            contrato_pdf_url.value = `${app.BASE_URL}/${response.record.archivo_pdf}`;
             dialog_pdf.value = true;
 
             useToastify('success', response.message);
@@ -354,6 +356,5 @@ onMounted(async () => {
     showDataTable();
     loadDataTable();
 });
-
 </script>
 
