@@ -111,10 +111,10 @@
             <v-card-actions>
                 <v-spacer></v-spacer>
                 <div class="d-flex flex-wrap" >
-                    <v-btn color="primary" @click="updatePDF()" variant="elevated">
+                    <v-btn color="primary" @click="updatePDF()" variant="elevated" class="ma-1">
                         <v-icon icon="mdi-refresh"></v-icon>&nbsp;Actualizar contrato
                     </v-btn>
-                    <v-btn color="yellow-darken-3" @click="closeDialogPDF()" variant="elevated">
+                    <v-btn color="yellow-darken-3" @click="closeDialogPDF()" variant="elevated" class="ma-1">
                         <v-icon icon="mdi-close-circle"></v-icon>&nbsp;Cerrar
                     </v-btn>
                 </div>

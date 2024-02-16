@@ -83,14 +83,14 @@
             </v-data-table>
         </v-card>
 
-        <v-dialog v-model="dialog_form" persistent transition="dialog-bottom-transition" max-width="900px" scrollable>
+        <v-dialog v-model="dialog_form" persistent max-width="900px" scrollable>
             <FormCliente :p_item_cliente="item_cliente" @toCloseForm="closeForm" @toUpdateDataTable="updateDataTable"
                 :p_selected_desarrolladora="selected_desarrolladora" />
         </v-dialog>
 
     </div>
-    <v-dialog v-model="dialog_delete" persistent transition="dialog-bottom-transition" max-width="500px">
-        <v-card class="px-5 py-5">
+    <v-dialog v-model="dialog_delete" persistent max-width="500px">
+        <v-card class="animate__animated animate__bounceInRight pa-5">
             <v-card-text class="text-center">
                 <v-icon icon="mdi-trash-can-outline" size="100" color="red"
                     class="animate__animated animate__infinite animate__bounce"></v-icon>

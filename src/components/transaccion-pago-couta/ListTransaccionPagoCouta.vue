@@ -46,11 +46,6 @@
 
                 </div>
 
-                <v-radio-group inline v-model="transaction_status">
-                    <v-radio label="Transacciones vigentes" :value="true" color="cyan-darken-1"></v-radio>
-                    <v-radio label="Transacciones anuladas" :value="false" color="cyan-darken-1"></v-radio>
-                </v-radio-group>
-
                 <v-row>
                     <v-col cols="12" md="3">
                         <v-text-field v-model="nombreCompleto" label="Nombres" color="teal-accent-4" variant="outlined"
@@ -84,7 +79,7 @@
 
                     <v-col cols="12" md="3">
                         <v-text-field v-model="parseDoubleMonto" label="Monto" color="teal-accent-4" variant="outlined"
-                            readonly prefix="$us" />
+                            readonly :prefix="item_transaccion.moneda" />
                     </v-col>
 
                     <v-col cols="12" md="3">
@@ -104,6 +99,11 @@
 
                 </v-row>
 
+                <v-radio-group inline v-model="transaction_status">
+                    <v-radio label="Transacciones vigentes" :value="true" color="cyan-darken-1"></v-radio>
+                    <v-radio label="Transacciones anuladas" :value="false" color="cyan-darken-1"></v-radio>
+                </v-radio-group>
+                
                 <v-text-field v-model="search_data" append-inner-icon="mdi-magnify" clearable label="Buscar Registros..."
                     color="amber-darken-4" />
                 <v-data-table class="my-3" :hover="true" :items="data" :headers="columns" :search="search_data"
@@ -120,7 +120,7 @@
 
                     <template v-slot:item.monto="{ item }">
                         <v-chip color="orange-darken-4">
-                            $us {{ item.monto.toFixed(2) }}
+                            {{ item.moneda }} {{ item.monto.toFixed(2) }}
                         </v-chip>
                     </template>
 
@@ -150,11 +150,11 @@ const items_per_page_options = ref([
 ]);
 const item_transaccion = ref({
     nombres: "",
-    apellido_paterno: "",
-    apellido_materno: "",
+    apellidos: "",
     correo_electronico: "",
     numero_de_contacto: "",
     monto: "",
+    moneda: "",
     fecha_pago_couta: "",
     nota: "",
     servicio: "",
@@ -163,9 +163,10 @@ const item_transaccion = ref({
 });
 
 const columns = ref([
+    { title: 'Nombre', key: 'nombre',value:(item)=>`${item.nombres} ${item.apellidos}`},
     { title: 'Metodo de pago', key: 'metodo_de_pago' },
     { title: 'Couta', key: 'num_couta' },
-    { title: 'Monto $us', key: 'monto', },
+    { title: 'Monto ', key: 'monto', },
     { title: 'Ver detalles', key: 'details', },
 ]);
 const data = ref([]);
@@ -178,7 +179,7 @@ watch(transaction_status, (new_value, old_value) => {
 
 const nombreCompleto = computed(() => {
     if (item_transaccion.value.nombres != "") {
-        return `${item_transaccion.value.nombres} ${item_transaccion.value.apellido_paterno} ${item_transaccion.value.apellido_materno}`;
+        return `${item_transaccion.value.nombres} ${item_transaccion.value.apellidos}`;
     }
     return "";
 });
@@ -212,11 +213,11 @@ const showItem = (item) => {
 const clear = () => {
     item_transaccion.value = {
         nombres: "",
-        apellido_paterno: "",
-        apellido_materno: "",
+        apellidos: "",
         correo_electronico: "",
         numero_de_contacto: "",
         monto: "",
+        moneda: "",
         fecha_pago_couta: "",
         nota: "",
         servicio: "",

@@ -1,8 +1,7 @@
 <template>
     
-    <v-card>
-        
-        <v-card-title class="animate__animated animate__bounceInRight bg-purple-darken-1">
+    <v-card class="animate__animated animate__bounceInRight">
+        <v-card-title class="bg-purple-darken-1">
             <span class="text-h6">Registrar Cliente</span>
         </v-card-title>
         <v-card-text class="pa-3">

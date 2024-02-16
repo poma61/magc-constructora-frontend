@@ -42,7 +42,7 @@ export const useAuth = defineStore('useAuth', {
                     this.setAuth({
                         state: true,
                         access_token: resolve.data.session_auth.access_token,
-                        time_expiration_token: Date.now() + Number(resolve.data.session_auth.time_expiration_token * 60) * 1000,//convertimos de minutos, segundos a milisegundos
+                        time_expiration_token: Date.now() + (Number(resolve.data.session_auth.time_expiration_token) * 60 * 1000),//convertimos de minutos, segundos a milisegundos
                         type_token: resolve.data.session_auth.type_token,
                         role: resolve.data.session_auth.role,
                     });
