@@ -5,7 +5,7 @@
     </div>
     <div class="as-flex">
         <!-- iterator -->
-        <v-card class="as-flex-item as-data-iterator-2 animate__animated animate__zoomIn">
+        <v-card class="as-flex-item as-data-iterator-container animate__animated animate__zoomIn">
             <v-overlay v-model="loading_data_iterator" contained class="d-flex align-center justify-center">
                 <v-progress-circular color="teal-accent-4" indeterminate size="64"></v-progress-circular>
             </v-overlay>
@@ -46,7 +46,7 @@
 
                 <template v-slot:default="{ items }">
                     <div>
-                        <v-container class="as-data-iterator-content-2" fluid>
+                        <v-container class="as-data-iterator" fluid>
                             <v-row justify="center">
                                 <v-col v-for="(item, index) in items" :key="index" cols="auto" md="4">
 
@@ -93,9 +93,10 @@
                 </template>
 
             </v-data-iterator>
-            <div class="as-data-iterator-content d-flex justify-center align-center" v-if="data.length == 0">
-                <h1 class="text-h6 text-red">No hay datos.</h1>
+            <div class="as-data-iterator d-flex justify-center" v-if="data.length == 0">
+                <p class="mt-2">No hay datos disponibles.</p>
             </div>
+
             <div class="float-end">
                 <v-btn color="teal-accent-4 " variant="elevated" class="ma-1" @click="initDataIterator">
                     <v-icon icon="mdi-refresh" />&nbsp;Actualizar tablero
@@ -128,8 +129,8 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
-
     </div>
+
 </template>
   
 <script setup>
@@ -238,4 +239,41 @@ onMounted(async () => {
 });
 </script>
 
+<style scoped>
+.as-flex {
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.as-flex .as-flex-item {
+    flex-grow: 1;
+    width: 500px;
+}
+
+/* ========================================
+data iterator 
+el valor height de as-data-iterator-container es +130 o +100 sobre el valor height de as-data-iterator
+ejemplo: as-data-iterator =>height700px entonces as-data-iterator-container => height:130px+700px;
+ejemplo2: as-data-iterator =>height700px entonces as-data-iterator-container => height:100px+700px;
+========================================== */
+
+.as-data-iterator-container {
+    height: 730px;
+}
+.as-data-iterator {
+    overflow: hidden;
+    overflow-y: auto;
+    height: 600px;
+    border-top: 1px solid #c2c2c2;
+    border-bottom: 1px solid #c2c2c2;
+}
+@media only screen and (max-width: 500px) {
+    .as-data-iterator-container {
+        height: 760px;
+    }
+}
+
+</style>
 

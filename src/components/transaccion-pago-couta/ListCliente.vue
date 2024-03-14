@@ -1,5 +1,4 @@
 <template>
-
     <main v-if="show_component.list_cliente">
         <div class="animate__animated animate__lightSpeedInLeft d-flex flex-wrap justify-end">
             <v-select label="Desarrolladoras" v-model="selected_desarrolladora" :items="list_desarrolladora"
@@ -11,7 +10,7 @@
         </div>
 
         <!-- iterator -->
-        <v-card class="as-flex-item as-data-iterator animate__animated animate__lightSpeedInLeft">
+        <v-card class="as-data-iterator-container animate__animated animate__lightSpeedInLeft">
             <v-overlay v-model="loading_data_iterator" contained class="d-flex align-center justify-center">
                 <v-progress-circular color="orange-darken-1 " indeterminate size="64"></v-progress-circular>
             </v-overlay>
@@ -52,7 +51,7 @@
 
                 <template v-slot:default="{ items }">
                     <div>
-                        <v-container class="as-data-iterator-content" fluid>
+                        <v-container class="as-data-iterator" fluid>
                             <v-row justify="center">
                                 <v-col v-for="(item, index) in items" :key="index" cols="auto" md="3">
                                     <v-card class="pa-3" color="cyan-darken-1" variant="tonal">
@@ -92,14 +91,15 @@
                 </template>
 
             </v-data-iterator>
-            <div class="as-data-iterator-content d-flex justify-center align-center" v-if="data.length == 0">
-                <h1 class="text-h6 text-red">No hay datos.</h1>
-            </div>
 
+            <div class="as-data-iterator d-flex justify-center" v-if="data.length == 0">
+                <p class="mt-2">No hay datos disponibles.</p>
+            </div>
         </v-card>
     </main>
     <!-- iterator -->
-    <ListTransaccionPagoCouta v-if="show_component.list_transaccion" :p_item_cliente="item_cliente" @toShowListCliente="showListCliente"/>
+    <ListTransaccionPagoCouta v-if="show_component.list_transaccion" :p_item_cliente="item_cliente"
+        @toShowListCliente="showListCliente" />
 </template>
     
 <script>
@@ -123,7 +123,7 @@ export default defineComponent({
             list_cliente: true,
             list_transaccion: false,
         };
-        const item_cliente={};
+        const item_cliente = {};
         return {
             loading_data_iterator,
             data,
@@ -142,7 +142,7 @@ export default defineComponent({
         },
 
         showListTransaccion(item) {
-            this.item_cliente=Object.assign({},item);
+            this.item_cliente = Object.assign({}, item);
             this.show_component.list_cliente = false;
             this.show_component.list_transaccion = true;
         },
@@ -188,14 +188,14 @@ export default defineComponent({
 <style  scoped>
 /* ========================================
 data iterator 
-el valor height de as-data-iterator es +130 o +100 sobre el valor height de as-data-iterator-content
-ejemplo2: as-data-iterator-content =>height700px entonces as-data-iterator => height:100px+700px;
+el valor height de as-data-iterator-container es +130 o +100 sobre el valor height de as-data-iterator
+ejemplo2: as-data-iterator =>height700px entonces as-data-iterator-container => height:100px+700px;
 ========================================== */
-.as-data-iterator {
+.as-data-iterator-container {
     height: 700px;
 }
 
-.as-data-iterator-content {
+.as-data-iterator {
     overflow: hidden;
     overflow-y: auto;
     height: 600px;

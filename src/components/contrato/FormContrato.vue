@@ -466,14 +466,14 @@
             </v-card>
         </v-dialog>
 
-        <v-overlay v-model="loading_generate_pdf" class="d-flex align-center justify-center">
+        <v-overlay v-model="loading_generate_pdf" persistent class="d-flex align-center justify-center">
             <div class="text-center">
                 <v-progress-circular color="yellow-darken-3" indeterminate size="100"></v-progress-circular>
                 <p class="text-h6 text-white">Generando contrato...</p>
             </div>
         </v-overlay>
 
-        <v-overlay v-model="loading_edit_form" class="d-flex align-center justify-center">
+        <v-overlay v-model="loading_edit_form" persistent class="d-flex align-center justify-center">
             <div class="text-center">
                 <v-progress-circular color="yellow-darken-3" indeterminate size="100"></v-progress-circular>
                 <p class="text-h6 text-white">Obteniendo datos del contrato...</p>

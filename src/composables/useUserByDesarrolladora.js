@@ -1,8 +1,8 @@
 import useToastify from '@/composables/useToastify';
 import axios from '@/http/connection/axios';
 
-//s
-const ROLES = ['administrador']
+const ROLES = ['administrador'];
+
 
 const useUserByDesarrolladora = async () => {
     try {

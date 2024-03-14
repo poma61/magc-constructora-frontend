@@ -21,8 +21,8 @@
                         icon="mdi-refresh" />
                 </template>
             </v-tooltip>
-
         </div>
+
         <v-card class="mt-1 flex-grow-1" elevation="10">
             <v-card-text>
                 <div class="ma-5 d-flex justify-center align-center">
